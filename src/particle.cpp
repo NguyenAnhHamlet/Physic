@@ -1,0 +1,66 @@
+#include "particle.hpp"
+
+void 
+PARTICLE::init()
+{
+    speed = velocity.magnitude();
+}
+
+void 
+PARTICLE::posUpdate(VECTOR velocity, float duration)
+{
+    assert(duration > 0.0);
+
+    pos = pos.add(velocity.multiply(duration));
+}
+
+void 
+PARTICLE::posUpdate(VECTOR velocity, VECTOR acceleration, float duration )
+{
+    assert(duration > 0.0);
+
+    // Calculate velocity from force and apply it
+    this->velocity = this->velocity.add(getVelocity(forceAccum, duration));
+
+    /**
+     * using integration to calculate the next position of
+     * this particle in given duration
+     * p2 = p1 + p.'t + p''.t^2/2
+    */
+    pos = pos.add(velocity.multiply(duration));
+    pos = pos.add(acceleration.multiply(duration*duration/2));
+}
+
+void 
+PARTICLE::addForce(const VECTOR& force)
+{
+    this->forceAccum = this->forceAccum.add(force);
+}
+
+VECTOR
+PARTICLE::getAcceleration(const VECTOR& force)
+{
+    return force.divide(mass);
+}
+
+void PARTICLE::setGravity(GFGEN& _gravityForce)
+{
+    this->gravityForce = _gravityForce;
+}
+
+void PARTICLE::setDrag(PARTICLE_DRAG& _dragForce)
+{
+    this->dragForce = _dragForce;
+}
+
+void PARTICLE::clearForce()
+{
+    this->forceAccum.clear();
+}
+
+VECTOR PARTICLE::getVelocity(const VECTOR& force, float duration)
+{
+    VECTOR _acceleration = getAcceleration(force);
+    _acceleration.multiply(duration);
+    return this->velocity.add(_acceleration);
+}
