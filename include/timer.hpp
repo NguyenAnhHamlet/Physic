@@ -7,7 +7,8 @@
 #include <thread>
 #include <assert.h>
 #include <vector>
-#include"particle.hpp"
+
+class PARTICLE;
 
 /**
  * Mainly use to keep calculate the interval between the updation
@@ -40,8 +41,7 @@ public:
 
     callbackFunc timerCallback;
 
-    TIMER() : initVal(currentTime()), preVal(currentTime())
-    {};
+    TIMER();
 
     void setInitVal(clock_t val) {initVal = val; };
     clock_t  getInitVal() {return initVal; };
@@ -49,9 +49,7 @@ public:
     clock_t currentTime() { return clock();};
 
     // delay , block the thread or process for a duration of time
-    void delay_(clock_t milisecs, clock_t now)
-        { while (clock() - now < milisecs)};
-
+    void delay_(clock_t milisecs, clock_t now);
     /**
      * get the interval between current time and previous time
      * then update the value of previous time
@@ -72,6 +70,6 @@ public:
     void setCallback(callbackFunc callback);
     void countDown(PARTICLE* particle, clock_t milisecs);
     void runCountDown(PARTICLE* particle,clock_t milisecs);
-}
+};
 
 #endif // __TIMER__

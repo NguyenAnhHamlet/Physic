@@ -18,7 +18,7 @@ VECTOR VECTOR::substract(const VECTOR& vector)
     return VECTOR(x - vector.x, y - vector.y, z - vector.z);
 }
 
-VECTOR VECTOR::multiply( int number)
+VECTOR VECTOR::multiply( float number)
 {
     return VECTOR(number * x, number * y, number * z);
 }
@@ -39,7 +39,7 @@ VECTOR VECTOR::normalize()
     return VECTOR(0,0,0);
 }
 
-VECTOR VECTOR::divide(int number)
+VECTOR VECTOR::divide(float number)
 {
     return VECTOR(x/number, y/number, z/number);
 }

@@ -3,9 +3,10 @@
 
 #include <iostream>
 #include <cmath>
-#include "vector.hpp"
 #include <assert.h>
+#include "vector.hpp"
 #include "gfgen.hpp"
+#include"timer.hpp"
 #include "particleDrag.hpp"
 
 class PARTICLE
@@ -37,9 +38,9 @@ public:
 
     /**
      * Speed is different from velocity, it doesnt involes
-     * 3D space like velocity and is just a magnitude of 
+     * 3D space like velocity and is just a magnitude of
      * vector velocity
-     * 
+     *
      * Default is set to magnitude of velocity vector
     */
     float speed;
@@ -62,20 +63,15 @@ public:
     TIMER timer;
 
     // default constructor to prevent core dump
-    PARTICLE() : damping(0), inverseMass(0), damping(0.99), mass(0)
-                {};
+    PARTICLE();
 
     // user can determine these var
     PARTICLE(float _damping, float _inverseMass, float _gravity
-            ,VECTOR _pos, VECTOR _velocity, VECTOR _acceleration )
-            :damping(_damping), inverseMass(_inverseMass)
-            ,pos(_pos), velocity(_velocity), acceleration(_acceleration)
-        {};
+            ,VECTOR _pos, VECTOR _velocity, VECTOR _acceleration );   
 
-    float getMass()
-        { return mass};
+    float getMass();
 
-    // use this function after object being created 
+    // use this function after object being created
     void init();
 
     /**
@@ -89,43 +85,43 @@ public:
                     float duration);
 
     /**
-     * Particle under the effect of gravity has projectile property 
-     * and to create a realistic effect of a projectile, use 
+     * Particle under the effect of gravity has projectile property
+     * and to create a realistic effect of a projectile, use
      * the formula:
      * g' = g/s
     */
 
     //add force onto forceAccum
     void addForce(const VECTOR& force);
-    
+
     // Get velocity of this particle through force
     VECTOR getAcceleration(const VECTOR& force);
 
-    // set the gravity for this particle in case one wanna use 
-    void setGravity(GFGEN& _gravityForce);
+    // set the gravity for this particle in case one wanna use
+    void setGravity(GFGEN* _gravityForce);
 
-    // set the drag force for this particle 
-    void setDrag(PARTICLE_DRAG& _dragForce);
+    // set the drag force for this particle
+    void setDrag(PARTICLE_DRAG* _dragForce);
 
     void clearForce();
- 
+
     /**
-     * Get velocity from force in a given time 
-     * We mainly use velocity with force eventhough 
-     * the equation F = m*a help to calculate directly 
-     * acceleration, mainly due to the drag force is 
-     * directly related to velocity, if the velocity doesn't 
+     * Get velocity from force in a given time
+     * We mainly use velocity with force eventhough
+     * the equation F = m*a help to calculate directly
+     * acceleration, mainly due to the drag force is
+     * directly related to velocity, if the velocity doesn't
      * change, the particle will move forever.
-     * 
-     * By updating the position based mainly on velocity 
-     * The acceleration is, in this particle is supposed to 
-     * be initial and intemidiate value, even though it sounds 
-     * contradictory since the force actually affect the acceleration of 
-     * a particle, but doing it that way will make it harder 
-     * to work with. Instead just update the velocity of this 
-     * particle based on acceleration and we can manipulate the 
+     *
+     * By updating the position based mainly on velocity
+     * The acceleration is, in this particle is supposed to
+     * be initial and intemidiate value, even though it sounds
+     * contradictory since the force actually affect the acceleration of
+     * a particle, but doing it that way will make it harder
+     * to work with. Instead just update the velocity of this
+     * particle based on acceleration and we can manipulate the
      * behavior of such particle easier
-     * 
+     *
      * v' = v + integration of a(dt) = v + at
     */
     VECTOR getVelocity(const VECTOR& force, float duration);

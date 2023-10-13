@@ -1,5 +1,19 @@
 #include "particle.hpp"
 
+PARTICLE::PARTICLE() : damping(0.0), inverseMass(0.0), mass(0.0) {}
+
+PARTICLE::PARTICLE(float _damping, float _inverseMass, float _gravity
+            ,VECTOR _pos, VECTOR _velocity, VECTOR _acceleration )
+            :damping(_damping), inverseMass(_inverseMass)
+            ,pos(_pos), velocity(_velocity), acceleration(_acceleration)
+            {}
+
+float 
+PARTICLE::getMass()
+{
+    return this->mass;
+}
+
 void 
 PARTICLE::init()
 {
@@ -43,17 +57,20 @@ PARTICLE::getAcceleration(const VECTOR& force)
     return force.divide(mass);
 }
 
-void PARTICLE::setGravity(GFGEN& _gravityForce)
+void
+PARTICLE::setGravity(GFGEN* _gravityForce)
 {
-    this->gravityForce = _gravityForce;
+    this->gravityForce = *(_gravityForce);
 }
 
-void PARTICLE::setDrag(PARTICLE_DRAG& _dragForce)
+void 
+PARTICLE::setDrag(PARTICLE_DRAG* _dragForce)
 {
-    this->dragForce = _dragForce;
+    this->dragForce = *(_dragForce);
 }
 
-void PARTICLE::clearForce()
+void 
+PARTICLE::clearForce()
 {
     this->forceAccum.clear();
 }

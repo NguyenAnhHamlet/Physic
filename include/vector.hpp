@@ -1,7 +1,6 @@
 #ifndef __VECTOR__
 #define __VECTOR__
 
-
 #include <iostream>
 #include <algorithm>
 #include <cmath>
@@ -11,7 +10,7 @@ class VECTOR
 
 public:
     /*
-    /* Three coordinate of a vector
+    * Three coordinate of a vector
     */
     float x;
     float y;
@@ -25,11 +24,11 @@ public:
     VECTOR invert();
     float magnitude();
     VECTOR normalize();
-    VECTOR multiply(int number);
+    VECTOR multiply(float number);
     VECTOR multiply(const VECTOR& vector);
     VECTOR add(const VECTOR& vector);
     VECTOR substract(const VECTOR& vector);
-    VECTOR divide(int number);
+    VECTOR divide(float number);
     VECTOR divide(VECTOR vector);
     VECTOR componentProduct(const VECTOR& vector);
     float scalarProduct(const VECTOR& vector);
