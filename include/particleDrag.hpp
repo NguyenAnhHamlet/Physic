@@ -5,9 +5,11 @@
 #include <cmath>
 #include <assert.h>
 #include <cstdlib>
-#include"particle.hpp"
-#include"pfgen.hpp"
-#include"vector.hpp"
+#include "pfgen.hpp"
+
+class PARTICLE;
+class PFGEN;
+class VECTOR;
 
 class PARTICLE_DRAG: public PFGEN
 {
@@ -18,6 +20,7 @@ class PARTICLE_DRAG: public PFGEN
     float k2;
 
 public:
+    PARTICLE_DRAG();
     PARTICLE_DRAG(float _k1, float _k2);
 
     /**

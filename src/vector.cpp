@@ -3,22 +3,29 @@
 VECTOR::VECTOR(float x, float y, float z) : x(x), y(y), z(z)
 {}
 
+void VECTOR::operator=(const VECTOR& vector)
+{
+    this->x = vector.x;
+    this->y = vector.y;
+    this->z = vector.z;
+}
+
 VECTOR VECTOR::invert()
 {
     return VECTOR(x*-1,y*-1,z*-1);
 }
 
-VECTOR VECTOR::add(const VECTOR& vector)
+VECTOR VECTOR::operator+(const VECTOR& vector)
 {
     return VECTOR(x + vector.x, y + vector.y, z + vector.z);
 }
 
-VECTOR VECTOR::substract(const VECTOR& vector)
+VECTOR VECTOR::operator-(const VECTOR& vector)
 {
     return VECTOR(x - vector.x, y - vector.y, z - vector.z);
 }
 
-VECTOR VECTOR::multiply( float number)
+VECTOR VECTOR::operator*( float number)
 {
     return VECTOR(number * x, number * y, number * z);
 }
@@ -34,24 +41,24 @@ VECTOR VECTOR::normalize()
 
     if(mag > 0)
     {
-        return divide(mag);
+        return (*this) / mag;
     }
     return VECTOR(0,0,0);
 }
 
-VECTOR VECTOR::divide(float number)
+VECTOR VECTOR::operator/(float number)
 {
     return VECTOR(x/number, y/number, z/number);
 }
 
-VECTOR VECTOR::divide(VECTOR vector)
+VECTOR VECTOR::operator/(VECTOR vector)
 {
     float scalar1 = scalarProduct(vector);
     float scalar2 = vector.scalarProduct(vector);
-    return vector.multiply(scalar1/scalar2);
+    return vector * scalar1/scalar2;
 }
 
-VECTOR VECTOR::multiply(const VECTOR& vector)
+VECTOR VECTOR::operator*(const VECTOR& vector)
 {
     return VECTOR(x*vector.x, y*vector.y, z*vector.z);
 }
@@ -75,7 +82,7 @@ VECTOR VECTOR::vectorProduct(const VECTOR& vector)
 
 VECTOR VECTOR::direction()
 {
-    return (*this).divide(magnitude());
+    return (*this) / this->magnitude();
 }
 
 void VECTOR::clear()

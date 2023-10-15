@@ -4,10 +4,16 @@
 #include <iostream>
 #include <cmath>
 #include <assert.h>
+
 #include "vector.hpp"
 #include "gfgen.hpp"
-#include"timer.hpp"
+#include "timer.hpp"
 #include "particleDrag.hpp"
+
+class GFGEN;
+class PARTICLE_DRAG;
+class VECTOR;
+class TIMER;
 
 class PARTICLE
 {
@@ -95,7 +101,7 @@ public:
     void addForce(const VECTOR& force);
 
     // Get velocity of this particle through force
-    VECTOR getAcceleration(const VECTOR& force);
+    VECTOR getAcceleration(VECTOR force);
 
     // set the gravity for this particle in case one wanna use
     void setGravity(GFGEN* _gravityForce);

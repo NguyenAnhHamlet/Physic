@@ -25,7 +25,7 @@ PARTICLE::posUpdate(VECTOR velocity, float duration)
 {
     assert(duration > 0.0);
 
-    pos = pos.add(velocity.multiply(duration));
+    pos = pos + velocity * duration;
 }
 
 void 
@@ -34,27 +34,27 @@ PARTICLE::posUpdate(VECTOR velocity, VECTOR acceleration, float duration )
     assert(duration > 0.0);
 
     // Calculate velocity from force and apply it
-    this->velocity = this->velocity.add(getVelocity(forceAccum, duration));
+    this->velocity = this->velocity + getVelocity(forceAccum, duration);
 
     /**
      * using integration to calculate the next position of
      * this particle in given duration
      * p2 = p1 + p.'t + p''.t^2/2
     */
-    pos = pos.add(velocity.multiply(duration));
-    pos = pos.add(acceleration.multiply(duration*duration/2));
+    pos = pos + velocity * duration;
+    pos = pos + acceleration * duration*duration/2;
 }
 
 void 
 PARTICLE::addForce(const VECTOR& force)
 {
-    this->forceAccum = this->forceAccum.add(force);
+    this->forceAccum = this->forceAccum *force;
 }
 
 VECTOR
-PARTICLE::getAcceleration(const VECTOR& force)
+PARTICLE::getAcceleration(VECTOR force)
 {
-    return force.divide(mass);
+    return force / (float) mass;
 }
 
 void
@@ -78,6 +78,6 @@ PARTICLE::clearForce()
 VECTOR PARTICLE::getVelocity(const VECTOR& force, float duration)
 {
     VECTOR _acceleration = getAcceleration(force);
-    _acceleration.multiply(duration);
-    return this->velocity.add(_acceleration);
+    _acceleration * duration;
+    return this->velocity + _acceleration;
 }
