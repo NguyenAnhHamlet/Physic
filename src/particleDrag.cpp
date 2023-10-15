@@ -13,7 +13,7 @@ void PARTICLE_DRAG::updateForce(PARTICLE* particle, float duration)
     dragCoeff = k1* dragCoeff + k2* dragCoeff* dragCoeff;
 
     VECTOR force = particle->velocity.normalize();
-    force = force * -dragCoeff;
+    force = force * (- 1 * dragCoeff);
     
     particle->addForce(force);
 }
