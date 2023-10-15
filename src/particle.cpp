@@ -34,8 +34,9 @@ PARTICLE::posUpdate(VECTOR velocity, VECTOR acceleration, float duration )
     assert(duration > 0.0);
 
     // Calculate velocity from force and apply it
+    //std::cout << this->velocity.x << this->velocity.y << '\n';
     this->velocity = this->velocity + getVelocity(forceAccum, duration);
-
+    //std::cout << this->velocity.x << this->velocity.y << '\n';
     /**
      * using integration to calculate the next position of
      * this particle in given duration
@@ -79,5 +80,5 @@ VECTOR PARTICLE::getVelocity(const VECTOR& force, float duration)
 {
     VECTOR _acceleration = getAcceleration(force);
     _acceleration = _acceleration * duration;
-    return this->velocity + _acceleration;
+    return _acceleration;
 }

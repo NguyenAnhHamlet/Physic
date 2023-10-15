@@ -8,13 +8,13 @@ int main()
     PARTICLE* particle = new PARTICLE();
 
     particle->velocity = *vector;
-    particle->dragForce.setDrag(1.5,1.5);
+    particle->dragForce.setDrag(2, 2);
     particle->mass = 1.2;
 
     for(int i=100; i>=0; i--)
     {
         particle->dragForce.updateForce(particle, (float)0.001);
-        std::cout<<particle->forceAccum.x<<particle->forceAccum.y<<particle->forceAccum.z<<'\n';
+        //std::cout<<particle->forceAccum.x<<particle->forceAccum.y<<particle->forceAccum.z<<'\n';
         particle->posUpdate(particle->velocity,
                             particle->acceleration,(float)0.001);
 
