@@ -48,7 +48,7 @@ PARTICLE::posUpdate(VECTOR velocity, VECTOR acceleration, float duration )
 void 
 PARTICLE::addForce(const VECTOR& force)
 {
-    this->forceAccum = this->forceAccum *force;
+    this->forceAccum = this->forceAccum + force;
 }
 
 VECTOR
@@ -78,6 +78,6 @@ PARTICLE::clearForce()
 VECTOR PARTICLE::getVelocity(const VECTOR& force, float duration)
 {
     VECTOR _acceleration = getAcceleration(force);
-    _acceleration * duration;
+    _acceleration = _acceleration * duration;
     return this->velocity + _acceleration;
 }

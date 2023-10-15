@@ -9,15 +9,21 @@ PARTICLE_DRAG::PARTICLE_DRAG(float _k1, float _k2)
                 
 void PARTICLE_DRAG::updateForce(PARTICLE* particle, float duration)
 {
-    VECTOR direction = particle->velocity.direction();
+    float dragCoeff = particle->velocity.magnitude();
+    dragCoeff = k1* dragCoeff + k2* dragCoeff* dragCoeff;
 
-    VECTOR force = direction * k1 
-                    + direction* direction * k2; 
-    force = force * direction * -1;
+    VECTOR force = particle->velocity.normalize();
+    force = force * -dragCoeff;
     
     particle->addForce(force);
 }
 
 PARTICLE_DRAG::PARTICLE_DRAG()
 {
+}
+
+void PARTICLE_DRAG::setDrag(float _k1, float _k2 )
+{
+    this->k1 = _k1;
+    this->k2 = _k2;
 }

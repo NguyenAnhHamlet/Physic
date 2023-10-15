@@ -23,6 +23,8 @@ public:
     PARTICLE_DRAG();
     PARTICLE_DRAG(float _k1, float _k2);
 
+    void setDrag(float _k1, float _k2);
+
     /**
      * Calculate the drag force generated from drag coeficent
      * and the velocity of this particle
