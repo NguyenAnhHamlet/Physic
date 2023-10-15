@@ -5,13 +5,14 @@
 #include<cmath>
 #include<utility>
 #include<vector>
-#include "particle.hpp"
 
 /**
  * Interface
  * Other class use this as a base class and define its own method
  * for updateForce
 */
+
+class PARTICLE;
 
 class PFGEN
 {

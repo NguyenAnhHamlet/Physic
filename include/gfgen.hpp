@@ -5,9 +5,12 @@
 #include<cmath>
 #include<utility>
 #include<vector>
-#include "particle.hpp"
 #include "pfgen.hpp"
 #include "vector.hpp"
+
+class PARTICLE;
+class PFGEN;
+class VECTOR;
 
 class GFGEN: public PFGEN
 {   

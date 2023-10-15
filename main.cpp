@@ -10,13 +10,13 @@ int main()
 
     for(int i=15; i>=0; i--)
     {
-        particle->dragForce->updateForce(particle, (float)0.001);
+        particle->dragForce.updateForce(particle, (float)0.001);
         particle->posUpdate(particle->velocity,
                             particle->acceleration,(float)0.001);
 
         std::cout<<particle->velocity.x <<" "<<particle->velocity.y
                  <<particle->velocity.z<<'\n';
-
+        std::cout<<"RUNNING"<<'\n';
     }
 }
 

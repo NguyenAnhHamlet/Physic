@@ -21,15 +21,18 @@ public:
 
     VECTOR(float x, float y, float z);
 
+    //operator overloading
+    void operator=(const VECTOR& vector);
+    VECTOR operator+(const VECTOR& vector);
+    VECTOR operator-(const VECTOR& vector);
+    VECTOR operator*(float number);
+    VECTOR operator*(const VECTOR& vector);
+    VECTOR operator/(VECTOR vector);
+    VECTOR operator/(float number);
+
     VECTOR invert();
     float magnitude();
     VECTOR normalize();
-    VECTOR multiply(float number);
-    VECTOR multiply(const VECTOR& vector);
-    VECTOR add(const VECTOR& vector);
-    VECTOR substract(const VECTOR& vector);
-    VECTOR divide(float number);
-    VECTOR divide(VECTOR vector);
     VECTOR componentProduct(const VECTOR& vector);
     float scalarProduct(const VECTOR& vector);
     VECTOR vectorProduct(const VECTOR& vector);
