@@ -57,6 +57,86 @@ PARTICLE::getAcceleration(VECTOR force)
 {
     return force / (float) mass;
 }
+TIMER PARTICLE::getTimer()
+{
+    return this->timer;
+}
+
+PARTICLE_DRAG PARTICLE::getDragForce()
+{
+    return this->dragForce;
+}
+
+GFGEN PARTICLE::getGravityForce()
+{
+    return this->gravityForce;
+}
+
+VECTOR PARTICLE::getForceAccum()
+{
+    return this->forceAccum;
+}
+
+float PARTICLE::getSpeed()
+{
+    return this->speed;
+}
+
+float PARTICLE::getDamping()
+{
+    return this->damping;
+}
+
+VECTOR PARTICLE::getPos()
+{
+    return this->pos;
+}
+
+VECTOR PARTICLE::getAcceleration()
+{
+    return this->acceleration;
+}
+
+void PARTICLE::setTimer(TIMER& _timer)
+{
+    this->timer = _timer;
+}
+
+void PARTICLE::setDragFroce(PARTICLE_DRAG& _dragForce) 
+{
+    this->dragForce = _dragForce;
+}
+
+void PARTICLE::getGravityForce(GFGEN& _gfgen)
+{
+    this->gravityForce = _gfgen;
+}
+
+void PARTICLE::setForceAccum(VECTOR& _forceAccum)
+{
+    this->forceAccum = _forceAccum;
+}
+
+void PARTICLE::setDamping(float _damping)
+{
+    this->damping = _damping;
+}
+
+void PARTICLE::setPos(VECTOR& _pos)
+{
+    this->pos = _pos;
+}
+
+void PARTICLE::setAcceleration(VECTOR& _acceleration)
+{
+    this->acceleration = _acceleration;
+}
+
+void
+PARTICLE::setMass(float _mass)
+{
+    this->mass = _mass;
+}
 
 void
 PARTICLE::setGravity(GFGEN* _gravityForce)
@@ -76,9 +156,21 @@ PARTICLE::clearForce()
     this->forceAccum.clear();
 }
 
-VECTOR PARTICLE::getVelocity(const VECTOR& force, float duration)
+VECTOR 
+PARTICLE::getVelocity(const VECTOR& force, float duration)
 {
     VECTOR _acceleration = getAcceleration(force);
     _acceleration = _acceleration * duration;
     return _acceleration;
 }
+
+VECTOR PARTICLE::getVelocity()
+{
+    return this->velocity; 
+}
+
+void PARTICLE::setVelocity(VECTOR& _velocity)
+{
+    this->velocity = _velocity;
+}
+

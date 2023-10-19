@@ -17,8 +17,6 @@ class TIMER;
 
 class PARTICLE
 {
-
-public:
     // position of the particle in space
     VECTOR pos;
 
@@ -51,6 +49,8 @@ public:
     */
     float speed;
 
+
+public:
     /**
      * Total force applied uppon this particle
     */
@@ -73,9 +73,28 @@ public:
 
     // user can determine these var
     PARTICLE(float _damping, float _inverseMass, float _gravity
-            ,VECTOR _pos, VECTOR _velocity, VECTOR _acceleration );   
+            ,VECTOR _pos, VECTOR _velocity, VECTOR _acceleration );  
 
+    TIMER getTimer();
+    PARTICLE_DRAG getDragForce();
+    VECTOR getForceAccum();
+    GFGEN getGravityForce();
+    float getSpeed();
+    float getDamping();
+    VECTOR getPos();
+    VECTOR getAcceleration();
     float getMass();
+    VECTOR getVelocity();
+
+    void setTimer(TIMER& _timer);
+    void setDragFroce(PARTICLE_DRAG& _dragForce) ;
+    void getGravityForce(GFGEN& _gfgen);
+    void setForceAccum(VECTOR& _forceAccum);
+    void setDamping(float _damping);
+    void setPos(VECTOR& _pos);
+    void setAcceleration(VECTOR& _acceleration);
+    void setMass(float _mass);
+    void setVelocity(VECTOR& _velocity);
 
     // use this function after object being created
     void init();

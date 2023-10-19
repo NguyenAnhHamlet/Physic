@@ -9,10 +9,10 @@ PARTICLE_DRAG::PARTICLE_DRAG(float _k1, float _k2)
                 
 void PARTICLE_DRAG::updateForce(PARTICLE* particle, float duration)
 {
-    float dragCoeff = particle->velocity.magnitude();
+    float dragCoeff = particle->getVelocity().magnitude();
     dragCoeff = k1* dragCoeff + k2* dragCoeff* dragCoeff;
 
-    VECTOR force = particle->velocity.normalize();
+    VECTOR force = particle->getVelocity().normalize();
     force = force * (- 1 * dragCoeff);
     
     particle->addForce(force);
