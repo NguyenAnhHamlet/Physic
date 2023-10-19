@@ -150,6 +150,15 @@ public:
      * v' = v + integration of a(dt) = v + at
     */
     VECTOR getVelocity(const VECTOR& force, float duration);
+
+    /**
+     * Use this as a callback function with timer
+     * If user want to implement there own method , they just need 
+     * to use another class which extend this class and override this
+     * method
+     * 
+    */
+    virtual void autoUpdatePos();
 };
 
 #endif

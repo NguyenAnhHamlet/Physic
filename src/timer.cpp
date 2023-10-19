@@ -16,8 +16,11 @@ void TIMER::setCallback( callbackFunc callback)
 
 void TIMER::countDown(PARTICLE* particle,clock_t milisecs)
 {
-    delay_(milisecs, preVal);
-    (particle->*timerCallback)();
+    while(1)
+    {
+        delay_(milisecs, preVal);
+        (particle->*timerCallback)();
+    }
 }
 
 void TIMER::runCountDown(PARTICLE* particle,clock_t milisecs)
