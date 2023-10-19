@@ -164,13 +164,24 @@ PARTICLE::getVelocity(const VECTOR& force, float duration)
     return _acceleration;
 }
 
-VECTOR PARTICLE::getVelocity()
+VECTOR 
+PARTICLE::getVelocity()
 {
     return this->velocity; 
 }
 
-void PARTICLE::setVelocity(VECTOR& _velocity)
+void 
+PARTICLE::setVelocity(VECTOR& _velocity)
 {
     this->velocity = _velocity;
+}
+
+void 
+PARTICLE::autoUpdatePos()
+{
+    this->dragForce.updateForce(this, (float)0.001);
+    posUpdate(this->velocity,this->acceleration,(float)0.001);
+    this->clearForce();
+    std::cout << this->getPos().x << "," << this->getPos().y << "," << this->getVelocity().z << '\n';
 }
 
