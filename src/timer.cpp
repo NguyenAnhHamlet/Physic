@@ -25,7 +25,8 @@ void TIMER::countDown(PARTICLE* particle,clock_t milisecs)
 
 void TIMER::runCountDown(PARTICLE* particle,clock_t milisecs)
 {
-    std::thread countDownThread(&TIMER::countDown,this, particle,milisecs);
+    std::thread countDownThread(&TIMER::countDown,this, particle, milisecs);
+    countDownThread.join();
 }
 
 TIMER::TIMER() : initVal(currentTime()), preVal(currentTime()) {};

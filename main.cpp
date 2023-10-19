@@ -15,6 +15,9 @@ int main()
 
     timer->setCallback(&PARTICLE::autoUpdatePos);
 
-    timer->runCountDown(particle,(clock_t)0.001);
+    timer->runCountDown(particle, static_cast<clock_t>(0.001));
+
+    printf("RUNNING");
+
 }
 

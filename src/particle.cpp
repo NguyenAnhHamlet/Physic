@@ -179,9 +179,9 @@ PARTICLE::setVelocity(VECTOR& _velocity)
 void 
 PARTICLE::autoUpdatePos()
 {
-    this->dragForce.updateForce(this, (float)0.001);
-    posUpdate(this->velocity,this->acceleration,(float)0.001);
+    this->dragForce.updateForce(this, (float) 0.001);
+    posUpdate(this->velocity,this->acceleration,(float) 0.001);
     this->clearForce();
-    std::cout << this->getPos().x << "," << this->getPos().y << "," << this->getVelocity().z << '\n';
+    std::cout << this->getPos().x << "," << this->getPos().y << "," << this->getVelocity().x << '\n';
 }
 
