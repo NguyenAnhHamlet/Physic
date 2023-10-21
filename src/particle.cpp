@@ -179,9 +179,14 @@ PARTICLE::setVelocity(VECTOR& _velocity)
 void 
 PARTICLE::autoUpdatePos()
 {
+    std::thread CountDown =  timer.runCountDown(this, static_cast<clock_t>(0.001));
+    CountDown.join();
+}
+
+void PARTICLE::callbackFunc()
+{
     this->dragForce.updateForce(this, (float) 0.001);
     posUpdate(this->velocity,this->acceleration,(float) 0.001);
     this->clearForce();
     std::cout << this->getPos().x << "," << this->getPos().y << "," << this->getVelocity().x << '\n';
 }
-

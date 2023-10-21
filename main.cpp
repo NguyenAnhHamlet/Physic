@@ -4,20 +4,18 @@
 
 int main()
 {
-    VECTOR* vector = new VECTOR(100,100,0);
     PARTICLE* particle = new PARTICLE();
-    TIMER* timer = new TIMER();
+    VECTOR vector(100, 100, 0);
+    TIMER timer;
 
-    particle->setVelocity(*vector);
+    particle->setVelocity(vector);
     particle->dragForce.setDrag(2, 2);
     particle->setMass((float)1.2);
-    particle->setTimer(*timer);
+    particle->setTimer(timer);
 
-    timer->setCallback(&PARTICLE::autoUpdatePos);
+    particle->timer.setCallback(&PARTICLE::callbackFunc);
 
-    timer->runCountDown(particle, static_cast<clock_t>(0.001));
-
-    printf("RUNNING");
+    particle->autoUpdatePos();
 
 }
 

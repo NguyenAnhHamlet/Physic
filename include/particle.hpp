@@ -158,6 +158,8 @@ public:
      * method
      * 
     */
+    virtual void callbackFunc();
+
     virtual void autoUpdatePos();
 };
 

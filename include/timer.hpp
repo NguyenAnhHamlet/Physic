@@ -69,7 +69,7 @@ public:
     */
     void setCallback(callbackFunc callback);
     void countDown(PARTICLE* particle, clock_t milisecs);
-    void runCountDown(PARTICLE* particle,clock_t milisecs);
+    std::thread runCountDown(PARTICLE* particle,clock_t milisecs);
 };
 
 #endif // __TIMER__
