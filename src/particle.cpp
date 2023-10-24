@@ -1,4 +1,6 @@
 #include "particle.hpp"
+#include "particleForceRegister.hpp"
+#include "timer.hpp"
 
 PARTICLE::PARTICLE() : damping(0.0), inverseMass(0.0), mass(0.0) {}
 
@@ -18,6 +20,7 @@ void
 PARTICLE::init()
 {
     speed = velocity.magnitude();
+    this->timer.setCallback(&PARTICLE::callbackUpdateFunc);
 }
 
 void 
@@ -31,6 +34,7 @@ PARTICLE::posUpdate(VECTOR velocity, float duration)
 void 
 PARTICLE::posUpdate(VECTOR velocity, VECTOR acceleration, float duration )
 {
+    std::cout<<duration<<'\n';
     assert(duration > 0.0);
 
     // Calculate velocity from force and apply it
@@ -159,7 +163,7 @@ PARTICLE::clearForce()
 VECTOR 
 PARTICLE::getVelocity(const VECTOR& force, float duration)
 {
-    VECTOR _acceleration = getAcceleration(force);
+    VECTOR _acceleration = this->getAcceleration(force);
     _acceleration = _acceleration * duration;
     return _acceleration;
 }
@@ -177,16 +181,23 @@ PARTICLE::setVelocity(VECTOR& _velocity)
 }
 
 void 
-PARTICLE::autoUpdatePos()
+PARTICLE::autoUpdatePos(PARTICLE_FORCE_REGISTER* p_force_reg, FORCE_VISITOR* vis, 
+                        float duration)
 {
-    std::thread CountDown =  timer.runCountDown(this, static_cast<clock_t>(0.001));
-    CountDown.join();
+    // std::cout<<duration<<'\n';
+    if(!(this->CountDown))
+    {
+        this->CountDown =  timer.runCountDown(this, p_force_reg, vis, duration);
+        this->CountDown ? (std::cout<<"NULL") : (std::cout<<"NOT NULL");
+    }
 }
 
-void PARTICLE::callbackFunc()
+void 
+PARTICLE::callbackUpdateFunc(PARTICLE_FORCE_REGISTER* p_force_reg, 
+                            FORCE_VISITOR* vis, float duration)
 {
-    this->dragForce.updateForce(this, (float) 0.001);
-    posUpdate(this->velocity,this->acceleration,(float) 0.001);
+    p_force_reg->updateForce(vis, this, duration);
+    posUpdate(this->velocity,this->acceleration, duration);
     this->clearForce();
     std::cout << this->getPos().x << "," << this->getPos().y << "," << this->getVelocity().x << '\n';
 }

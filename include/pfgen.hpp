@@ -13,11 +13,14 @@
 */
 
 class PARTICLE;
+class FORCE_VISITOR;
 
 class PFGEN
 {
 
 public:
+    // virtual void updateForce(FORCE_VISITOR* vis) = 0;
+
     /**
      * Other class inherits from this interface must override this
      * method.
