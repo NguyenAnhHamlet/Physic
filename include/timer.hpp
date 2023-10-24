@@ -9,6 +9,8 @@
 #include <vector>
 
 class PARTICLE;
+class PARTICLE_FORCE_REGISTER;
+class FORCE_VISITOR;
 
 /**
  * Mainly use to keep calculate the interval between the updation
@@ -21,7 +23,6 @@ class PARTICLE;
  * This is a typedef of a callback function which is used
  * with this timer class
 */
-typedef void (PARTICLE::*callbackFunc)();
 
 class TIMER
 {
@@ -29,6 +30,7 @@ class TIMER
     clock_t initVal;
 
 public:
+    typedef void (PARTICLE::*callbackUpdateFunc)(PARTICLE_FORCE_REGISTER*,FORCE_VISITOR* , float);
     /**
      * In case one want to use the object with the method of its
      * to update the position of a particle , one can use this value
@@ -39,7 +41,7 @@ public:
     */
     clock_t preVal;
 
-    callbackFunc timerCallback;
+    callbackUpdateFunc timerCallback;
 
     TIMER();
 
@@ -49,7 +51,7 @@ public:
     clock_t currentTime() { return clock();};
 
     // delay , block the thread or process for a duration of time
-    void delay_(clock_t milisecs, clock_t now);
+    void delay_(float milisecs, clock_t now);
     /**
      * get the interval between current time and previous time
      * then update the value of previous time
@@ -67,9 +69,13 @@ public:
      * the position of the particle in the exact amount of
      * period of time
     */
-    void setCallback(callbackFunc callback);
-    void countDown(PARTICLE* particle, clock_t milisecs);
-    std::thread runCountDown(PARTICLE* particle,clock_t milisecs);
+    void setCallback(callbackUpdateFunc callback);
+
+    void countDown(PARTICLE* particle,PARTICLE_FORCE_REGISTER* p_force_reg, 
+                   FORCE_VISITOR* vis,float milisecs);
+
+    std::thread* runCountDown(PARTICLE* particle, PARTICLE_FORCE_REGISTER* p_force_reg, 
+                            FORCE_VISITOR* vis, float milisecs);
 };
 
 #endif // __TIMER__

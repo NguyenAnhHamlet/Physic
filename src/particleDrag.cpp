@@ -2,12 +2,19 @@
 #include"particle.hpp"
 #include"pfgen.hpp"
 #include"vector.hpp"
+#include "forceVisitor.hpp"
 
 PARTICLE_DRAG::PARTICLE_DRAG(float _k1, float _k2) 
                 : k1(_k1), k2(_k2) 
                 {}
+
+// PARTICLE_DRAG::updateForce(FORCE_VISITOR* vis, PARTICLE* particle, clock_t duration)
+// {
+//     vis->updateForce(this, particle, duration);
+// }
                 
-void PARTICLE_DRAG::updateForce(PARTICLE* particle, float duration)
+void 
+PARTICLE_DRAG::updateForce(PARTICLE* particle, float duration)
 {
     float dragCoeff = particle->getVelocity().magnitude();
     dragCoeff = k1* dragCoeff + k2* dragCoeff* dragCoeff;
@@ -22,7 +29,8 @@ PARTICLE_DRAG::PARTICLE_DRAG()
 {
 }
 
-void PARTICLE_DRAG::setDrag(float _k1, float _k2 )
+void 
+PARTICLE_DRAG::setDrag(float _k1, float _k2 )
 {
     this->k1 = _k1;
     this->k2 = _k2;

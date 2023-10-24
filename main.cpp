@@ -1,11 +1,19 @@
 #include "vector.hpp"
 #include "particle.hpp"
 #include "particleDrag.hpp"
+#include "particleForceRegister.hpp"
+#include "particleRegister.hpp"
+#include <list>
+#include "pfgen.hpp"
+#include "forceVisitor.hpp"
+#include <ctime>
 
 int main()
 {
+    clock_t t = (float) 0.001;
+    std::cout<<t;
     PARTICLE* particle = new PARTICLE();
-    VECTOR vector(100, 100, 0);
+    VECTOR vector(10, 10, 0);
     TIMER timer;
 
     particle->setVelocity(vector);
@@ -13,9 +21,24 @@ int main()
     particle->setMass((float)1.2);
     particle->setTimer(timer);
 
-    particle->timer.setCallback(&PARTICLE::callbackFunc);
+    particle->init();
 
-    particle->autoUpdatePos();
+    PARTICLE_FORCE_REGISTER* forceRegister = new PARTICLE_FORCE_REGISTER();
+    // PARTICLE_REGISTER* pregister = new PARTICLE_REGISTER(forceRegister);
 
+    std::list<PFGEN*> list{ static_cast<PFGEN*>(&(particle->dragForce))};
+    forceRegister->add(particle,list);
+
+    FORCE_VISITOR* vis = new FORCE_VISITOR();
+
+    particle->autoUpdatePos(forceRegister, vis, (float)0.001);
+    particle->CountDown ? (std::cout<<"NULL") : (std::cout<<"NOT NULL");
+    particle->CountDown->join();
+    
+    // pregister->getPfregister()->add(particle, list);
+    // pregister->initAll();
+    // pregister->runAll();
+
+    return 0;
 }
 

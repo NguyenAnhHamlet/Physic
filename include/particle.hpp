@@ -14,9 +14,12 @@ class GFGEN;
 class PARTICLE_DRAG;
 class VECTOR;
 class TIMER;
+class FORCE_VISITOR;
+class PARTICLE_FORCE_REGISTER;
 
 class PARTICLE
 {
+protected:
     // position of the particle in space
     VECTOR pos;
 
@@ -50,7 +53,9 @@ class PARTICLE
     float speed;
 
 
+
 public:
+    std::thread* CountDown = NULL;
     /**
      * Total force applied uppon this particle
     */
@@ -107,7 +112,7 @@ public:
 
     //this one update the position of this particle with acceleration and force
     void posUpdate(VECTOR velocity, VECTOR acceleration,
-                    float duration);
+        float duration);
 
     /**
      * Particle under the effect of gravity has projectile property
@@ -158,9 +163,11 @@ public:
      * method
      * 
     */
-    virtual void callbackFunc();
+    virtual void callbackUpdateFunc(PARTICLE_FORCE_REGISTER* p_force_reg,
+                                    FORCE_VISITOR* vis, float duration);
 
-    virtual void autoUpdatePos();
+    virtual void autoUpdatePos(PARTICLE_FORCE_REGISTER* p_force_reg,
+                                FORCE_VISITOR* vis, float duration);
 };
 
 #endif
