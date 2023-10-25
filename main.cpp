@@ -32,7 +32,7 @@ int main()
 
     FORCE_VISITOR* vis = new FORCE_VISITOR();
 
-    particle->autoUpdatePos(forceRegister, vis, (float)0.02);
+    particle->autoUpdatePos(forceRegister, vis, (float)0.0001);
     particle->CountDown ? (std::cout<<"NULL") : (std::cout<<"NOT NULL");
     particle->CountDown->join();
     

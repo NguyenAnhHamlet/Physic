@@ -19,6 +19,10 @@ class GFGEN: public PFGEN
 public:
     GFGEN();
     virtual void updateForce(PARTICLE* particle, float duration) override;
+
+    virtual void visitUpdateForce(FORCE_VISITOR* vis, 
+                            PARTICLE* particle, 
+                            float duration) override;
 };
 
 #endif

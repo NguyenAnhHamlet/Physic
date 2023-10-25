@@ -5,8 +5,8 @@
 void 
 FORCE_VISITOR::updateForce(PFGEN* pfgen, PARTICLE* particle, float duration)
 {
-    if(updateForce(static_cast<GFGEN*>(pfgen),particle, duration)) return;
-    if(updateForce(static_cast<PARTICLE_DRAG*>(pfgen), particle, duration)) return;
+    // if(updateForce(static_cast<GFGEN*>(pfgen),particle, duration)) return;
+    // if(updateForce(static_cast<PARTICLE_DRAG*>(pfgen), particle, duration)) return;
 }
 
 bool 
