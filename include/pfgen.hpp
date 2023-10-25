@@ -5,6 +5,7 @@
 #include<cmath>
 #include<utility>
 #include<vector>
+#include<ctime>
 
 /**
  * Interface
@@ -19,7 +20,9 @@ class PFGEN
 {
 
 public:
-    // virtual void updateForce(FORCE_VISITOR* vis) = 0;
+    virtual void visitUpdateForce(FORCE_VISITOR* vis, 
+                                PARTICLE* particle, 
+                                float duration) = 0;
 
     /**
      * Other class inherits from this interface must override this

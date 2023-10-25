@@ -22,7 +22,7 @@ void PARTICLE_FORCE_REGISTER::updateForce(FORCE_VISITOR* vis, PARTICLE* particle
 {  
     for(auto force : this->regis[particle] )
     {
-        vis->updateForce(force,particle,duration);
+        force->visitUpdateForce(vis,particle,duration);
     } 
 }
 
