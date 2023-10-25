@@ -61,57 +61,68 @@ PARTICLE::getAcceleration(VECTOR force)
 {
     return force / (float) mass;
 }
-TIMER PARTICLE::getTimer()
+TIMER 
+PARTICLE::getTimer()
 {
     return this->timer;
 }
 
-VECTOR PARTICLE::getForceAccum()
+VECTOR 
+PARTICLE::getForceAccum()
 {
     return this->forceAccum;
 }
 
-float PARTICLE::getSpeed()
+float 
+PARTICLE::getSpeed()
 {
     return this->speed;
 }
 
-float PARTICLE::getDamping()
+float 
+PARTICLE::getDamping()
 {
     return this->damping;
 }
 
-VECTOR PARTICLE::getPos()
+VECTOR 
+PARTICLE::getPos()
 {
     return this->pos;
 }
 
-VECTOR PARTICLE::getAcceleration()
+VECTOR 
+PARTICLE::getAcceleration()
 {
     return this->acceleration;
 }
 
-void PARTICLE::setTimer(TIMER& _timer)
+void 
+PARTICLE::setTimer(TIMER& _timer)
 {
     this->timer = _timer;
 }
 
-void PARTICLE::setForceAccum(VECTOR& _forceAccum)
+void 
+PARTICLE::setForceAccum(VECTOR& _forceAccum)
 {
     this->forceAccum = _forceAccum;
 }
 
-void PARTICLE::setDamping(float _damping)
+void 
+PARTICLE::setDamping(float _damping)
 {
     this->damping = _damping;
 }
 
-void PARTICLE::setPos(VECTOR& _pos)
+void 
+PARTICLE::setPos(VECTOR& _pos)
 {
     this->pos = _pos;
 }
 
-void PARTICLE::setAcceleration(VECTOR& _acceleration)
+void 
+PARTICLE::setAcceleration(VECTOR& _acceleration)
 {
     this->acceleration = _acceleration;
 }
@@ -156,7 +167,7 @@ PARTICLE::autoUpdatePos(PARTICLE_FORCE_REGISTER* p_force_reg, FORCE_VISITOR* vis
     if(!(this->CountDown))
     {
         this->CountDown =  timer.runCountDown(this, p_force_reg, vis, duration);
-        this->CountDown ? (std::cout<<"NOT NULL") : (std::cout<<"NULL");
+        // this->CountDown ? (std::cout<<"NOT NULL") : (std::cout<<"NULL");
     }
 }
 
