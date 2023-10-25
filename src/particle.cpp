@@ -66,16 +66,6 @@ TIMER PARTICLE::getTimer()
     return this->timer;
 }
 
-PARTICLE_DRAG PARTICLE::getDragForce()
-{
-    return this->dragForce;
-}
-
-GFGEN PARTICLE::getGravityForce()
-{
-    return this->gravityForce;
-}
-
 VECTOR PARTICLE::getForceAccum()
 {
     return this->forceAccum;
@@ -106,16 +96,6 @@ void PARTICLE::setTimer(TIMER& _timer)
     this->timer = _timer;
 }
 
-void PARTICLE::setDragFroce(PARTICLE_DRAG& _dragForce) 
-{
-    this->dragForce = _dragForce;
-}
-
-void PARTICLE::getGravityForce(GFGEN& _gfgen)
-{
-    this->gravityForce = _gfgen;
-}
-
 void PARTICLE::setForceAccum(VECTOR& _forceAccum)
 {
     this->forceAccum = _forceAccum;
@@ -140,18 +120,6 @@ void
 PARTICLE::setMass(float _mass)
 {
     this->mass = _mass;
-}
-
-void
-PARTICLE::setGravity(GFGEN* _gravityForce)
-{
-    this->gravityForce = *(_gravityForce);
-}
-
-void 
-PARTICLE::setDrag(PARTICLE_DRAG* _dragForce)
-{
-    this->dragForce = *(_dragForce);
 }
 
 void 
@@ -188,7 +156,7 @@ PARTICLE::autoUpdatePos(PARTICLE_FORCE_REGISTER* p_force_reg, FORCE_VISITOR* vis
     if(!(this->CountDown))
     {
         this->CountDown =  timer.runCountDown(this, p_force_reg, vis, duration);
-        this->CountDown ? (std::cout<<"NULL") : (std::cout<<"NOT NULL");
+        this->CountDown ? (std::cout<<"NOT NULL") : (std::cout<<"NULL");
     }
 }
 

@@ -13,11 +13,12 @@ int main()
     clock_t t = (float) 0.001;
     std::cout<<t;
     PARTICLE* particle = new PARTICLE();
-    VECTOR vector(10, 10, 0);
+    VECTOR vector(1000, 1000, 0);
     TIMER timer;
 
     particle->setVelocity(vector);
-    particle->dragForce.setDrag(2, 2);
+    PARTICLE_DRAG* dragForce = new PARTICLE_DRAG();
+    dragForce->setDrag(2, 2);
     particle->setMass((float)1.2);
     particle->setTimer(timer);
 
@@ -26,12 +27,12 @@ int main()
     PARTICLE_FORCE_REGISTER* forceRegister = new PARTICLE_FORCE_REGISTER();
     // PARTICLE_REGISTER* pregister = new PARTICLE_REGISTER(forceRegister);
 
-    std::list<PFGEN*> list{ static_cast<PFGEN*>(&(particle->dragForce))};
+    std::list<PFGEN*> list{ static_cast<PFGEN*>(dragForce)};
     forceRegister->add(particle,list);
 
     FORCE_VISITOR* vis = new FORCE_VISITOR();
 
-    particle->autoUpdatePos(forceRegister, vis, (float)0.001);
+    particle->autoUpdatePos(forceRegister, vis, (float)0.02);
     particle->CountDown ? (std::cout<<"NULL") : (std::cout<<"NOT NULL");
     particle->CountDown->join();
     

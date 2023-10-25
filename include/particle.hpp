@@ -61,16 +61,6 @@ public:
     */
     VECTOR forceAccum;
 
-    // gravity applied uppon this particle
-    GFGEN gravityForce;
-
-    // drag force applied upon this particle
-    PARTICLE_DRAG dragForce;
-
-    /**
-     * TIMER object to keep up with time for multiple
-     * purposes
-    */
     TIMER timer;
 
     // default constructor to prevent core dump
@@ -81,9 +71,7 @@ public:
             ,VECTOR _pos, VECTOR _velocity, VECTOR _acceleration );  
 
     TIMER getTimer();
-    PARTICLE_DRAG getDragForce();
     VECTOR getForceAccum();
-    GFGEN getGravityForce();
     float getSpeed();
     float getDamping();
     VECTOR getPos();
@@ -92,8 +80,6 @@ public:
     VECTOR getVelocity();
 
     void setTimer(TIMER& _timer);
-    void setDragFroce(PARTICLE_DRAG& _dragForce) ;
-    void getGravityForce(GFGEN& _gfgen);
     void setForceAccum(VECTOR& _forceAccum);
     void setDamping(float _damping);
     void setPos(VECTOR& _pos);
