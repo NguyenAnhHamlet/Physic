@@ -25,7 +25,6 @@ int main()
     particle->init();
 
     PARTICLE_FORCE_REGISTER* forceRegister = new PARTICLE_FORCE_REGISTER();
-    // PARTICLE_REGISTER* pregister = new PARTICLE_REGISTER(forceRegister);
 
     std::list<PFGEN*> list{ static_cast<PFGEN*>(dragForce)};
     forceRegister->add(particle,list);
@@ -35,10 +34,6 @@ int main()
     particle->autoUpdatePos(forceRegister, vis, (float)0.0001);
     particle->CountDown ? (std::cout<<"NULL") : (std::cout<<"NOT NULL");
     particle->CountDown->join();
-    
-    // pregister->getPfregister()->add(particle, list);
-    // pregister->initAll();
-    // pregister->runAll();
 
     return 0;
 }

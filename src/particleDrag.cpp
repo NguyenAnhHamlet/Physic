@@ -8,7 +8,8 @@ PARTICLE_DRAG::PARTICLE_DRAG(float _k1, float _k2)
                 : k1(_k1), k2(_k2) 
                 {}
 
-void PARTICLE_DRAG::visitUpdateForce(FORCE_VISITOR* vis, PARTICLE* particle, float duration)
+void 
+PARTICLE_DRAG::visitUpdateForce(FORCE_VISITOR* vis, PARTICLE* particle, float duration)
 {
     vis->updateForce(this, particle, duration);
 }

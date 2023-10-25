@@ -19,10 +19,6 @@ class FORCE_VISITOR;
  * One to one, each particle has its own timer
 */
 
-/**
- * This is a typedef of a callback function which is used
- * with this timer class
-*/
 
 class TIMER
 {
@@ -30,7 +26,12 @@ class TIMER
     clock_t initVal;
 
 public:
+    /**
+     * This is a typedef of a callback function which is used
+     * with this timer class
+    */
     typedef void (PARTICLE::*callbackUpdateFunc)(PARTICLE_FORCE_REGISTER*,FORCE_VISITOR* , float);
+
     /**
      * In case one want to use the object with the method of its
      * to update the position of a particle , one can use this value
@@ -74,8 +75,9 @@ public:
     void countDown(PARTICLE* particle,PARTICLE_FORCE_REGISTER* p_force_reg, 
                    FORCE_VISITOR* vis,float milisecs);
 
-    std::thread* runCountDown(PARTICLE* particle, PARTICLE_FORCE_REGISTER* p_force_reg, 
-                            FORCE_VISITOR* vis, float milisecs);
+    std::thread* runCountDown(PARTICLE* particle, 
+                                PARTICLE_FORCE_REGISTER* p_force_reg, 
+                                FORCE_VISITOR* vis, float milisecs);
 };
 
 #endif // __TIMER__

@@ -8,11 +8,11 @@ class GFGEN;
 class PARTICLE_DRAG;
 class PARTICLE;
 
-class FORCE_VISITOR //: public UPDATE_FORCE_VISITOR_INTERFACE
+class FORCE_VISITOR 
 {
 public:
-    bool updateForce(GFGEN* gfgen, PARTICLE* particle, float duration);
-    bool updateForce(PARTICLE_DRAG* p_drag,PARTICLE* particle, float duration);
+    void updateForce(GFGEN* gfgen, PARTICLE* particle, float duration);
+    void updateForce(PARTICLE_DRAG* p_drag,PARTICLE* particle, float duration);
 };
 
 #endif
