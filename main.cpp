@@ -11,7 +11,6 @@
 int main()
 {
     clock_t t = (float) 0.001;
-    std::cout<<t;
     PARTICLE* particle = new PARTICLE();
     VECTOR vector(1000, 1000, 0);
     TIMER timer;
@@ -32,7 +31,6 @@ int main()
     FORCE_VISITOR* vis = new FORCE_VISITOR();
 
     particle->autoUpdatePos(forceRegister, vis, (float)0.0001);
-    particle->CountDown ? (std::cout<<"NULL") : (std::cout<<"NOT NULL");
     particle->CountDown->join();
 
     return 0;

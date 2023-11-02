@@ -1,1 +1,0 @@
-# remove force object in PARTICLE
