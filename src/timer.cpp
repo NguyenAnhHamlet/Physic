@@ -19,23 +19,23 @@ TIMER::setCallback(callbackUpdateFunc callback)
 
 void 
 TIMER::countDown(PARTICLE* particle,PARTICLE_FORCE_REGISTER* p_force_reg, 
-                        FORCE_VISITOR* vis,float milisecs)
+                float milisecs)
 {
     std::cout<< milisecs<<"RUNNING\n";
     while(1)
     {
         delay_(milisecs, preVal);
         std::cout<<"RUNNING\n";
-        (particle->*timerCallback)(p_force_reg,vis,milisecs);
+        (particle->*timerCallback)(p_force_reg,milisecs);
     }
 }
 
 std::thread* 
 TIMER::runCountDown(PARTICLE* particle,PARTICLE_FORCE_REGISTER* p_force_reg, 
-                                FORCE_VISITOR* vis, float milisecs)
+                            float milisecs)
 {
     // countDown(particle, p_force_reg,vis , milisecs );
-    std::thread* countDownThread = new std::thread(&TIMER::countDown,this, particle, p_force_reg,vis , milisecs);
+    std::thread* countDownThread = new std::thread(&TIMER::countDown,this, particle, p_force_reg, milisecs);
     countDownThread ? (std::cout<<"NULL\n") : (std::cout<<"NOT NULL\n");
     return countDownThread;
 }

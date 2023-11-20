@@ -47,7 +47,7 @@ public:
      *  Call all force generator to update force 
      *  of each particular particle 
     */
-    void updateForce(FORCE_VISITOR* vis, PARTICLE* particle,float duration);
+    void updateForce(PARTICLE* particle,float duration);
 };
 
 #endif

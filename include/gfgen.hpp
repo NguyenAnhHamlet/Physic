@@ -25,12 +25,12 @@ class GFGEN: public PFGEN
     GFGEN& operator=(const GFGEN&) = delete;
 
 public:
-    static GFGEN* getInstance();
+    static GFGEN* getInstance()
+    {
+        if( !gfgen) gfgen = new GFGEN();
+        return gfgen;
+    }
     virtual void updateForce(PARTICLE* particle, float duration) override;
-
-    virtual void visitUpdateForce(FORCE_VISITOR* vis, 
-                            PARTICLE* particle, 
-                            float duration) override;
 };
 
 #endif
