@@ -21,11 +21,11 @@ PARTICLE_FORCE_REGISTER::clear()
 }
 
 void 
-PARTICLE_FORCE_REGISTER::updateForce(FORCE_VISITOR* vis, PARTICLE* particle,float duration)
+PARTICLE_FORCE_REGISTER::updateForce(PARTICLE* particle,float duration)
 {  
     for(auto force : this->regis[particle] )
     {
-        force->visitUpdateForce(vis,particle,duration);
+        force->updateForce(particle,duration);
     } 
 }
 

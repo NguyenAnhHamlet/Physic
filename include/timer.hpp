@@ -30,7 +30,7 @@ public:
      * This is a typedef of a callback function which is used
      * with this timer class
     */
-    typedef void (PARTICLE::*callbackUpdateFunc)(PARTICLE_FORCE_REGISTER*,FORCE_VISITOR* , float);
+    typedef void (PARTICLE::*callbackUpdateFunc)(PARTICLE_FORCE_REGISTER*, float);
 
     /**
      * In case one want to use the object with the method of its
@@ -73,11 +73,11 @@ public:
     void setCallback(callbackUpdateFunc callback);
 
     void countDown(PARTICLE* particle,PARTICLE_FORCE_REGISTER* p_force_reg, 
-                   FORCE_VISITOR* vis,float milisecs);
+                   float milisecs);
 
     std::thread* runCountDown(PARTICLE* particle, 
                                 PARTICLE_FORCE_REGISTER* p_force_reg, 
-                                FORCE_VISITOR* vis, float milisecs);
+                                float milisecs);
 };
 
 #endif // __TIMER__

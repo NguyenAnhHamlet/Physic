@@ -20,9 +20,8 @@ class PFGEN
 {
 
 public:
-    virtual void visitUpdateForce(FORCE_VISITOR* vis, 
-                                PARTICLE* particle, 
-                                float duration) = 0;
+    // virtual void visitUpdateForce(PARTICLE* particle, 
+                                // float duration) = 0;
 
     /**
      * Other class inherits from this interface must override this

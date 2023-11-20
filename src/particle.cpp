@@ -34,7 +34,6 @@ PARTICLE::posUpdate(VECTOR velocity, float duration)
 void 
 PARTICLE::posUpdate(VECTOR velocity, VECTOR acceleration, float duration )
 {
-    std::cout<<duration<<'\n';
     assert(duration > 0.0);
 
     // Calculate velocity from force and apply it
@@ -160,22 +159,22 @@ PARTICLE::setVelocity(VECTOR& _velocity)
 }
 
 void 
-PARTICLE::autoUpdatePos(PARTICLE_FORCE_REGISTER* p_force_reg, FORCE_VISITOR* vis, 
+PARTICLE::autoUpdatePos(PARTICLE_FORCE_REGISTER* p_force_reg, 
                         float duration)
 {
     // std::cout<<duration<<'\n';
     if(!(this->CountDown))
     {
-        this->CountDown =  timer.runCountDown(this, p_force_reg, vis, duration);
+        this->CountDown =  timer.runCountDown(this, p_force_reg, duration);
         // this->CountDown ? (std::cout<<"NOT NULL") : (std::cout<<"NULL");
     }
 }
 
 void 
 PARTICLE::callbackUpdateFunc(PARTICLE_FORCE_REGISTER* p_force_reg, 
-                            FORCE_VISITOR* vis, float duration)
+                            float duration)
 {
-    p_force_reg->updateForce(vis, this, duration);
+    p_force_reg->updateForce(this, duration);
     posUpdate(this->velocity,this->acceleration, duration);
     this->clearForce();
     std::cout << this->getPos().x << "," << this->getPos().y << "," << this->getVelocity().x << '\n';

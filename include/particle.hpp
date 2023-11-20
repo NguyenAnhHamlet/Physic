@@ -52,8 +52,6 @@ protected:
     */
     float speed;
 
-
-
 public:
     std::thread* CountDown = NULL;
     /**
@@ -150,10 +148,10 @@ public:
      * 
     */
     virtual void callbackUpdateFunc(PARTICLE_FORCE_REGISTER* p_force_reg,
-                                    FORCE_VISITOR* vis, float duration);
+                                    float duration);
 
     virtual void autoUpdatePos(PARTICLE_FORCE_REGISTER* p_force_reg,
-                                FORCE_VISITOR* vis, float duration);
+                                float duration);
 };
 
 #endif
