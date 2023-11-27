@@ -7,9 +7,10 @@ typedef struct COLOR
     float R;
     float B;
     float G;
+    float A;
 
-    COLOR(float _R,float _B,float _G) 
-        : R(_R), B(_B), G(_G) {}
+    COLOR(float _R,float _B,float _G, float _A) 
+        : R(_R), B(_B), G(_G), A(_A) {}
 
 } COLOR;
 

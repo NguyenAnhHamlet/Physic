@@ -1,39 +1,59 @@
 #include "renderer.hpp"
+#include "common.hpp"
+#include "shape.hpp"
+
+RENDERER* RENDERER::render = nullptr;
 
 RENDERER::RENDERER()
 {
-    window = creSDL_Window();
-    renderer = creSDL_Renderer();
+    creSDL_Window();
+    creSDL_Renderer();
 }
 
 void RENDERER::creSDL_Window()
 {
-    SDL_Window* window = SDL_CreateWindow("SDL Ball Example", 
-                                        SDL_WINDOWPOS_UNDEFINED, 
-                                        SDL_WINDOWPOS_UNDEFINED, 
-                                        SCREEN_WIDTH,SCREEN_HEIGHT,
-                                        SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow(  "SDL Ball Example", 
+                                SDL_WINDOWPOS_UNDEFINED, 
+                                SDL_WINDOWPOS_UNDEFINED, 
+                                800,600,
+                                SDL_WINDOW_SHOWN);
     
     if (window == nullptr) 
     {
-        throw WindowCreationException(SDL_GetError());
+        printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
     }
 }
 
 void RENDERER::creSDL_Renderer()
 {
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 
-                                                SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     
     if (renderer == nullptr) 
     {
-        throw RendererCreationException(SDL_GetError());
+        printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
     }
 }
 
 void RENDERER::renderShape()
 {
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
+    while (this->run)
+    {
+        for(auto it : Shape)
+        {
+            SDL_RenderClear(renderer);
+            renderShape(it.second);
+            SDL_SetRenderDrawColor( renderer, background->R, background->B,
+                                    background->G, background->A);
+            SDL_RenderPresent(renderer);
+        }
+    }
+}
+
+void RENDERER::renderShape(SHAPE* shape)
+{
+    shape->render(this);
 }
 
 void RENDERER::addShape(SHAPE* shape)
@@ -45,10 +65,10 @@ void RENDERER::addShape(SHAPE* shape)
 
 unsigned int RENDERER::takeid()
 {
-
     int res =0;
+
     //check if queue is empty
-    if(avail_id.Pool_ids.empty())
+    if(!avail_id.Pool_ids.empty())
     {
         res = avail_id.Pool_ids.back();
         avail_id.Pool_ids.pop();
@@ -64,9 +84,27 @@ unsigned int RENDERER::takeid()
 
 void RENDERER::removeShape(SHAPE* shape)
 {
-    if(!Shape[shape->id]) return;
+    if(!Shape[shape->getid()]) return;
 
-    Shape.erase(shape->id);
+    Shape.erase(shape->getid());
 
-    avail_id.Pool_ids.push(shape->id);
+    avail_id.Pool_ids.push(shape->getid());
+}
+
+void RENDERER::setBGColor(COLOR* BGColor)
+{
+    this->background = BGColor;
+}
+
+SDL_Renderer* RENDERER::getRenderer() { return this->renderer;}
+
+SDL_Window* RENDERER::getWindow() { return this->window; }
+
+COLOR* RENDERER::getBGColor() { return this->background;}
+
+RENDERER::~RENDERER()
+{
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
