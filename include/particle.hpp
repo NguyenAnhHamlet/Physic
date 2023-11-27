@@ -111,12 +111,6 @@ public:
     // Get velocity of this particle through force
     VECTOR getAcceleration(VECTOR force);
 
-    // set the gravity for this particle in case one wanna use
-    void setGravity(GFGEN* _gravityForce);
-
-    // set the drag force for this particle
-    void setDrag(PARTICLE_DRAG* _dragForce);
-
     void clearForce();
 
     /**

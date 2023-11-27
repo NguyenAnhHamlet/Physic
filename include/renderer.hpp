@@ -20,10 +20,10 @@ class RENDERER
     static RENDERER* render;
 
     // deleting copy constructor
-    RENDERER(const RENDERER& render)= delete; 
+    RENDERER(const RENDERER& render) = delete; 
 
     // deleting assign operator
-    RENDERER& operator=(const GFGEN&) = delete;
+    RENDERER& operator=(const RENDERER&) = delete;
 
     /**
      * a map store all shape to be rendered onto window
@@ -69,7 +69,16 @@ class RENDERER
     SDL_Window* window;
     SDL_Renderer* renderer;
 
+    // set to run, clr to stop
+    bool run =1;
+
+    // color of the background
+    COLOR* background;
+
+
+
 public:
+    ~RENDERER();
     static RENDERER* getInstance()
     {
         if( !render) render = new RENDERER();
@@ -79,8 +88,15 @@ public:
     void creSDL_Window();
     void creSDL_Renderer();
 
+    SDL_Window* getWindow();
+    SDL_Renderer* getRenderer();
+    COLOR* getBGColor();
+
     // render all shape inside map onto the screen
     void renderShape();
+
+    // render shape onto the screen
+    void renderShape(SHAPE* shape);
 
     // add new shape into map
     void addShape(SHAPE* shape);
@@ -90,6 +106,7 @@ public:
 
     void removeShape(SHAPE* shape);
 
+    void setBGColor(COLOR* BGColor);
 };
 
 #endif
