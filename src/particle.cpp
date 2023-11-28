@@ -2,13 +2,18 @@
 #include "particleForceRegister.hpp"
 #include "timer.hpp"
 
-PARTICLE::PARTICLE() : damping(0.0), inverseMass(0.0), mass(0.0) {}
+PARTICLE::PARTICLE() : damping(0.0), inverseMass(0.0), mass(0.0) 
+{
+    init();
+}
 
 PARTICLE::PARTICLE(float _damping, float _inverseMass, float _gravity
             ,VECTOR _pos, VECTOR _velocity, VECTOR _acceleration )
             :damping(_damping), inverseMass(_inverseMass)
             ,pos(_pos), velocity(_velocity), acceleration(_acceleration)
-            {}
+{
+    init();
+}
 
 float 
 PARTICLE::getMass()

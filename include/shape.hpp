@@ -15,6 +15,7 @@ public:
     virtual void setid(int _id) =0;
     virtual unsigned int getid() = 0;
     virtual void render(RENDERER* renderer) = 0;
+    virtual void updatePos() = 0;
 };
 
 // class CIRCLE : public SHAPE
@@ -36,7 +37,8 @@ public:
     RECTANGLE(COLOR* _color, int _w, int _h);
     virtual void render(RENDERER* renderer) override;
     virtual void setid(int _id) override;
-    virtual unsigned int getid();
+    virtual unsigned int getid() override;
+    virtual void updatePos() override;
 };
 
 #endif
