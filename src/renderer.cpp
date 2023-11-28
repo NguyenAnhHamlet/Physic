@@ -26,7 +26,7 @@ void RENDERER::creSDL_Window()
 
 void RENDERER::creSDL_Renderer()
 {
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
     
     if (renderer == nullptr) 
     {
@@ -37,12 +37,20 @@ void RENDERER::creSDL_Renderer()
 void RENDERER::renderShape()
 {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_Event event;
 
     while (this->run)
     {
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                run = 0;
+            }
+        }
+
+        SDL_RenderClear(renderer);
+
         for(auto it : Shape)
         {
-            SDL_RenderClear(renderer);
             renderShape(it.second);
             SDL_SetRenderDrawColor( renderer, background->R, background->B,
                                     background->G, background->A);

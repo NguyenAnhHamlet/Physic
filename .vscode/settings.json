@@ -58,7 +58,8 @@
     "list": "cpp",
     "map": "cpp",
     "xtree": "cpp",
-    "queue": "cpp"
+    "queue": "cpp",
+    "deque": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "C_Cpp_Runner.cCompilerPath": "gcc",
