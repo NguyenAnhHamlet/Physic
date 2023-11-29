@@ -15,4 +15,9 @@ typedef struct COLOR
 } COLOR;
 
 
+float convertCM(float pixel);
+
+unsigned int convertPX(float meter);
+
+
 #endif

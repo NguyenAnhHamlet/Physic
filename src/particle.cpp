@@ -1,6 +1,7 @@
 #include "particle.hpp"
 #include "particleForceRegister.hpp"
 #include "timer.hpp"
+#include "common.hpp"
 
 PARTICLE::PARTICLE() : damping(0.0), inverseMass(0.0), mass(0.0) 
 {
@@ -40,6 +41,7 @@ void
 PARTICLE::posUpdate(VECTOR velocity, VECTOR acceleration, float duration )
 {
     assert(duration > 0.0);
+    this->clrVelocity();
 
     // Calculate velocity from force and apply it
     //std::cout << this->velocity.x << this->velocity.y << '\n';
@@ -183,4 +185,11 @@ PARTICLE::callbackUpdateFunc(PARTICLE_FORCE_REGISTER* p_force_reg,
     posUpdate(this->velocity,this->acceleration, duration);
     this->clearForce();
     std::cout << this->getPos().x << "," << this->getPos().y << "," << this->getVelocity().x << '\n';
+}
+
+void PARTICLE::clrVelocity()
+{
+    if(convertCM(this->velocity.x) < 1) this->velocity.x = 0;
+    if(convertCM(this->velocity.y) < 1) this->velocity.y = 0;
+    if(convertCM(this->velocity.z) < 1) this->velocity.z = 0;
 }
