@@ -146,6 +146,9 @@ public:
 
     virtual void autoUpdatePos(PARTICLE_FORCE_REGISTER* p_force_reg,
                                 float duration);
+
+    // if velocity < 1cm/s clr it
+    void clrVelocity();
 };
 
 #endif

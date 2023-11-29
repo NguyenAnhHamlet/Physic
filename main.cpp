@@ -17,7 +17,9 @@ int main(int argc, char* argv[])
 {
     RECTANGLE* rect = new RECTANGLE(new COLOR(255,255,255,255),50,50);
     rect->setMass(10.0);
-    VECTOR vector(10000, 0, 0);
+    VECTOR vector_(100, 100, 100);
+    rect->setPos(vector_);
+    VECTOR vector(10000, 0, 0);  // 10m/s
     rect->setVelocity(vector);
     PARTICLE_DRAG drag_f;
     drag_f.setDrag(0.3,0.1);
