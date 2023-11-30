@@ -10,7 +10,8 @@ RENDERER::RENDERER()
     creSDL_Renderer();
 }
 
-void RENDERER::creSDL_Window()
+void 
+RENDERER::creSDL_Window()
 {
     window = SDL_CreateWindow(  "SDL Ball Example", 
                                 SDL_WINDOWPOS_UNDEFINED, 
@@ -24,7 +25,8 @@ void RENDERER::creSDL_Window()
     }
 }
 
-void RENDERER::creSDL_Renderer()
+void 
+RENDERER::creSDL_Renderer()
 {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
     
@@ -34,7 +36,8 @@ void RENDERER::creSDL_Renderer()
     }
 }
 
-void RENDERER::renderShape()
+void 
+RENDERER::renderShape()
 {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_Event event;
@@ -59,19 +62,22 @@ void RENDERER::renderShape()
     }
 }
 
-void RENDERER::renderShape(SHAPE* shape)
+void 
+RENDERER::renderShape(SHAPE* shape)
 {
     shape->render(this);
 }
 
-void RENDERER::addShape(SHAPE* shape)
+void 
+RENDERER::addShape(SHAPE* shape)
 {
     unsigned int id = takeid();
     shape->setid(id);
     Shape[id] = shape;
 }
 
-unsigned int RENDERER::takeid()
+unsigned int 
+RENDERER::takeid()
 {
     int res =0;
 
@@ -90,7 +96,8 @@ unsigned int RENDERER::takeid()
     return res;
 }
 
-void RENDERER::removeShape(SHAPE* shape)
+void 
+RENDERER::removeShape(SHAPE* shape)
 {
     if(!Shape[shape->getid()]) return;
 
@@ -99,7 +106,8 @@ void RENDERER::removeShape(SHAPE* shape)
     avail_id.Pool_ids.push(shape->getid());
 }
 
-void RENDERER::setBGColor(COLOR* BGColor)
+void 
+RENDERER::setBGColor(COLOR* BGColor)
 {
     this->background = BGColor;
 }

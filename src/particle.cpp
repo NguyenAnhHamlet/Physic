@@ -187,9 +187,22 @@ PARTICLE::callbackUpdateFunc(PARTICLE_FORCE_REGISTER* p_force_reg,
     std::cout << this->getPos().x << "," << this->getPos().y << "," << this->getVelocity().x << '\n';
 }
 
-void PARTICLE::clrVelocity()
+void 
+PARTICLE::clrVelocity()
 {
     if(convertCM(this->velocity.x) < 1) this->velocity.x = 0;
     if(convertCM(this->velocity.y) < 1) this->velocity.y = 0;
     if(convertCM(this->velocity.z) < 1) this->velocity.z = 0;
+}
+
+unsigned int
+PARTICLE::getType()
+{
+    return type;
+}
+
+void 
+PARTICLE::setType(PARTICLE_TYPE _type)
+{
+    type = _type;
 }

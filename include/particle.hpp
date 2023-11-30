@@ -52,6 +52,9 @@ protected:
     */
     float speed;
 
+    // elastic or inelastic, movable or unmovable
+    unsigned int type;
+
 public:
     std::thread* CountDown = NULL;
     /**
@@ -76,6 +79,7 @@ public:
     VECTOR getAcceleration();
     float getMass();
     VECTOR getVelocity();
+    unsigned int getType();
 
     void setTimer(TIMER& _timer);
     void setForceAccum(VECTOR& _forceAccum);
@@ -84,6 +88,7 @@ public:
     void setAcceleration(VECTOR& _acceleration);
     void setMass(float _mass);
     void setVelocity(VECTOR& _velocity);
+    void setType(PARTICLE_TYPE _type);
 
     // use this function after object being created
     void init();
