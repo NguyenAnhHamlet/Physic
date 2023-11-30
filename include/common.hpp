@@ -14,6 +14,14 @@ typedef struct COLOR
 
 } COLOR;
 
+typedef enum PARTICLE_TYPE
+{
+    inelastic = 0,
+    elastic = 1,
+    movable = 2,
+    unmovable = 4
+} PARTICLE_TYPE;
+
 
 float convertCM(float pixel);
 
