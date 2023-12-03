@@ -31,6 +31,8 @@ public:
 
     virtual bool isCollided(RECTANGLE* rect) = 0;
     virtual bool isCollided(CIRCLE* circle) = 0;
+
+    VECTOR getCenter() =  0;
 };
 
 /***
@@ -53,8 +55,10 @@ public :
     virtual void render(RENDERER* renderer) override;
     virtual void updatePos() override;
     virtual bool isCollided(SHAPE* otherS) override;
-    bool isCollided(RECTANGLE* rect);
-    bool isCollided(CIRCLE* circle);
+    bool isCollided(RECTANGLE* rect) override;
+    bool isCollided(CIRCLE* circle) override;
+
+    VECTOR getCenter() override;
 };
 
 /***
@@ -80,6 +84,8 @@ public:
 
     bool isCollided(RECTANGLE* rect) override;
     bool isCollided(CIRCLE* circle) override;
+
+    VECTOR getCenter() override;
 };
 
 #endif

@@ -66,6 +66,12 @@ RECTANGLE::isCollided(CIRCLE* circle)
     return 0;
 }
 
+VECTOR 
+RECTANGLE::getCenter()
+{
+    return getPos();
+}
+
 
 /***
  * *****************************************************
@@ -140,4 +146,9 @@ CIRCLE::isCollided(CIRCLE* circle)
     return 0;
 }
 
+VECTOR 
+CIRCLE::getCenter()
+{
+    return getPos();
+}
 

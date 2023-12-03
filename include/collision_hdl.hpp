@@ -1,8 +1,9 @@
 #ifndef __COLLISION_HDL__
 #define __COLLISION_HDL__
 
-#include "particle.hpp"
 #include <set>
+
+class SHAPE;
 
 /**
  * Handle the collsion between 2 particle
@@ -18,18 +19,18 @@
 */
 class COLLISION_HDL
 {
-    std::set<PARTICLE*> particlePool;
+    std::set<SHAPE*> shapePool;
 
 public:
-    void addParticle(PARTICLE* particle);
-    void removeParticle(PARTICLE* particle);
+    void addParticle(SHAPE* s);
+    void removeParticle(SHAPE* s);
 
     /**
      * Handle the collistion between 2 particles
      * p1 and p2
     */
-    void collisionHDL(PARTICLE* p1, PARTICLE* p2);
-    void collisionHDL(PARTICLE* particle);
+    void collisionHDL(SHAPE* s1, SHAPE* s2);
+    void collisionHDL(SHAPE* s);
 };
 
 #endif

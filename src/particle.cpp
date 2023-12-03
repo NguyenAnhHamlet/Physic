@@ -206,3 +206,17 @@ PARTICLE::setType(PARTICLE_TYPE _type)
 {
     type = _type;
 }
+
+float
+PARTICLE::getElasticity()
+{
+    return elasticity;
+}
+
+void 
+PARTICLE::setElasticity(float _elasticity)
+{
+    assert(_elasticity > 0.0);
+    assert(_elasticity <= 1.0);
+    elasticity = _elasticity;
+}
