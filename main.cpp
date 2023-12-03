@@ -15,7 +15,7 @@
 
 int main(int argc, char* argv[])
 {
-    RECTANGLE* rect = new RECTANGLE(new COLOR(255,255,255,255),50,50);
+    CIRCLE* rect = new CIRCLE(new COLOR(255,255,255,255),50);
     rect->setMass(10.0);
     VECTOR vector_(100, 100, 100);
     rect->setPos(vector_);
