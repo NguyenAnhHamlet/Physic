@@ -53,8 +53,11 @@ protected:
     */
     float speed;
 
-    // elastic or inelastic, movable or unmovable
-    unsigned int type;
+    // movable or unmovable
+    PARTICLE_TYPE type;
+
+    // degree of elasticity
+    float elasticity;
 
 public:
     std::thread* CountDown = NULL;
@@ -81,6 +84,7 @@ public:
     float getMass();
     VECTOR getVelocity();
     unsigned int getType();
+    float getElasticity();
 
     void setTimer(TIMER& _timer);
     void setForceAccum(VECTOR& _forceAccum);
@@ -90,6 +94,7 @@ public:
     void setMass(float _mass);
     void setVelocity(VECTOR& _velocity);
     void setType(PARTICLE_TYPE _type);
+    void setElasticity(float _elasticity );
 
     // use this function after object being created
     void init();

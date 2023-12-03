@@ -16,10 +16,8 @@ typedef struct COLOR
 
 typedef enum PARTICLE_TYPE
 {
-    inelastic = 0,
-    elastic = 1,
-    movable = 2,
-    unmovable = 4
+    movable = 0,
+    unmovable = 1
 } PARTICLE_TYPE;
 
 
