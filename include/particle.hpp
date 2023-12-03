@@ -9,6 +9,7 @@
 #include "gfgen.hpp"
 #include "timer.hpp"
 #include "particleDrag.hpp"
+#include "common.hpp"
 
 class GFGEN;
 class PARTICLE_DRAG;

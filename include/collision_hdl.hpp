@@ -23,6 +23,11 @@ class COLLISION_HDL
 public:
     void addParticle(PARTICLE* particle);
     void removeParticle(PARTICLE* particle);
+
+    /**
+     * Handle the collistion between 2 particles
+     * p1 and p2
+    */
     void collisionHDL(PARTICLE* p1, PARTICLE* p2);
     void collisionHDL(PARTICLE* particle);
 };
