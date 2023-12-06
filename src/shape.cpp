@@ -72,6 +72,23 @@ RECTANGLE::getCenter()
     return getPos();
 }
 
+void 
+CIRCLE::collideOther(SHAPE* otherS)
+{
+    otherS->collideOther(this);
+}
+
+void
+CIRCLE::collideOther(RECTANGLE* rect)
+{
+    return;
+}
+
+void 
+CIRCLE::collideOther(CIRCLE* circle)
+{
+    return;
+}
 
 /***
  * *****************************************************
@@ -150,5 +167,23 @@ VECTOR
 CIRCLE::getCenter()
 {
     return getPos();
+}
+
+void 
+CIRCLE::collideOther(SHAPE* otherS)
+{
+    otherS->collideOther(this);
+}
+
+void
+CIRCLE::collideOther(RECTANGLE* rect)
+{
+    return;
+}
+
+void 
+CIRCLE::collideOther(CIRCLE* circle)
+{
+    return;
 }
 
