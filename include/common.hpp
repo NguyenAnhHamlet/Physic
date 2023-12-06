@@ -14,13 +14,6 @@ typedef struct COLOR
 
 } COLOR;
 
-typedef enum PARTICLE_TYPE
-{
-    movable = 0,
-    unmovable = 1
-} PARTICLE_TYPE;
-
-
 float convertCM(float pixel);
 
 unsigned int convertPX(float meter);

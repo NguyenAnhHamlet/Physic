@@ -195,18 +195,6 @@ PARTICLE::clrVelocity()
     if(convertCM(this->velocity.z) < 1) this->velocity.z = 0;
 }
 
-unsigned int
-PARTICLE::getType()
-{
-    return type;
-}
-
-void 
-PARTICLE::setType(PARTICLE_TYPE _type)
-{
-    type = _type;
-}
-
 float
 PARTICLE::getElasticity()
 {
@@ -219,4 +207,16 @@ PARTICLE::setElasticity(float _elasticity)
     assert(_elasticity > 0.0);
     assert(_elasticity <= 1.0);
     elasticity = _elasticity;
+}
+
+float 
+PARTICLE::getInverseMass()
+{
+    return inverseMass;
+}
+
+void 
+PARTICLE::setInverseMass(float _inverseMass)
+{
+    inverseMass = _inverseMass;
 }
