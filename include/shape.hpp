@@ -16,7 +16,7 @@ class CIRCLE;
  * *****************************************************
 */
 
-class SHAPE
+class SHAPE : public PARTICLE
 {
 protected:
     int id = 0;
@@ -32,7 +32,7 @@ public:
     virtual bool isCollided(RECTANGLE* rect) = 0;
     virtual bool isCollided(CIRCLE* circle) = 0;
 
-    VECTOR getCenter() =  0;
+    virtual VECTOR getCenter() = 0;
 };
 
 /***
@@ -41,7 +41,7 @@ public:
  * *****************************************************
 */
 
-class CIRCLE : public SHAPE, public PARTICLE
+class CIRCLE : public SHAPE
 {
     int radius;
     COLOR* color;
@@ -67,7 +67,7 @@ public :
  * *****************************************************
 */
 
-class RECTANGLE : public SHAPE, public PARTICLE
+class RECTANGLE : public SHAPE
 {
     SDL_Rect rect;
     COLOR* color;

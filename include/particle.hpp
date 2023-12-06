@@ -53,9 +53,6 @@ protected:
     */
     float speed;
 
-    // movable or unmovable
-    PARTICLE_TYPE type;
-
     // degree of elasticity
     float elasticity;
 
@@ -83,8 +80,8 @@ public:
     VECTOR getAcceleration();
     float getMass();
     VECTOR getVelocity();
-    unsigned int getType();
     float getElasticity();
+    float getInverseMass();
 
     void setTimer(TIMER& _timer);
     void setForceAccum(VECTOR& _forceAccum);
@@ -92,8 +89,8 @@ public:
     void setPos(VECTOR& _pos);
     void setAcceleration(VECTOR& _acceleration);
     void setMass(float _mass);
+    void setInverseMass(float _inverseMass);
     void setVelocity(VECTOR& _velocity);
-    void setType(PARTICLE_TYPE _type);
     void setElasticity(float _elasticity );
 
     // use this function after object being created
