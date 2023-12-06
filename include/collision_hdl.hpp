@@ -6,15 +6,14 @@
 class SHAPE;
 
 /**
- * Handle the collsion between 2 particle
+ * Handle the collsion between a set of shape
  * 
  * This class have a set with value is pointer 
- * to such particle
+ * to such shape
  * 
  * User can create the instance of this class then 
- * use it for 1 job, handle the collsion of both 
- * particle. Either it be elastic, inelastic, movable,
- * unmovable.
+ * use it for 1 job, handle the collsion of all particle
+ * inside a set shapePool.
  * 
 */
 class COLLISION_HDL
@@ -26,10 +25,10 @@ public:
     void removeParticle(SHAPE* s);
 
     /**
-     * Handle the collistion between 2 particles
-     * p1 and p2
+     * Handle the collistion between shape
+     * and all shape inside shapePool
     */
-    void collisionHDL(SHAPE* s1, SHAPE* s2);
+    // void collisionHDL(SHAPE* s1, SHAPE* s2);
     void collisionHDL(SHAPE* s);
 };
 
