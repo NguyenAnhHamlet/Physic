@@ -1,7 +1,11 @@
 #ifndef __CMM__
 #define __CMM__
 
-// RBG color
+/***
+ * *****************************************************
+ *      RBGR COLOR
+ * *****************************************************
+*/
 typedef struct COLOR
 {
     float R;
@@ -13,6 +17,18 @@ typedef struct COLOR
         : R(_R), B(_B), G(_G), A(_A) {}
 
 } COLOR;
+
+/***
+ * *****************************************************
+ *      state
+ * *****************************************************
+*/
+typedef enum state
+{
+    CHECKED = 1,
+    UNCHECKED = 0,
+    NONE = -1
+} state;
 
 float convertCM(float pixel);
 

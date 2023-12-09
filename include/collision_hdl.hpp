@@ -2,8 +2,18 @@
 #define __COLLISION_HDL__
 
 #include <set>
+#include <map>
 
 class SHAPE;
+class RECTANGLE;
+class CIRCLE;
+class shape_holder;
+
+/***
+ * *****************************************************
+ *      COLLISION_HDL
+ * *****************************************************
+*/
 
 /**
  * Handle the collsion between a set of shape
@@ -18,18 +28,18 @@ class SHAPE;
 */
 class COLLISION_HDL
 {
-    std::set<SHAPE*> shapePool;
+    shape_holder _shape_holder;
 
 public:
-    void addParticle(SHAPE* s);
-    void removeParticle(SHAPE* s);
+    shape_holder* get_shape_holder() const ;
 
-    /**
-     * Handle the collistion between shape
-     * and all shape inside shapePool
-    */
-    // void collisionHDL(SHAPE* s1, SHAPE* s2);
-    void collisionHDL(SHAPE* s);
+    bool isCollide(CIRCLE* circle, RECTANGLE* rect);
+    bool isCollide(CIRCLE* circle, CIRCLE* circle);
+    bool isCollide(RECTANGLE* rect, RECTANGLE* rect);
+
+    void collisionHDL(CIRCLE* circle, RECTANGLE* rect);
+    void collisionHDL(CIRCLE* circle, CIRCLE* circle);
+    void collisionHDL(RECTANGLE* rect, RECTANGLE* rect);
 };
 
 #endif
