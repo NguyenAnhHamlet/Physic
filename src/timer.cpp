@@ -34,7 +34,6 @@ std::thread*
 TIMER::runCountDown(PARTICLE* particle,PARTICLE_FORCE_REGISTER* p_force_reg, 
                             float milisecs)
 {
-    // countDown(particle, p_force_reg,vis , milisecs );
     std::thread* countDownThread = new std::thread(&TIMER::countDown,this, particle, p_force_reg, milisecs);
     countDownThread ? (std::cout<<"NULL\n") : (std::cout<<"NOT NULL\n");
     return countDownThread;

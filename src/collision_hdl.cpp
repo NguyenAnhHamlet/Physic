@@ -4,12 +4,20 @@
 void 
 COLLISION_HDL::addParticle(SHAPE* s)
 {
+    for(auto it : shapePool)
+    {
+        if(s->getid() >= shapePool.size())
+            it->statePool.resize(s->getid());
+        it->statePool[s->getid()] = state::UNCHECKED;
+    }
     shapePool.insert(s);
 }
 
 void 
 COLLISION_HDL::removeParticle(SHAPE* s)
 {
+    for(auto it : shapePool)
+        it->statePool[s->getid()] = state::NONE;
     shapePool.erase(s);
 }
 
@@ -65,9 +73,10 @@ COLLISION_HDL::removeParticle(SHAPE* s)
 //     s2->setVelocity(v2);
 // }
 
-void 
-COLLISION_HDL::collisionHDL(SHAPE* s)
-{
-    for(auto it : shapePool)
-        s->collideOther(it);
-}
+// void 
+// COLLISION_HDL::collisionHDL(SHAPE* s)
+// {
+//     for(auto it : shapePool)
+//         if(it->ismoving() | s->ismoving())
+//             s->collideOther(it);
+// }

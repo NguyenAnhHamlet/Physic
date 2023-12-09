@@ -3,12 +3,17 @@
 
 #include "particle.hpp"
 #include <SDL_rect.h>
+#include <vector>
+#include <map>
 
 class RENDERER;
 struct COLOR;
 class RECTANGLE;
 class SHAPE;
 class CIRCLE;
+class COLLISION_HDL;
+
+constexpr int _DEFAULT = 10;
 
 /***
  * *****************************************************
@@ -22,19 +27,17 @@ protected:
     int id = 0;
 
 public:
+    std::vector<int> statePool(_DEFAULT, state::NONE);
+
     virtual void setid(int _id) =0;
     virtual unsigned int getid() = 0;
 
     virtual void render(RENDERER* renderer) = 0;
     virtual void updatePos() = 0;
 
-    virtual bool isCollided(SHAPE* otherS) = 0;
-    virtual bool isCollided(RECTANGLE* rect) = 0;
-    virtual bool isCollided(CIRCLE* circle) = 0;
-    
-    virtual void collideOther(SHAPE* otherS) = 0;
-    virtual void collideOther(RECTANGLE* rect) = 0;
-    virtual void collideOther(CIRCLE* circle) = 0;
+    virtual bool isCollided(COLLISION_HDL* collision_hdl) = 0;
+
+    virtual void collideOther(COLLISION_HDL* collision_hdl) = 0;
 
     virtual VECTOR getCenter() = 0;
 };
@@ -59,14 +62,8 @@ public :
     virtual void render(RENDERER* renderer) override;
     virtual void updatePos() override;
 
-    virtual bool isCollided(SHAPE* otherS) override;
-    virtual bool isCollided(RECTANGLE* rect) override;
-    virtual bool isCollided(CIRCLE* circle) override;
-
-    virtual void collideOther() override;
-    virtual void collideOther(RECTANGLE* rect) override ;
-    virtual void collideOther(CIRCLE* circle) override ;
-
+    virtual bool isCollided(COLLISION_HDL* collision_hdl) ;
+    virtual void collideOther(COLLISION_HDL* collision_hdl) ;
 
     VECTOR getCenter() override;
 };
@@ -91,15 +88,23 @@ public:
 
     virtual void updatePos() override;
 
-    virtual bool isCollided(SHAPE* otherS) override;
-    bool isCollided(RECTANGLE* rect) override;
-    bool isCollided(CIRCLE* circle) override;
-
-    virtual void collideOther() override;
-    virtual void collideOther(RECTANGLE* rect) override ;
-    virtual void collideOther(CIRCLE* circle) override ;
+    virtual bool isCollided(COLLISION_HDL* collision_hdl) ;
+    virtual void collideOther(COLLISION_HDL* collision_hdl) ;
 
     VECTOR getCenter() override;
+};
+
+class shape_holder
+{
+private:
+    std::set<CIRCLE*> circle_holder;
+    std::set<RECTANGLE*> rect_holder;
+
+public:
+    void addRect(RECTANGLE* rect);
+    void addCircle(CIRCLE* circle);
+    void removeRect(RECTANGLE* rect);
+    void removeCircle(CIRCLE* circle);
 };
 
 #endif

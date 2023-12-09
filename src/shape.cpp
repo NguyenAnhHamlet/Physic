@@ -2,6 +2,7 @@
 #include "renderer.hpp"
 #include "common.hpp"
 #include <cmath>
+#include "collision_hdl.hpp"
 
 #define _USE_MATH_DEFINES
 
@@ -46,48 +47,6 @@ RECTANGLE::updatePos()
 {
     rect.x = this->pos.x;
     rect.y = this->pos.y;
-}
-
-bool 
-RECTANGLE::isCollided(SHAPE* otherS)
-{
-    return otherS->isCollided(this);
-}
-
-bool
-RECTANGLE::isCollided(RECTANGLE* rect)
-{
-    return 0;
-}
-
-bool 
-RECTANGLE::isCollided(CIRCLE* circle)
-{
-    return 0;
-}
-
-VECTOR 
-RECTANGLE::getCenter()
-{
-    return getPos();
-}
-
-void 
-CIRCLE::collideOther(SHAPE* otherS)
-{
-    otherS->collideOther(this);
-}
-
-void
-CIRCLE::collideOther(RECTANGLE* rect)
-{
-    return;
-}
-
-void 
-CIRCLE::collideOther(CIRCLE* circle)
-{
-    return;
 }
 
 /***
@@ -145,45 +104,4 @@ CIRCLE::updatePos()
 {
 }
 
-bool 
-CIRCLE::isCollided(SHAPE* otherS)
-{
-    return otherS->isCollided(this);
-}
-
-bool
-CIRCLE::isCollided(RECTANGLE* rect)
-{
-    return 0;
-}
-
-bool 
-CIRCLE::isCollided(CIRCLE* circle)
-{
-    return 0;
-}
-
-VECTOR 
-CIRCLE::getCenter()
-{
-    return getPos();
-}
-
-void 
-CIRCLE::collideOther(SHAPE* otherS)
-{
-    otherS->collideOther(this);
-}
-
-void
-CIRCLE::collideOther(RECTANGLE* rect)
-{
-    return;
-}
-
-void 
-CIRCLE::collideOther(CIRCLE* circle)
-{
-    return;
-}
 
