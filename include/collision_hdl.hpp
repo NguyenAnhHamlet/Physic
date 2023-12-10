@@ -33,13 +33,16 @@ class COLLISION_HDL
 public:
     shape_holder* get_shape_holder() const ;
 
+    void collisionHDL(CIRCLE* circle);
+    void collisionHDL(RECTANGLE* rect);
+
     bool isCollide(CIRCLE* circle, RECTANGLE* rect);
-    bool isCollide(CIRCLE* circle, CIRCLE* circle);
-    bool isCollide(RECTANGLE* rect, RECTANGLE* rect);
+    bool isCollide(CIRCLE* circle_1, CIRCLE* circle_2);
+    bool isCollide(RECTANGLE* rect_1, RECTANGLE* rect_2);
 
     void collisionHDL(CIRCLE* circle, RECTANGLE* rect);
-    void collisionHDL(CIRCLE* circle, CIRCLE* circle);
-    void collisionHDL(RECTANGLE* rect, RECTANGLE* rect);
+    void collisionHDL(CIRCLE* circle_1, CIRCLE* circle_2);
+    void collisionHDL(RECTANGLE* rect_1, RECTANGLE* rect_2);
 };
 
 #endif

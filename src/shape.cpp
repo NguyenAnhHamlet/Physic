@@ -49,6 +49,11 @@ RECTANGLE::updatePos()
     rect.y = this->pos.y;
 }
 
+void RECTANGLE::collideOther(COLLISION_HDL* collision_hdl)
+{
+    collision_hdl->collisionHDL(this);
+}
+
 /***
  * *****************************************************
  *      CIRCLE
@@ -79,8 +84,6 @@ CIRCLE::render(RENDERER* renderer)
     updatePos();
     SDL_SetRenderDrawColor(renderer->getRenderer(),color->R, 
                             color->B, color->G, color->A);
-    // SDL_RenderCircle(renderer->getRenderer(), getPos().x , 
-    //                 getPos().y, radius);
 
     for (int i = 0; i < 360; i++) 
     {
@@ -102,6 +105,11 @@ CIRCLE::render(RENDERER* renderer)
 void 
 CIRCLE::updatePos()
 {
+}
+
+void CRICLE::collideOther(COLLISION_HDL* collision_hdl)
+{
+    collision_hdl->collisionHDL(this);
 }
 
 
