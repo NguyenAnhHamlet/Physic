@@ -12,6 +12,7 @@ class RECTANGLE;
 class SHAPE;
 class CIRCLE;
 class COLLISION_HDL;
+class shape_holder;
 
 constexpr int _DEFAULT = 10;
 
@@ -35,11 +36,10 @@ public:
     virtual void render(RENDERER* renderer) = 0;
     virtual void updatePos() = 0;
 
-    virtual bool isCollided(COLLISION_HDL* collision_hdl) = 0;
-
     virtual void collideOther(COLLISION_HDL* collision_hdl) = 0;
 
     virtual VECTOR getCenter() = 0;
+    virtual void insertThisShape(shape_holder* _shape_holder) = 0;
 };
 
 /***
@@ -62,10 +62,11 @@ public :
     virtual void render(RENDERER* renderer) override;
     virtual void updatePos() override;
 
-    virtual bool isCollided(COLLISION_HDL* collision_hdl) ;
-    virtual void collideOther(COLLISION_HDL* collision_hdl) ;
+    virtual void collideOther(COLLISION_HDL* collision_hdl) override;
 
     VECTOR getCenter() override;
+
+    virtual void insertThisShape(shape_holder* _shape_holder) override;
 };
 
 /***
@@ -88,23 +89,30 @@ public:
 
     virtual void updatePos() override;
 
-    virtual bool isCollided(COLLISION_HDL* collision_hdl) ;
-    virtual void collideOther(COLLISION_HDL* collision_hdl) ;
+    virtual void collideOther(COLLISION_HDL* collision_hdl) override;
 
     VECTOR getCenter() override;
+
+    virtual void insertThisShape(shape_holder* _shape_holder) override;
 };
+
+/***
+ * *****************************************************
+ *      shape_holder
+ * *****************************************************
+*/
+
+typedef std::set<CIRCLE*> set_circle_holder ;
+typedef std::set<RECTANGLE*> set_rect_holder;
+typedef std::set<SHAPE*> set_shape_holder;
 
 class shape_holder
 {
-private:
-    std::set<CIRCLE*> circle_holder;
-    std::set<RECTANGLE*> rect_holder;
+    set_shape_holder _set_shape_holder;
 
 public:
-    void addRect(RECTANGLE* rect);
-    void addCircle(CIRCLE* circle);
-    void removeRect(RECTANGLE* rect);
-    void removeCircle(CIRCLE* circle);
+    void addShape(SHAPE* s);
+    void removeShape(SHAPE* s);
 };
 
 #endif

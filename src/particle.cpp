@@ -220,3 +220,11 @@ PARTICLE::setInverseMass(float _inverseMass)
 {
     inverseMass = _inverseMass;
 }
+
+bool 
+PARTICLE::ismoving()
+{
+    if(!velocity.x & !velocity.y & !velocity.z)
+        return false;
+    return true;
+}

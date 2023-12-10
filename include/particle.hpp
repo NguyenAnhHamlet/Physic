@@ -82,6 +82,7 @@ public:
     VECTOR getVelocity();
     float getElasticity();
     float getInverseMass();
+    bool ismoving();
 
     void setTimer(TIMER& _timer);
     void setForceAccum(VECTOR& _forceAccum);
