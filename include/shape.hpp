@@ -28,8 +28,6 @@ protected:
     int id = 0;
 
 public:
-    std::vector<int> statePool(_DEFAULT, state::NONE);
-
     virtual void setid(int _id) =0;
     virtual unsigned int getid() = 0;
 

@@ -18,18 +18,6 @@ typedef struct COLOR
 
 } COLOR;
 
-/***
- * *****************************************************
- *      state
- * *****************************************************
-*/
-typedef enum state
-{
-    CHECKED = 1,
-    UNCHECKED = 0,
-    NONE = -1
-} state;
-
 float convertCM(float pixel);
 
 unsigned int convertPX(float meter);
