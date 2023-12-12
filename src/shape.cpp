@@ -19,6 +19,9 @@ RECTANGLE::RECTANGLE(COLOR* _color, int _w, int _h)
     rect.h = _h;
     rect.x = this->pos.x;
     rect.y = this->pos.y;
+
+    // value of axis
+    axis = hypotenuse(_w,_h)/2;
 }
 
 void 
@@ -52,6 +55,33 @@ RECTANGLE::updatePos()
 void RECTANGLE::collideOther(COLLISION_HDL* collision_hdl)
 {
     collision_hdl->collisionHDL(this);
+}
+
+float RECTANGLE::getAxisL()
+{
+    return axis;
+}
+
+std::vector<VECTOR*> 
+RECTANGLE::getPoints()
+{
+    std::vector<VECTOR*> res;
+
+    float h_w = rect.x /2;
+    float h_h = rect.y /2;
+
+    res.push_back(VECTOR(getCenter().x - h_w, getCenter() - h_h, getCenter().z));
+    res.push_back(VECTOR(getCenter().x + h_w, getCenter() - h_h, getCenter().z));
+    res.push_back(VECTOR(getCenter().x - h_w, getCenter() + h_h, getCenter().z));
+    res.push_back(VECTOR(getCenter().x + h_w, getCenter() + h_h, getCenter().z));
+
+    return res;
+}
+
+SDL_Rect*
+RECTANGLE::getRect()
+{
+    return rect;
 }
 
 /***
@@ -110,6 +140,11 @@ CIRCLE::updatePos()
 void CRICLE::collideOther(COLLISION_HDL* collision_hdl)
 {
     collision_hdl->collisionHDL(this);
+}
+
+float CIRCLE::getR()
+{
+    return radius;
 }
 
 

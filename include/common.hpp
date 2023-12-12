@@ -22,5 +22,9 @@ float convertCM(float pixel);
 
 unsigned int convertPX(float meter);
 
+unsigned int hypotenuse(float a, float b);
+
+bool collinearPoints(VECTOR* a, VECTOR* b, VECTOR* c);
+
 
 #endif

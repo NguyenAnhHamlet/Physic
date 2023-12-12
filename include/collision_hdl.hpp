@@ -33,6 +33,11 @@ class COLLISION_HDL
 public:
     shape_holder* get_shape_holder() const ;
 
+    /**
+     * User put the shape in, collision_hdl will be responsible 
+     * for checking colision of all object inside shape_holder
+     * and handle it
+    */
     void collisionHDL(CIRCLE* circle);
     void collisionHDL(RECTANGLE* rect);
 
