@@ -5,6 +5,7 @@
 #include <SDL_rect.h>
 #include <vector>
 #include <map>
+#include <utility>
 
 class RENDERER;
 struct COLOR;
@@ -65,6 +66,8 @@ public :
     VECTOR getCenter() override;
 
     virtual void insertThisShape(shape_holder* _shape_holder) override;
+
+    float getR();
 };
 
 /***
@@ -77,6 +80,7 @@ class RECTANGLE : public SHAPE
 {
     SDL_Rect rect;
     COLOR* color;
+    float axis;
 
 public:
     RECTANGLE(COLOR* _color, int _w, int _h);
@@ -92,6 +96,10 @@ public:
     VECTOR getCenter() override;
 
     virtual void insertThisShape(shape_holder* _shape_holder) override;
+
+    float getAxisL();
+    std::vector<VECTOR*> getPoints();
+    SDL_Rect* getRect();
 };
 
 /***
