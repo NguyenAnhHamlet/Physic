@@ -27,6 +27,7 @@ class SHAPE : public PARTICLE
 {
 protected:
     int id = 0;
+    VECTOR center;
 
 public:
     virtual void setid(int _id) =0;
@@ -51,6 +52,7 @@ class CIRCLE : public SHAPE
 {
     int radius;
     COLOR* color;
+    VECTOR center;
 
 public : 
     CIRCLE(COLOR* _color, int _radius);

@@ -17,8 +17,10 @@ RECTANGLE::RECTANGLE(COLOR* _color, int _w, int _h)
     this->color = _color;
     rect.w = _w;
     rect.h = _h;
-    rect.x = this->pos.x;
-    rect.y = this->pos.y;
+    rect.x = this->pos.x - _w/2;
+    rect.y = this->pos.y - _h/2;
+
+    center = this->pos;
 
     // value of axis
     axis = hypotenuse(_w,_h)/2;
@@ -84,6 +86,12 @@ RECTANGLE::getRect()
     return rect;
 }
 
+VECTOR 
+RECTANGLE::getCenter()
+{
+    return center;
+}
+
 /***
  * *****************************************************
  *      CIRCLE
@@ -94,6 +102,7 @@ CIRCLE::CIRCLE(COLOR* _color, int _radius)
 {
     color = _color;
     radius = _radius;
+    center = this->pos;
 }
 
 void 
@@ -145,6 +154,12 @@ void CRICLE::collideOther(COLLISION_HDL* collision_hdl)
 float CIRCLE::getR()
 {
     return radius;
+}
+
+VECTOR
+CIRCLE::getCenter()
+{
+    return center;
 }
 
 
