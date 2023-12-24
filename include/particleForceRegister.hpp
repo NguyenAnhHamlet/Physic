@@ -5,7 +5,6 @@
 #include<list>
 #include<map>
 
-class FORCE_VISITOR;
 class PARTICLE;
 
 typedef std::map<PARTICLE*,std::list<PFGEN*>> Registry;

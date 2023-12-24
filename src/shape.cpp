@@ -92,6 +92,16 @@ RECTANGLE::getCenter()
     return center;
 }
 
+float RECTANGLE::getW()
+{
+    return rect.w;
+}
+
+float RECTANGLE::getH()
+{
+    return rect.h;
+}
+
 /***
  * *****************************************************
  *      CIRCLE

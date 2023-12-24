@@ -14,7 +14,6 @@
 */
 
 class PARTICLE;
-class FORCE_VISITOR;
 
 class PFGEN
 {

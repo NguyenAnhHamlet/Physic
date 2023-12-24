@@ -63,7 +63,8 @@
     "array": "cpp",
     "ranges": "cpp",
     "set": "cpp",
-    "span": "cpp"
+    "span": "cpp",
+    "*.rh": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "C_Cpp_Runner.cCompilerPath": "gcc",

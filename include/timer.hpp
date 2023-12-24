@@ -10,7 +10,6 @@
 
 class PARTICLE;
 class PARTICLE_FORCE_REGISTER;
-class FORCE_VISITOR;
 
 /**
  * Mainly use to keep calculate the interval between the updation
