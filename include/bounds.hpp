@@ -18,6 +18,7 @@ class Bounds2D
     unsigned int numOfPrimitives;
 
 public:
+    Bounds2D() : pMin(point2D pMin(FLT_MAX ,FLT_MAX)), pMax(point2D pMax(FLT_MIN,FLT_MIN)), numOfPrimitives(0) 
     Bounds2D(point2D _pMin, point2D _pMax, unsigned int _numOfPrimitives)
             : pMin(_pMin), pMax(_pMax), numOfPrimitives(_numOfPrimitives) {}
 
@@ -27,6 +28,7 @@ public:
      * return the numbers of primitives which this bounds store
     */
     unsigned int getNumPrimitives();
+    void setNumPrimitives(unsigned int n);
 };
 
 typedef std::vector<Bounds2D*> bounds_vector;
@@ -51,7 +53,10 @@ Bounds2D createBound(SHAPE* shape);
 Bounds2D createBound(CRICLE* cir);
 Bounds2D createBound(RECTANGLE* rect);
 
-// get bound of all bound 
-bounds_vector getBoundAll(set_shape_holder* _set_shape_holder);
+// get bound of each shape and return the list of all of them 
+bounds_vector getBoundEach(set_shape_holder* _set_shape_holder);
+
+// get bound of all bound inside bounds_vector
+Bounds2D getBoundAll(const bounds_vector& b_vec);
 
 #endif
