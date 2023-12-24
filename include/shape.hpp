@@ -102,6 +102,9 @@ public:
     float getAxisL();
     std::vector<VECTOR*> getPoints();
     SDL_Rect* getRect();
+
+    float getW();
+    float getH()
 };
 
 /***

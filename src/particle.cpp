@@ -54,6 +54,7 @@ PARTICLE::posUpdate(VECTOR velocity, VECTOR acceleration, float duration )
     */
     pos = pos + velocity * duration;
     pos = pos + acceleration * duration*duration/2;
+    
 }
 
 void 

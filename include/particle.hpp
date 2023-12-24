@@ -15,7 +15,6 @@ class GFGEN;
 class PARTICLE_DRAG;
 class VECTOR;
 class TIMER;
-class FORCE_VISITOR;
 class PARTICLE_FORCE_REGISTER;
 
 class PARTICLE
@@ -82,7 +81,6 @@ public:
     VECTOR getVelocity();
     float getElasticity();
     float getInverseMass();
-    bool ismoving();
 
     void setTimer(TIMER& _timer);
     void setForceAccum(VECTOR& _forceAccum);
@@ -158,6 +156,9 @@ public:
 
     // if velocity < 1cm/s clr it
     void clrVelocity();
+
+    //is the particle moving or not
+    bool ismoving();
 };
 
 #endif
