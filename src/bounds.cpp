@@ -26,6 +26,11 @@ std::pair<point2D,point2D> Bounds2D::getPoints() const
     return {pMin, pMax};
 }
 
+void Bounds2D::setNumPrimitives(unsigned int n)
+{
+    numOfPrimitives = n;
+}
+
 Bounds2D getTotalBounds(const Bounds2D& b1, const Bounds2D& b2)
 {
     point2D _pMin = point2D(std::min(b1.getPoints().first.x, b2.getPoints().first.x), 
@@ -57,6 +62,8 @@ std::pair<Bounds2D, Bounds2D> splitAxis(const Bounds2D& b, float xAxis = -1, flo
         res.second = Bounds2D bounds2D( point2D pMin(b1.getPoints().first.x,std::max(b1.getPoints().first.y,yAxis)), 
                                         point2D pMax(b1.getPoints().second.x, b1.getPoints().second.y));
     }
+
+    // have to count how many primitives are there in each side
 
     return res;
 }
@@ -90,13 +97,25 @@ Bounds2D createBound(RECTANGLE* rect)
                             point2D pMax(rect->getCenter().x + rect->getW()/2, rect->getCenter().y + rect->getH()/2));
 }
 
-bounds_vector getBoundAll(set_shape_holder* _set_shape_holder)
+bounds_vector getBoundEach(set_shape_holder* _set_shape_holder)
 {
     bounds_vector res;
 
     for(auto it : set_shape_holder)
     {
         res.push_back(createBound(it));
+    }
+
+    return res;
+}
+
+Bounds2D getBoundAll(const bounds_vector& b_vec)
+{
+    Bounds2D res();
+
+    for(auto it : b_vec)
+    {
+        res = getTotalBounds(bound2D,*it );
     }
 
     return res;
