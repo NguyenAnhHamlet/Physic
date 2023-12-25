@@ -15,20 +15,34 @@ class Bounds2D
 {
     point2D pMin;
     point2D pMax;
+    point2D centroid;
     unsigned int numOfPrimitives;
 
 public:
-    Bounds2D() : pMin(point2D pMin(FLT_MAX ,FLT_MAX)), pMax(point2D pMax(FLT_MIN,FLT_MIN)), numOfPrimitives(0) 
-    Bounds2D(point2D _pMin, point2D _pMax, unsigned int _numOfPrimitives)
-            : pMin(_pMin), pMax(_pMax), numOfPrimitives(_numOfPrimitives) {}
+    Bounds2D() :    pMin(point2D p(FLT_MAX ,FLT_MAX)), 
+                    pMax(point2D p(FLT_MIN,FLT_MIN)),
+                    centroid(point2D p(0,0)),
+                    numOfPrimitives(0) {}
+                    
+    Bounds2D(point2D _pMin, point2D _pMax, point2D _centroid, 
+            unsigned int _numOfPrimitives)
+            : pMin(_pMin), pMax(_pMax), centroid(_centroid) ,
+             numOfPrimitives(_numOfPrimitives) {}
 
     std::pair<point2D,point2D> getPoints() const;
 
-    /**
-     * return the numbers of primitives which this bounds store
-    */
+    // get function
     unsigned int getNumPrimitives();
+    point2D getpMin() { return pMin; }
+    point2D getpMax() { return pMax ;}
+    point2D getCentroid(){ return centroid ;}
+
+    // set function 
     void setNumPrimitives(unsigned int n);
+    void setpMin(const point2D& p) {pMin = p ;}
+    void setpMax(const point2D& p) {pMax = p ;}
+    void setCentroid(const point2D& c) {centroid = c ;}
+
 };
 
 typedef std::vector<Bounds2D*> bounds_vector;
