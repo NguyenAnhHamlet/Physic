@@ -27,4 +27,5 @@ unsigned int hypotenuse(float a, float b);
 bool collinearPoints(VECTOR* a, VECTOR* b, VECTOR* c);
 
 
+
 #endif

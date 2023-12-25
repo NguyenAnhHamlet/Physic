@@ -22,9 +22,14 @@ BVHNodeArray generateBVHNodeArr(const bounds_vector& b_vec)
     return res;
 }
 
+void sortBVHNodeArr(BVHNodeArray& arr)
+{
+    std::sort(arr.begin(), arr.end())
+}
+
 BVHNode* SAH(const BVHNodeArray& arr)
 {
-
+    
 }
 
 BVHNodeArray convert(BVHNode* root)
