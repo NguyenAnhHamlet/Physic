@@ -40,12 +40,21 @@ void sortBVHNodeArrY(BVHNodeArray& arr)
 
 BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3)
 {
+    float minCostX = FLT_MAX;
+    float minCostY = FLT_MAX;
+
     // sorted the vector before doing any further
-    sortBVHNodeArr(arr);
+    // check for x axis first
+    sortBVHNodeArrX(arr);
 
     // go through each primitive and calculate the 
-    // minimum cost of all axis, then take out 
-    // one axis and value of that axis to split
+    // minimum cost 
+    minCostX = std::min(getMinCost(), minCostX);
+
+    // do the same with y axis
+    sortBVHNodeArrY(arr);
+    minCostY = std::min(getMinCost(), minCostY);
+
 
     // if the splitting can not be done with one 
     // or more primitives, there will be a high 
@@ -70,7 +79,77 @@ BVHNodeArray convert(BVHNode* root)
     
 }
 
-float cost()
+float getCost(const BVHNodeArray& arr, unsigned int index)
 {
 
+}
+
+float getMinCostYAxis(const BVHNodeArray& arr, const Bounds2D& ttBound,
+                                        float Tt, float Ti)
+{
+    float minCost = FLT_MAX;
+    for( int pos = 0 ; pos < arr.size(); pos++ )
+    {
+        minCost = std::min(getCost(arr,ttBound,pos,Tt,Ti,axis::yAxis), minCost);
+    }
+
+    return minCost;
+}
+
+float getMinCostXAxis(const BVHNodeArray& arr)
+{
+    float minCost = FLT_MAX;
+    for( int pos = 0 ; pos < arr.size(); pos++ )
+    {
+        minCost = std::min(getCost(arr,ttBound,pos,Tt,Ti,axis::xAxis), minCost);
+    }
+
+    return minCost;
+}
+
+float getArea(const Bounds2D& b)
+{
+    return (b.getPoints().second.x - b.getPoints.first.x) 
+            * (b.getPoints().second.y - b.getPoints.first.y)
+}
+
+float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound, 
+             unsigned int pos, float Tt, float Ti, axis Axis)
+{
+    // Calculate intersection cost
+    float intersectCost = arr.size() * Ti;
+
+    // Calculate traversal cost
+    float traversalCost = Tt;
+
+    // Split the bounding box along the x-axis
+    if (Axis == axis::xAxis) 
+    {
+        // Make sure the splitting can be done
+
+        std::pair<Bounds2D, Bounds2D> twoSide = splitAxis(ttBound , 
+                                                        arr[pos]->_Bound2D->getCentroid().x);
+
+    }
+    else
+    {
+        // Make sure the splitting can be done
+
+        std::pair<Bounds2D, Bounds2D> twoSide = splitAxis(ttBound, -1, 
+                                                        arr[pos]->_Bound2D->getCentroid().y);
+
+    }
+
+    // Calculate surface areas
+    float ttArea = getArea(ttBound);
+    float Area_1 = twoSide.first;
+    float Area_2 = twoSide.second;
+
+    // Calculate probabilities
+    float P1 = Area_1/ttArea;
+    float P2 = Area_2/ttArea;
+
+    // Calculate and return the SAH cost
+    return traversalCost + intersectCost + P1*Area_1 + P2*Area_2; 
+    
 }

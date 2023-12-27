@@ -18,6 +18,13 @@ typedef struct COLOR
 
 } COLOR;
 
+enum class axis
+{
+    xAxis, 
+    yAxis,
+    zAxis
+};
+
 float convertCM(float pixel);
 
 unsigned int convertPX(float meter);

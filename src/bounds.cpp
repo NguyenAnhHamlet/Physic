@@ -121,3 +121,25 @@ Bounds2D getBoundAll(const bounds_vector& b_vec)
     return res;
 }
 
+bool doOverlap(const Bounds2D& b, float val, axis Axis)
+{
+    bool res;
+
+    if(Axis == axis::xAsix)
+    {
+        if(val > b.getpMin().x && val < b.getpMax().x )
+            res = true;
+        else 
+            res = false;
+    }
+    else 
+    {
+        if(val > b.getpMin().y && val < b.getpMax().y )
+            res = true;
+        else 
+            res = false;
+    }
+
+    return res;
+}
+

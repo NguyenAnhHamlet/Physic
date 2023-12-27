@@ -5,6 +5,7 @@
 #include <utility>
 #include "point2D.hpp"
 #include <vector>
+#include "common.hpp"
 
 class SHAPE;
 class CIRCLE;
@@ -52,6 +53,7 @@ typedef std::vector<Bounds2D*> bounds_vector;
 
 // check if 2 Bounds overlap each other or not
 bool doOverlap(const Bounds2D& b1, const Bounds2D& b2);
+bool doOverlap(const Bounds2D& b, float val, axis Axis);
 
 // return the bound that bounds both of b1, b2
 Bounds2D getTotalBounds(const Bounds2D& b1, const Bounds2D& b2);
