@@ -21,18 +21,29 @@ typedef std::vector<BVHNode*> BVHNodeArray;
 
 // create a BVH Node from a bound
 BVHNode* initNode(Bounds2D* bound2D);
+
 BVHNodeArray generateBVHNodeArr(const bounds_vector& b_vec);
+
 void sortBVHNodeArrX(BVHNodeArray& arr);
+
 void sortBVHNodeArrY(BVHNodeArray& arr);
+
 BVHNode* SAH(BVHNodeArray& arr, unsigned int maxRetry = 3);
+
 BVHNodeArray convert(BVHNode* root);
+
 float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound, 
                 unsigned int pos, float Tt, float Ti, axis Axis);
-float getMinCostXAxis(const BVHNodeArray& arr, const Bounds2D& ttBound
+
+std::pair<float, float> getMinCostXAxis(const BVHNodeArray& arr, const Bounds2D& ttBound
                     float Tt, float Ti);
-float getMinCostYAxis(const BVHNodeArray& arr, const Bounds2D& ttBound
+
+std::pair<float, float> getMinCostYAxis(const BVHNodeArray& arr, const Bounds2D& ttBound
                     float Tt, float Ti);
+
+std::pair<float, float> minCost(std::pair<float, float> cost_1, 
+                                std::pair<float, float> cost_2 );
+
 float getArea(const Bounds2D& b);
-float getSplitVal();
 
 #endif

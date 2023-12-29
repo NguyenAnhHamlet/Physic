@@ -49,28 +49,11 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3)
 
     // go through each primitive and calculate the 
     // minimum cost 
-    minCostX = std::min(getMinCost(), minCostX);
+    minCostX = minCost(getMinCostXAxis(arr, ), minCostX);
 
     // do the same with y axis
     sortBVHNodeArrY(arr);
-    minCostY = std::min(getMinCost(), minCostY);
-
-
-    // if the splitting can not be done with one 
-    // or more primitives, there will be a high 
-    // chance that a collision happen, try to add 
-    // some space to address the problem but after 
-    // multiple try the problem seems to be persist,
-    // check for the clossion and handle it. Should 
-    // ignore it first and proceed with the splitting 
-    // on other primitives, but in case there are only 
-    // them be remaining, check for collison and handle 
-    // it
-
-    // create two node for 2 side 
-
-    // recursively perform SAH with all of them
-
+    minCostY = minCost(getMinCostYAxis(), minCostY);
 
 }
 
@@ -79,13 +62,8 @@ BVHNodeArray convert(BVHNode* root)
     
 }
 
-float getCost(const BVHNodeArray& arr, unsigned int index)
-{
-
-}
-
-float getMinCostYAxis(const BVHNodeArray& arr, const Bounds2D& ttBound,
-                                        float Tt, float Ti)
+std::pair<float, float> getMinCostYAxis(const BVHNodeArray& arr, const Bounds2D& ttBound,
+                    float Tt, float Ti)
 {
     float minCost = FLT_MAX;
     for( int pos = 0 ; pos < arr.size(); pos++ )
@@ -96,7 +74,8 @@ float getMinCostYAxis(const BVHNodeArray& arr, const Bounds2D& ttBound,
     return minCost;
 }
 
-float getMinCostXAxis(const BVHNodeArray& arr)
+std::pair<float, float> getMinCostXAxis(const BVHNodeArray& arr, const Bounds2D& ttBound,
+                    float Tt, float Ti)
 {
     float minCost = FLT_MAX;
     for( int pos = 0 ; pos < arr.size(); pos++ )
@@ -122,22 +101,76 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
     // Calculate traversal cost
     float traversalCost = Tt;
 
+    float splitPos;
+
+
+    std::pair<Bounds2D, Bounds2D> twoSide;
+
     // Split the bounding box along the x-axis
     if (Axis == axis::xAxis) 
     {
-        // Make sure the splitting can be done
+        if(pos == 0 && arr[pos]->_Bound2D->getCentroid().x > arr[pos+1]->_Bound2D->getpMin().x)
+        {
+            splitPos = arr[pos+1]->_Bound2D->getpMin().x;
+        }
+        else if(pos == arr.size() - 1 && arr[pos]->_Bound2D->getCentroid().x < arr[pos-1]->_Bound2D->getpMax().x)
+        {
+            splitPos = arr[pos-1]->_Bound2D->getpMax().x;
+        }
 
-        std::pair<Bounds2D, Bounds2D> twoSide = splitAxis(ttBound , 
-                                                        arr[pos]->_Bound2D->getCentroid().x);
+        // Make sure the splitting can be done
+        else if(arr[pos]->_Bound2D->getCentroid().x < arr[pos-1]->_Bound2D->getpMax().x &&
+            arr[pos]->_Bound2D->getCentroid().x > arr[pos+1]->_Bound2D->getpMax().x)
+        {
+            return FLT_MAX;      
+        }
+        
+        // In case centroid x value touchs left Bound
+        else if(arr[pos]->_Bound2D->getCentroid().x < arr[pos-1]->_Bound2D->getpMax().x)
+        {
+            splitPos = arr[pos-1]->_Bound2D->getpMax().x;
+        }
+
+        // In case centroid x value touchs right Bound
+        else if(arr[pos]->_Bound2D->getCentroid().x > arr[pos+1]->_Bound2D->getpMax().x)
+        {
+            splitPos = arr[pos+1]->_Bound2D->getpMax().x;
+        }
+
+        twoSide = splitAxis(ttBound ,splitPos);
 
     }
     else
     {
+        if(pos == 0 && arr[pos]->_Bound2D->getCentroid().y > arr[pos+1]->_Bound2D->getpMin().y)
+        {
+            splitPos = arr[pos+1]->_Bound2D->getpMin().y;
+        }
+        else if(pos == arr.size() - 1 && arr[pos]->_Bound2D->getCentroid().y < arr[pos-1]->_Bound2D->getpMax().y)
+        {
+            splitPos = arr[pos-1]->_Bound2D->getpMax().y;
+        }
+
         // Make sure the splitting can be done
+        else if(arr[pos]->_Bound2D->getCentroid().y < arr[pos-1]->_Bound2D->getpMax().y &&
+            arr[pos]->_Bound2D->getCentroid().y > arr[pos+1]->_Bound2D->getpMax().y)
+        {
+            return FLT_MAX;      // define the value instead of using -1 like this
+        }
+        
+        // In case centroid x value touchs left Bound
+        else if(arr[pos]->_Bound2D->getCentroid().y < arr[pos-1]->_Bound2D->getpMax().y)
+        {
+            splitPos = arr[pos-1]->_Bound2D->getpMax().y;
+        }
 
-        std::pair<Bounds2D, Bounds2D> twoSide = splitAxis(ttBound, -1, 
-                                                        arr[pos]->_Bound2D->getCentroid().y);
+        // In case centroid x value touchs right Bound
+        else if(arr[pos]->_Bound2D->getCentroid().y > arr[pos+1]->_Bound2D->getpMax().y)
+        {
+            splitPos = arr[pos+1]->_Bound2D->getpMax().y;
+        }
 
+        twoSide = splitAxis(ttBound, -1, splitPos);
     }
 
     // Calculate surface areas
@@ -152,4 +185,10 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
     // Calculate and return the SAH cost
     return traversalCost + intersectCost + P1*Area_1 + P2*Area_2; 
     
+}
+
+std::pair<float, float> minCost(std::pair<float, float> cost_1, 
+                                std::pair<float, float> cost_2 )
+{
+    return cost_1.second > cost_2.second ? cost_2 : cost_1;
 }
