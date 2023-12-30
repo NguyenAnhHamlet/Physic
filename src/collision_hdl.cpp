@@ -106,6 +106,9 @@ COLLISION_HDL::collisionHDL(RECTANGLE* rect)
 void
 COLLISION_HDL::collisionHDL(CIRCLE* circle, RECTANGLE* rect)
 {
+    if(!circle || !rect) 
+        return ;
+
     if(isCollide(circle,rect))
     {
         float m1 = circle->getMass();
@@ -130,6 +133,9 @@ COLLISION_HDL::collisionHDL(CIRCLE* circle, RECTANGLE* rect)
 void 
 COLLISION_HDL::collisionHDL(CIRCLE* circle_1, CIRCLE* circle_2)
 {
+    if(!circle_1 || !circle_2) 
+        return ;
+
     if(isCollide(circle_1,circle_2))
     {
         float m1 = circle_1->getMass();
@@ -154,6 +160,9 @@ COLLISION_HDL::collisionHDL(CIRCLE* circle_1, CIRCLE* circle_2)
 void
 COLLISION_HDL::collisionHDL(RECTANGLE* rect_1, RECTANGLE* rect_2)
 {
+    if(!rect_1 || !rect_2) 
+        return ;
+
     if(isCollide(rect_1,rect_2))
     {
         float m1 = rect_1->getMass();
@@ -173,4 +182,13 @@ COLLISION_HDL::collisionHDL(RECTANGLE* rect_1, RECTANGLE* rect_2)
         rect_1->setVelocity(v_fn1);
         rect_2->setVelocity(v_fn2);
     }
+}
+
+void
+COLLISION_HDL::collisionHDL(SHAPE* s1, SHAPE* s2)
+{
+    collisionHDL(static_cast<CIRCLE*>(s1), static_cast<CIRCLE*>(s2));
+    collisionHDL(static_cast<CIRCLE*>(s1), static_cast<RECTANGLE*>(s2));
+    collisionHDL(static_cast<RECTANGLE*>(s1), static_cast<RECTANGLE*>(s2));
+    collisionHDL(static_cast<RECTANGLE*>(s1), static_cast<CIRCLE*>(s2));
 }

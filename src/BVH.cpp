@@ -2,6 +2,9 @@
 #include "particle.hpp"
 #include "Bounds.hpp"
 #include <vector>
+#include "collision_hdl.hpp"
+#include "timer.hpp"
+#include <ctime>
 
 BVHNode* initNode(Bounds2D* bound2D)
 {
@@ -38,10 +41,18 @@ void sortBVHNodeArrY(BVHNodeArray& arr)
     });
 }
 
-BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3)
+BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
+            const Bounds2D& ttBound, float Tt, float Ti, BVHNode* root)
 {
-    float minCostX = FLT_MAX;
-    float minCostY = FLT_MAX;
+    if(!root) 
+        return NULL;
+
+    // if array has no element then the splitting is done
+    if(arr.size() <= 0) 
+        return NULL;
+
+    std::pair<float, float> min_x = {-1 ,FLT_MAX};
+    std::pair<float, float> min_y = {-1 ,FLT_MAX};
 
     // sorted the vector before doing any further
     // check for x axis first
@@ -49,41 +60,100 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3)
 
     // go through each primitive and calculate the 
     // minimum cost 
-    minCostX = minCost(getMinCostXAxis(arr, ), minCostX);
+    min_x = minCost(getMinCostXAxis(arr, ttBound, Tt, Ti ), min_x);
 
     // do the same with y axis
     sortBVHNodeArrY(arr);
-    minCostY = minCost(getMinCostYAxis(), minCostY);
+    min_y = minCost(getMinCostYAxis(arr, ttBound, Tt, Ti ), min_y);
 
-}
+    /**
+     *  both have value FLT_MAX then the slit can not be done,
+     *  there sure to be collision, so handle it until there 
+     *  can be a splitting done
+     * */ 
+    if(min_x.second == FLT_MAX && min_y.second == FLT_MAX)
+    { 
+        try 
+        {
+            if(maxRetry > 0)
+            {
+                // loop through all bounds in this array and handle 
+                // the collision
+                for(int i = 0; i < arr.size() -1; i++)
+                {
+                    COLLISION_HDL::collisionHDL(arr[i]->_Bound2D->getShape(), 
+                                                arr[i+1]->_Bound2D->getShape());
+                }
+                //delay for a short period of time
+                TIMER::static_delay(100, clock());
 
-BVHNodeArray convert(BVHNode* root)
-{
-    
-}
-
-std::pair<float, float> getMinCostYAxis(const BVHNodeArray& arr, const Bounds2D& ttBound,
-                    float Tt, float Ti)
-{
-    float minCost = FLT_MAX;
-    for( int pos = 0 ; pos < arr.size(); pos++ )
-    {
-        minCost = std::min(getCost(arr,ttBound,pos,Tt,Ti,axis::yAxis), minCost);
+                // after this continue with the splitting
+                SAH(arr,maxRetry-1,ttBound,Tt,Ti,root);
+            }
+            else 
+            {
+                // if retry for maxRetry time but still failed, throw exception
+                throw (maxRetry);
+            }
+        }
+        catch (unsigned int maxRetry)
+        {
+            std::cout << "Have tried for " << maxRetry << " times but failed";
+        }
     }
 
-    return minCost;
-}
+    std::pair<Bounds2D, Bounds2D> p_bounds;
 
-std::pair<float, float> getMinCostXAxis(const BVHNodeArray& arr, const Bounds2D& ttBound,
-                    float Tt, float Ti)
-{
-    float minCost = FLT_MAX;
-    for( int pos = 0 ; pos < arr.size(); pos++ )
+    // if slitting using x axis is cheaper, use it
+    if(min_x.second < min_y.second)
     {
-        minCost = std::min(getCost(arr,ttBound,pos,Tt,Ti,axis::xAxis), minCost);
+        p_bounds = splitAxis(ttBound, min_x.second, -1 );
+    }
+    // if not splitting using y axis
+    else 
+    {
+        p_bounds = splitAxis(ttBound, -1, min_y.second );
     }
 
-    return minCost;
+    BVHNode* l_node = initNode(p_bounds.first);
+    BVHNode* r_node = initNode(p_bounds.second);
+
+    root->left = l_node;
+    root->right = r_node;
+
+    // recursively creating the tree
+
+    // left first 
+    SAH();
+
+    // right after left is done
+    SAH();
+}
+
+std::pair<float, float> getMinCostYAxis(const BVHNodeArray& arr, 
+                                        const Bounds2D& ttBound,
+                                        float Tt, float Ti)
+{
+    std::pair<float, float> min = {0, FLT_MAX};
+    for( int pos = 0 ; pos < arr.size(); pos++ )
+    {
+        min = minCost(getCost(arr,ttBound,pos,Tt,Ti,axis::yAxis), min);
+    }
+
+    return min;
+}
+
+std::pair<float, float> getMinCostXAxis(const BVHNodeArray& arr, 
+                                        const Bounds2D& ttBound,
+                                        float Tt, float Ti)
+{
+    std::pair<float, float> min = {0, FLT_MAX};
+    for( int pos = 0 ; pos < arr.size(); pos++ )
+    {
+        min = minCost(getCost(arr,ttBound,pos,Tt,Ti,axis::xAxis), min);
+    }
+
+    return min;
 }
 
 float getArea(const Bounds2D& b)
@@ -103,7 +173,6 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
 
     float splitPos;
 
-
     std::pair<Bounds2D, Bounds2D> twoSide;
 
     // Split the bounding box along the x-axis
@@ -113,7 +182,8 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
         {
             splitPos = arr[pos+1]->_Bound2D->getpMin().x;
         }
-        else if(pos == arr.size() - 1 && arr[pos]->_Bound2D->getCentroid().x < arr[pos-1]->_Bound2D->getpMax().x)
+        else if(pos == arr.size() - 1 && 
+                arr[pos]->_Bound2D->getCentroid().x < arr[pos-1]->_Bound2D->getpMax().x)
         {
             splitPos = arr[pos-1]->_Bound2D->getpMax().x;
         }
@@ -122,6 +192,8 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
         else if(arr[pos]->_Bound2D->getCentroid().x < arr[pos-1]->_Bound2D->getpMax().x &&
             arr[pos]->_Bound2D->getCentroid().x > arr[pos+1]->_Bound2D->getpMax().x)
         {
+            // check for potential collision
+
             return FLT_MAX;      
         }
         
@@ -142,11 +214,13 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
     }
     else
     {
-        if(pos == 0 && arr[pos]->_Bound2D->getCentroid().y > arr[pos+1]->_Bound2D->getpMin().y)
+        if( pos == 0 && 
+            arr[pos]->_Bound2D->getCentroid().y > arr[pos+1]->_Bound2D->getpMin().y)
         {
             splitPos = arr[pos+1]->_Bound2D->getpMin().y;
         }
-        else if(pos == arr.size() - 1 && arr[pos]->_Bound2D->getCentroid().y < arr[pos-1]->_Bound2D->getpMax().y)
+        else if(pos == arr.size() - 1 && 
+                arr[pos]->_Bound2D->getCentroid().y < arr[pos-1]->_Bound2D->getpMax().y)
         {
             splitPos = arr[pos-1]->_Bound2D->getpMax().y;
         }
@@ -155,7 +229,8 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
         else if(arr[pos]->_Bound2D->getCentroid().y < arr[pos-1]->_Bound2D->getpMax().y &&
             arr[pos]->_Bound2D->getCentroid().y > arr[pos+1]->_Bound2D->getpMax().y)
         {
-            return FLT_MAX;      // define the value instead of using -1 like this
+            // check for potential collision
+            return FLT_MAX;      
         }
         
         // In case centroid x value touchs left Bound

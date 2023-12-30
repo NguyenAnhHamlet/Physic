@@ -52,6 +52,10 @@ public:
 
     // delay , block the thread or process for a duration of time
     void delay_(float milisecs, clock_t now);
+
+    // static function for ease of use
+    static void static_delay(float milisecs, clock_t now);
+
     /**
      * get the interval between current time and previous time
      * then update the value of previous time

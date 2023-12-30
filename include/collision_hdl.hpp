@@ -38,16 +38,17 @@ public:
      * for checking colision of all object inside shape_holder
      * and handle it
     */
-    void collisionHDL(CIRCLE* circle);
-    void collisionHDL(RECTANGLE* rect);
+    static void collisionHDL(CIRCLE* circle);
+    static void collisionHDL(RECTANGLE* rect);
 
-    bool isCollide(CIRCLE* circle, RECTANGLE* rect);
-    bool isCollide(CIRCLE* circle_1, CIRCLE* circle_2);
-    bool isCollide(RECTANGLE* rect_1, RECTANGLE* rect_2);
+    static bool isCollide(CIRCLE* circle, RECTANGLE* rect);
+    static bool isCollide(CIRCLE* circle_1, CIRCLE* circle_2);
+    static bool isCollide(RECTANGLE* rect_1, RECTANGLE* rect_2);
 
-    void collisionHDL(CIRCLE* circle, RECTANGLE* rect);
-    void collisionHDL(CIRCLE* circle_1, CIRCLE* circle_2);
-    void collisionHDL(RECTANGLE* rect_1, RECTANGLE* rect_2);
+    static void collisionHDL(SHAPE* s1, SHAPE* s2);
+    static void collisionHDL(CIRCLE* circle, RECTANGLE* rect);
+    static void collisionHDL(CIRCLE* circle_1, CIRCLE* circle_2);
+    static void collisionHDL(RECTANGLE* rect_1, RECTANGLE* rect_2);
 };
 
 #endif

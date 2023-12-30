@@ -46,3 +46,8 @@ TIMER::delay_(float milisecs, clock_t now)
 {
     while (clock() - now < milisecs);
 }
+
+void TIMER::static_delay(float milisecs, clock_t now)
+{
+    while (clock() - now < milisecs);
+}
