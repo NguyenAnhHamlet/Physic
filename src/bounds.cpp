@@ -41,25 +41,25 @@ Bounds2D getTotalBounds(const Bounds2D& b1, const Bounds2D& b2)
     return Bounds2D res(_pMin, _pMax, b1.getNumPrimitives() + b2.getNumPrimitives());
 }
 
-std::pair<Bounds2D, Bounds2D> splitAxis(const Bounds2D& b, float xAxis = -1, float yAxis = -1)
+std::pair<Bounds2D*, Bounds2D*> splitAxis(const Bounds2D& b, float xAxis = -1, float yAxis = -1)
 {
-    std::pair<Bounds2D, Bounds2D> res;
+    std::pair<Bounds2D*, Bounds2D*> res;
 
     if(xAxis != -1)
     {
-        res.first = Bounds2D bounds2D(  point2D pMin(b1.getPoints().first.x,b1.getPoints().first.y), 
+        res.first = new bounds2D(  point2D pMin(b1.getPoints().first.x,b1.getPoints().first.y), 
                                         point2D pMax(std::max(b1.getPoints().second.x, xAsix), b1.getPoints().second.y));
 
-        res.second = Bounds2D bounds2D( point2D pMin(std::max(b1.getPoints().first.x, xAsix),b1.getPoints().first.y), 
+        res.second = new bounds2D( point2D pMin(std::max(b1.getPoints().first.x, xAsix),b1.getPoints().first.y), 
                                         point2D pMax(b1.getPoints().second.x, b1.getPoints().second.y));
     }
 
     if(yAxis != -1)
     {
-        res.first = Bounds2D bounds2D(  point2D pMin(b1.getPoints().first.x,b1.getPoints().first.y), 
+        res.first = new bounds2D(  point2D pMin(b1.getPoints().first.x,b1.getPoints().first.y), 
                                         point2D pMax(b1.getPoints().second.x, std::max(b1.getPoints().second.y, yAxis)));
 
-        res.second = Bounds2D bounds2D( point2D pMin(b1.getPoints().first.x,std::max(b1.getPoints().first.y,yAxis)), 
+        res.second = new bounds2D( point2D pMin(b1.getPoints().first.x,std::max(b1.getPoints().first.y,yAxis)), 
                                         point2D pMax(b1.getPoints().second.x, b1.getPoints().second.y));
     }
 

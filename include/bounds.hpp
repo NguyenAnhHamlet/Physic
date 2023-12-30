@@ -10,13 +10,13 @@
 class SHAPE;
 class CIRCLE;
 class RECTANGLE;
-class shape_holder;
 
 class Bounds2D
 {
     point2D pMin;
     point2D pMax;
     point2D centroid;
+    SHAPE* shape;
     unsigned int numOfPrimitives;
     unsigned int numRetry;
 
@@ -27,18 +27,19 @@ public:
                     numOfPrimitives(0) {}
 
     Bounds2D(point2D _pMin, point2D _pMax, point2D _centroid, 
-            unsigned int _numOfPrimitives)
+            unsigned int _numOfPrimitives, SHAPE* s)
             : pMin(_pMin), pMax(_pMax), centroid(_centroid) ,
-             numOfPrimitives(_numOfPrimitives) {}
+             numOfPrimitives(_numOfPrimitives), shape(s) {}
 
     std::pair<point2D,point2D> getPoints() const;
 
     // get function
-    unsigned int getNumPrimitives();
-    point2D getpMin() { return pMin; }
-    point2D getpMax() { return pMax ;}
-    point2D getCentroid(){ return centroid ;}
-    unsigned int getNumRetry() {return numRetry ;}
+    unsigned int getNumPrimitives() const;
+    point2D getpMin() const { return pMin; }
+    point2D getpMax() const { return pMax ;}
+    point2D getCentroid() const { return centroid ;}
+    unsigned int getNumRetry() const {return numRetry ;}
+    SHAPE* getShape() const { return shape};
 
     // set function 
     void setNumPrimitives(unsigned int n);
@@ -46,7 +47,7 @@ public:
     void setpMax(const point2D& p) {pMax = p ;}
     void setCentroid(const point2D& c) {centroid = c ;}
     void setNumRetry(unsigned int n) {numRetry = n ;}
-
+    void setShape(SHAPE* s) { shape = s};
 };
 
 typedef std::vector<Bounds2D*> bounds_vector;
@@ -65,7 +66,7 @@ Bounds2D getTotalBounds(const Bounds2D& b1, const Bounds2D& b2);
  *  if user wish to get the bound of y axis then pass value of y in side as argument
  *  the return value will be pair with pair.first is top and pair.second is bottom
 */
-std::pair<Bounds2D, Bounds2D> splitAxis(const Bounds2D& b, float xAxis = -1, float yAxis = -1);
+std::pair<Bounds2D*, Bounds2D*> splitAxis(const Bounds2D& b, float xAxis = -1, float yAxis = -1);
 
 // create a bound around the shape
 Bounds2D createBound(SHAPE* shape);
