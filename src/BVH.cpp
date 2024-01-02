@@ -25,7 +25,7 @@ BVHNodeArray generateBVHNodeArr(const bounds_vector& b_vec)
     return res;
 }
 
-void sortBVHNodeArrX(BVHNodeArray& arr)
+BVHNodeArray sortBVHNodeArrX(BVHNodeArray arr)
 {
     std::sort(arr.begin(), arr.end(), []( BVHNode* nodeA, BVHNode* nodeB)
     {
@@ -33,12 +33,14 @@ void sortBVHNodeArrX(BVHNodeArray& arr)
     });
 }
 
-void sortBVHNodeArrY(BVHNodeArray& arr)
+BVHNodeArray sortBVHNodeArrY(BVHNodeArray arr)
 {
     std::sort(arr.begin(), arr.end(), []( BVHNode* nodeA, BVHNode* nodeB)
     {
         return nodeA->_Bound2D->getCentroid().y < nodeB->_Bound2D->getCentroid().y;
     });
+
+    return arr;
 }
 
 BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
@@ -56,15 +58,15 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
 
     // sorted the vector before doing any further
     // check for x axis first
-    sortBVHNodeArrX(arr);
+    BVHNodeArray x_arr = sortBVHNodeArrX(arr);
 
     // go through each primitive and calculate the 
     // minimum cost 
-    min_x = minCost(getMinCostXAxis(arr, ttBound, Tt, Ti ), min_x);
+    min_x = minCost(getMinCostXAxis(x_arr, ttBound, Tt, Ti ), min_x);
 
     // do the same with y axis
-    sortBVHNodeArrY(arr);
-    min_y = minCost(getMinCostYAxis(arr, ttBound, Tt, Ti ), min_y);
+    BVHNodeArray y_arr = sortBVHNodeArrY(arr);
+    min_y = minCost(getMinCostYAxis(y_arr, ttBound, Tt, Ti ), min_y);
 
     /**
      *  both have value FLT_MAX then the slit can not be done,
@@ -124,10 +126,10 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
     // recursively creating the tree
 
     // left first 
-    SAH();
+    SAH(BVHNodeArray l_arr(x_arr.begin(), x_arr.begin() + pos), maxRetry,p_bounds.first, Tt, Ti, l_node);
 
     // right after left is done
-    SAH();
+    SAH(BVHNodeArray l_arr(x_arr.begin(), x_arr.begin() + pos), maxRetry,p_bounds.first, Tt, Ti, r_node);
 }
 
 std::pair<float, float> getMinCostYAxis(const BVHNodeArray& arr, 
@@ -178,35 +180,39 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
     // Split the bounding box along the x-axis
     if (Axis == axis::xAxis) 
     {
-        if(pos == 0 && arr[pos]->_Bound2D->getCentroid().x > arr[pos+1]->_Bound2D->getpMin().x)
+        if(pos == 0)
         {
-            splitPos = arr[pos+1]->_Bound2D->getpMin().x;
+            if(arr[pos]->_Bound2D->getpMax().x > arr[pos+1]->_Bound2D->getpMin().x)
+                return FLT_MAX;
+            
+            splitPos = arr[pos]->_Bound2D->getpMax().x
         }
-        else if(pos == arr.size() - 1 && 
-                arr[pos]->_Bound2D->getCentroid().x < arr[pos-1]->_Bound2D->getpMax().x)
+        else if(pos == arr.size() - 1)
         {
-            splitPos = arr[pos-1]->_Bound2D->getpMax().x;
+            if( arr[pos]->_Bound2D->getpMin().x < arr[pos-1]->_Bound2D->getpMax().x)
+                return FLT_MAX;
+            
+            splitPos = arr[pos]->_Bound2D->getpMin().x;
         }
 
         // Make sure the splitting can be done
-        else if(arr[pos]->_Bound2D->getCentroid().x < arr[pos-1]->_Bound2D->getpMax().x &&
-            arr[pos]->_Bound2D->getCentroid().x > arr[pos+1]->_Bound2D->getpMax().x)
+        else if(arr[pos]->_Bound2D->getpMin().x < arr[pos-1]->_Bound2D->getpMax().x &&
+            arr[pos]->_Bound2D->getpMax().x > arr[pos+1]->_Bound2D->getpMin().x)
         {
             // check for potential collision
-
             return FLT_MAX;      
         }
         
         // In case centroid x value touchs left Bound
-        else if(arr[pos]->_Bound2D->getCentroid().x < arr[pos-1]->_Bound2D->getpMax().x)
+        else if(arr[pos]->_Bound2D->getpMin().x < arr[pos-1]->_Bound2D->getpMax().x)
         {
-            splitPos = arr[pos-1]->_Bound2D->getpMax().x;
+            splitPos = arr[pos]->_Bound2D->getpMax().x;
         }
 
         // In case centroid x value touchs right Bound
-        else if(arr[pos]->_Bound2D->getCentroid().x > arr[pos+1]->_Bound2D->getpMax().x)
+        else if(arr[pos]->_Bound2D->getpMax().x > arr[pos+1]->_Bound2D->getpMin().x)
         {
-            splitPos = arr[pos+1]->_Bound2D->getpMax().x;
+            splitPos = arr[pos]->_Bound2D->getpMin().x;
         }
 
         twoSide = splitAxis(ttBound ,splitPos);
@@ -214,35 +220,39 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
     }
     else
     {
-        if( pos == 0 && 
-            arr[pos]->_Bound2D->getCentroid().y > arr[pos+1]->_Bound2D->getpMin().y)
+        if(pos == 0)
         {
-            splitPos = arr[pos+1]->_Bound2D->getpMin().y;
+            if(arr[pos]->_Bound2D->getpMax().y > arr[pos+1]->_Bound2D->getpMin().y)
+                return FLT_MAX;
+            
+            splitPos = arr[pos]->_Bound2D->getpMax().y
         }
-        else if(pos == arr.size() - 1 && 
-                arr[pos]->_Bound2D->getCentroid().y < arr[pos-1]->_Bound2D->getpMax().y)
+        else if(pos == arr.size() - 1)
         {
-            splitPos = arr[pos-1]->_Bound2D->getpMax().y;
+            if( arr[pos]->_Bound2D->getpMin().y < arr[pos-1]->_Bound2D->getpMax().y)
+                return FLT_MAX;
+            
+            splitPos = arr[pos]->_Bound2D->getpMin().y;
         }
 
         // Make sure the splitting can be done
-        else if(arr[pos]->_Bound2D->getCentroid().y < arr[pos-1]->_Bound2D->getpMax().y &&
-            arr[pos]->_Bound2D->getCentroid().y > arr[pos+1]->_Bound2D->getpMax().y)
+        else if(arr[pos]->_Bound2D->getpMin().y < arr[pos-1]->_Bound2D->getpMax().y &&
+            arr[pos]->_Bound2D->getpMax().y > arr[pos+1]->_Bound2D->getpMin().y)
         {
             // check for potential collision
             return FLT_MAX;      
         }
         
-        // In case centroid x value touchs left Bound
-        else if(arr[pos]->_Bound2D->getCentroid().y < arr[pos-1]->_Bound2D->getpMax().y)
+        // In case edge x value touchs left Bound
+        else if(arr[pos]->_Bound2D->getpMin().y < arr[pos-1]->_Bound2D->getpMax().y)
         {
-            splitPos = arr[pos-1]->_Bound2D->getpMax().y;
+            splitPos = arr[pos]->_Bound2D->getpMax().y;
         }
 
         // In case centroid x value touchs right Bound
-        else if(arr[pos]->_Bound2D->getCentroid().y > arr[pos+1]->_Bound2D->getpMax().y)
+        else if(arr[pos]->_Bound2D->getpMax().y > arr[pos+1]->_Bound2D->getpMin().y)
         {
-            splitPos = arr[pos+1]->_Bound2D->getpMax().y;
+            splitPos = arr[pos]->_Bound2D->getpMin().y;
         }
 
         twoSide = splitAxis(ttBound, -1, splitPos);
