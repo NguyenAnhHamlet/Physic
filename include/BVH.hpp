@@ -24,9 +24,9 @@ BVHNode* initNode(Bounds2D* bound2D);
 
 BVHNodeArray generateBVHNodeArr(const bounds_vector& b_vec);
 
-void sortBVHNodeArrX(BVHNodeArray& arr);
+BVHNodeArray sortBVHNodeArrX(BVHNodeArray arr);
 
-void sortBVHNodeArrY(BVHNodeArray& arr);
+BVHNodeArray sortBVHNodeArrY(BVHNodeArray arr);
 
 BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
             const Bounds2D& ttBound, float Tt, float Ti, BVHNode* root);
