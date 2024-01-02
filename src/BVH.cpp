@@ -109,12 +109,20 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
     // if slitting using x axis is cheaper, use it
     if(min_x.second < min_y.second)
     {
-        p_bounds = splitAxis(ttBound, min_x.second, -1 );
+        // check which edge
+        if(min_x.first == x_arr[pos]->getpMax().x)
+            pos++;
+
+        p_bounds = splitAxis(ttBound, min_x.first, -1 );
     }
     // if not splitting using y axis
     else 
     {
-        p_bounds = splitAxis(ttBound, -1, min_y.second );
+        // check which edge
+        if(min_x.first == x_arr[pos]->getpMax().y)
+            pos++;
+
+        p_bounds = splitAxis(ttBound, -1, min_y.first );
     }
 
     BVHNode* l_node = initNode(p_bounds.first);
@@ -126,10 +134,10 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
     // recursively creating the tree
 
     // left first 
-    SAH(BVHNodeArray l_arr(x_arr.begin(), x_arr.begin() + pos), maxRetry,p_bounds.first, Tt, Ti, l_node);
+    SAH(BVHNodeArray l_arr(x_arr.begin(), x_arr.begin() + pos), maxRetry, p_bounds.first, Tt, Ti, l_node);
 
     // right after left is done
-    SAH(BVHNodeArray l_arr(x_arr.begin(), x_arr.begin() + pos), maxRetry,p_bounds.first, Tt, Ti, r_node);
+    SAH(BVHNodeArray r_arr(x_arr.begin() + pos, x_arr.end()), maxRetry,p_bounds.second, Tt, Ti, r_node);
 }
 
 std::pair<float, float> getMinCostYAxis(const BVHNodeArray& arr, 
@@ -192,7 +200,7 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
             if( arr[pos]->_Bound2D->getpMin().x < arr[pos-1]->_Bound2D->getpMax().x)
                 return FLT_MAX;
             
-            splitPos = arr[pos]->_Bound2D->getpMin().x;
+            splitPos = arr[pos]->_Bound2D->getpMin().x; 
         }
 
         // Make sure the splitting can be done
