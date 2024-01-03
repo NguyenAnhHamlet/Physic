@@ -31,6 +31,8 @@ BVHNodeArray sortBVHNodeArrX(BVHNodeArray arr)
     {
         return nodeA->_Bound2D->getCentroid().x < nodeB->_Bound2D->getCentroid().x;
     });
+
+    return arr;
 }
 
 BVHNodeArray sortBVHNodeArrY(BVHNodeArray arr)
@@ -53,8 +55,8 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
     if(arr.size() <= 0) 
         return NULL;
 
-    std::pair<float, float> min_x = {-1 ,FLT_MAX};
-    std::pair<float, float> min_y = {-1 ,FLT_MAX};
+    cost_infos min_x = {-1 ,{ 0, FLT_MAX} };
+    cost_infos min_y = {-1 ,{ 0, FLT_MAX} };
 
     // sorted the vector before doing any further
     // check for x axis first
@@ -73,7 +75,7 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
      *  there sure to be collision, so handle it until there 
      *  can be a splitting done
      * */ 
-    if(min_x.second == FLT_MAX && min_y.second == FLT_MAX)
+    if(min_x.second.second == FLT_MAX && min_y.second.second == FLT_MAX)
     { 
         try 
         {
@@ -105,24 +107,29 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
     }
 
     std::pair<Bounds2D, Bounds2D> p_bounds;
+    unsigned int pos = 0;
 
     // if slitting using x axis is cheaper, use it
-    if(min_x.second < min_y.second)
+    if(min_x.second.second < min_y.second.second)
     {
+        pos = min_x.first;
+
         // check which edge
-        if(min_x.first == x_arr[pos]->getpMax().x)
+        if(min_x.second.first == x_arr[pos]->getpMax().x)
             pos++;
 
-        p_bounds = splitAxis(ttBound, min_x.first, -1 );
+        p_bounds = splitAxis(ttBound, min_x.second.first, -1 );
     }
     // if not splitting using y axis
     else 
     {
+        pos = min_y.first;
+
         // check which edge
-        if(min_x.first == x_arr[pos]->getpMax().y)
+        if(min_x.second.first == x_arr[pos]->getpMax().y)
             pos++;
 
-        p_bounds = splitAxis(ttBound, -1, min_y.first );
+        p_bounds = splitAxis(ttBound, -1, min_y.second.first );
     }
 
     BVHNode* l_node = initNode(p_bounds.first);
@@ -140,11 +147,11 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
     SAH(BVHNodeArray r_arr(x_arr.begin() + pos, x_arr.end()), maxRetry,p_bounds.second, Tt, Ti, r_node);
 }
 
-std::pair<float, float> getMinCostYAxis(const BVHNodeArray& arr, 
+cost_infos getMinCostYAxis(const BVHNodeArray& arr, 
                                         const Bounds2D& ttBound,
                                         float Tt, float Ti)
 {
-    std::pair<float, float> min = {0, FLT_MAX};
+    cost_infos min = {0, {0,FLT_MAX}};
     for( int pos = 0 ; pos < arr.size(); pos++ )
     {
         min = minCost(getCost(arr,ttBound,pos,Tt,Ti,axis::yAxis), min);
@@ -153,11 +160,11 @@ std::pair<float, float> getMinCostYAxis(const BVHNodeArray& arr,
     return min;
 }
 
-std::pair<float, float> getMinCostXAxis(const BVHNodeArray& arr, 
-                                        const Bounds2D& ttBound,
-                                        float Tt, float Ti)
+cost_infos getMinCostXAxis(const BVHNodeArray& arr, 
+                        const Bounds2D& ttBound,
+                        float Tt, float Ti)
 {
-    std::pair<float, float> min = {0, FLT_MAX};
+    std::pair<float, float> min = {0, {0,FLT_MAX}};
     for( int pos = 0 ; pos < arr.size(); pos++ )
     {
         min = minCost(getCost(arr,ttBound,pos,Tt,Ti,axis::xAxis), min);
@@ -168,13 +175,15 @@ std::pair<float, float> getMinCostXAxis(const BVHNodeArray& arr,
 
 float getArea(const Bounds2D& b)
 {
-    return (b.getPoints().second.x - b.getPoints.first.x) 
-            * (b.getPoints().second.y - b.getPoints.first.y)
+    return (b.getPoints().second.x - b.getPoints().first.x) 
+            * (b.getPoints().second.y - b.getPoints().first.y)
 }
 
-float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound, 
+cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound, 
              unsigned int pos, float Tt, float Ti, axis Axis)
 {
+    cost_infos res = {0, {0, FLT_MAX}};
+
     // Calculate intersection cost
     float intersectCost = arr.size() * Ti;
 
@@ -191,14 +200,14 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
         if(pos == 0)
         {
             if(arr[pos]->_Bound2D->getpMax().x > arr[pos+1]->_Bound2D->getpMin().x)
-                return FLT_MAX;
+                return res;
             
             splitPos = arr[pos]->_Bound2D->getpMax().x
         }
         else if(pos == arr.size() - 1)
         {
             if( arr[pos]->_Bound2D->getpMin().x < arr[pos-1]->_Bound2D->getpMax().x)
-                return FLT_MAX;
+                return res;
             
             splitPos = arr[pos]->_Bound2D->getpMin().x; 
         }
@@ -208,7 +217,7 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
             arr[pos]->_Bound2D->getpMax().x > arr[pos+1]->_Bound2D->getpMin().x)
         {
             // check for potential collision
-            return FLT_MAX;      
+            return res;      
         }
         
         // In case centroid x value touchs left Bound
@@ -231,14 +240,14 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
         if(pos == 0)
         {
             if(arr[pos]->_Bound2D->getpMax().y > arr[pos+1]->_Bound2D->getpMin().y)
-                return FLT_MAX;
+                return res;
             
             splitPos = arr[pos]->_Bound2D->getpMax().y
         }
         else if(pos == arr.size() - 1)
         {
             if( arr[pos]->_Bound2D->getpMin().y < arr[pos-1]->_Bound2D->getpMax().y)
-                return FLT_MAX;
+                return res;
             
             splitPos = arr[pos]->_Bound2D->getpMin().y;
         }
@@ -248,7 +257,7 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
             arr[pos]->_Bound2D->getpMax().y > arr[pos+1]->_Bound2D->getpMin().y)
         {
             // check for potential collision
-            return FLT_MAX;      
+            return res;      
         }
         
         // In case edge x value touchs left Bound
@@ -276,12 +285,12 @@ float getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
     float P2 = Area_2/ttArea;
 
     // Calculate and return the SAH cost
-    return traversalCost + intersectCost + P1*Area_1 + P2*Area_2; 
-    
+    return res = {pos, {splitPos , traversalCost + intersectCost + P1*Area_1 + P2*Area_2}} ; 
+
 }
 
-std::pair<float, float> minCost(std::pair<float, float> cost_1, 
-                                std::pair<float, float> cost_2 )
+cost_infos minCost( cost_infos cost_1, 
+                    cost_infos cost_2 )
 {
-    return cost_1.second > cost_2.second ? cost_2 : cost_1;
+    return cost_1.second.second > cost_2.second.second ? cost_2 : cost_1;
 }
