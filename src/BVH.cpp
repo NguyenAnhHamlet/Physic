@@ -51,8 +51,8 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
     if(!root) 
         return NULL;
 
-    // if array has no element then the splitting is done
-    if(arr.size() <= 0) 
+    // if array less then one element then the splitting is done
+    if(arr.size() <= 1) 
         return NULL;
 
     cost_infos min_x = {-1 ,{ 0, FLT_MAX} };
@@ -141,10 +141,12 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
     // recursively creating the tree
 
     // left first 
-    SAH(BVHNodeArray l_arr(x_arr.begin(), x_arr.begin() + pos), maxRetry, p_bounds.first, Tt, Ti, l_node);
+    SAH(root->left.arr = BVHNodeArray l_arr(x_arr.begin(), x_arr.begin() + pos), 
+        maxRetry, p_bounds.first, Tt, Ti, l_node);
 
     // right after left is done
-    SAH(BVHNodeArray r_arr(x_arr.begin() + pos, x_arr.end()), maxRetry,p_bounds.second, Tt, Ti, r_node);
+    SAH(root->right.arr = BVHNodeArray r_arr(x_arr.begin() + pos, x_arr.end()), 
+        maxRetry,p_bounds.second, Tt, Ti, r_node);
 }
 
 cost_infos getMinCostYAxis(const BVHNodeArray& arr, 
@@ -293,4 +295,36 @@ cost_infos minCost( cost_infos cost_1,
                     cost_infos cost_2 )
 {
     return cost_1.second.second > cost_2.second.second ? cost_2 : cost_1;
+}
+
+void DFS(BVHNode* root, float Tt, float Ti)
+{
+
+    /**
+     * if there is ovarlap between 2 bounds, then have to check 
+     * for collision and perform SAH from this root downward
+    */
+    if(doOverlap(root->left->_Bound2D, root->right->_Bound2D))
+    {
+        COLLISION_HDL::collisionHDL(root->left->_Bound2D->getShape(),
+                                    root->right->_Bound2D->getShape());
+
+        //delay for a short period of time
+        TIMER::static_delay(100, clock());
+
+        // done handle the collision, perform SAH
+        SAH(root->arr, 3, 
+            getTotalBounds( root->left->_Bound2D, 
+                            root->right->_Bound2D),
+            Tt, Ti, root);
+    }
+
+    // if there is none overlapping or the SAH is done performing
+    // continue performing DFS till reach leaf
+
+    // left first
+    DFS(root->left, Tt, Ti);
+
+    // right later
+    DFS(root->right, Tt, Ti);
 }
