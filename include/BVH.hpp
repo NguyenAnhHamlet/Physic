@@ -49,6 +49,6 @@ cost_infos minCost(cost_infos cost_1,
 
 float getArea(const Bounds2D& b);
 
-void DFS(BVHNode* root);
+void DFS(BVHNode* root, float Tt, float Ti);
 
 #endif
