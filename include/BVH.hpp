@@ -8,18 +8,20 @@
 
 class Bounds2D; 
 class point2D;
+struct BVHNode;
 
+typedef std::vector<BVHNode*> BVHNodeArray;
 
 typedef struct BVHNode
 {
     Bounds2D* _Bound2D;
     BVHNode *left, *right;
+    BVHNodeArray arr;
 
 } BVHNode;
 
 typedef std::pair<float<std::pair<float,float>> cost_infos;
 
-typedef std::vector<BVHNode*> BVHNodeArray;
 
 // create a BVH Node from a bound
 BVHNode* initNode(Bounds2D* bound2D);
@@ -46,5 +48,7 @@ cost_infos minCost(cost_infos cost_1,
                                 cost_infos cost_2 );
 
 float getArea(const Bounds2D& b);
+
+void DFS(BVHNode* root);
 
 #endif
