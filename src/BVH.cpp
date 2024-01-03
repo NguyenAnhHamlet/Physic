@@ -327,4 +327,5 @@ void DFS(BVHNode* root, float Tt, float Ti)
 
     // right later
     DFS(root->right, Tt, Ti);
+    
 }
