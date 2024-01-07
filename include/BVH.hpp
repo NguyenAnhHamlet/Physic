@@ -20,7 +20,7 @@ typedef struct BVHNode
 
 } BVHNode;
 
-typedef std::pair<float<std::pair<float,float>> cost_infos;
+typedef std::pair<float, std::pair<float, float>> cost_infos;
 
 
 // create a BVH Node from a bound
@@ -32,7 +32,7 @@ BVHNodeArray sortBVHNodeArrX(BVHNodeArray arr);
 
 BVHNodeArray sortBVHNodeArrY(BVHNodeArray arr);
 
-BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
+void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
             const Bounds2D& ttBound, float Tt, float Ti, BVHNode* root);
 
 cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound, 

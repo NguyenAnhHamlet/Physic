@@ -2,12 +2,9 @@
 #include "particle.hpp"
 #include "particleDrag.hpp"
 #include "particleForceRegister.hpp"
-#include "particleRegister.hpp"
 #include <list>
 #include "pfgen.hpp"
-#include "forceVisitor.hpp"
 #include <ctime>
-#include <windows.h>
 #include <SDL.h>
 #include "shape.hpp"
 #include "renderer.hpp"
@@ -26,9 +23,8 @@ int main(int argc, char* argv[])
     PARTICLE_FORCE_REGISTER par_f_reg;
     std::list<PFGEN*> l_f = {static_cast<PFGEN*>(&drag_f)};
     par_f_reg.add(rect,l_f);
-    rect->autoUpdatePos(&par_f_reg,0.001);
-    
-    
+    rect->autoUpdatePos(&par_f_reg,0.0001);
+
     RENDERER* render = RENDERER::getInstance();
     render->setBGColor(new COLOR(0,0,0,255));
     render->addShape(rect);

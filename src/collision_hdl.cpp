@@ -7,8 +7,8 @@ COLLISION_HDL::isCollide(CIRCLE* circle, RECTANGLE* rect)
 {
     if(circle->ismoving() | rect->ismoving())
     {
-        float x = abs(circle->getCenter().x - rect->getCenter().x);
-        float y = abs(circle->getCenter().y - rect->getCenter().y);
+        float x = abs(circle->getCenter()->x - rect->getCenter()->x);
+        float y = abs(circle->getCenter()->y - rect->getCenter()->y);
 
         float h = hypotenuse(x,y);
         std::vector<VECTOR*> points = rect->getPoints();
@@ -26,16 +26,16 @@ COLLISION_HDL::isCollide(CIRCLE* circle, RECTANGLE* rect)
         // side checking
 
         // possible collision on top or at the bottom
-        if(circle->getCenter().x + circle->getR() > points[0] && 
-                circle->getCenter().x - circle->getR() < points[1] && 
-                h >= rect->getRect().y /2 + circle->getR())
+        if(circle->getCenter()->x + circle->getR() > points[0]->x && 
+                circle->getCenter()->x - circle->getR() < points[1]->x && 
+                h >= rect->getRect()->y /2 + circle->getR())
 
             return true;
 
         // possible collision at the side
-        if(circle->getCenter().y + circle->getR()> points[1] && 
-                circle->getCenter().y  circle->getR() < points[3] && 
-                h >= rect->getRect().x /2 + circle->getR())
+        if(circle->getCenter()->y + circle->getR()> points[1]->y && 
+                circle->getCenter()->y - circle->getR() < points[3]->y && 
+                h >= rect->getRect()->x /2 + circle->getR())
                 
             return true;
 
@@ -49,8 +49,8 @@ COLLISION_HDL::isCollide(CIRCLE* circle_1, CIRCLE* circle_2)
 {
     if(circle_1->ismoving() | circle_2->ismoving())
     {
-        float x = abs(circle_1->getCenter().x - circle_2->getCenter().x);
-        float y = abs(circle_1->getCenter().y - circle_2->getCenter().y);
+        float x = abs(circle_1->getCenter()->x - circle_2->getCenter()->x);
+        float y = abs(circle_1->getCenter()->y - circle_2->getCenter()->y);
 
         float h = hypotenuse(x,y);
         if(h <= circle_1->getR() + circle_2->getR()) 
@@ -63,26 +63,24 @@ COLLISION_HDL::isCollide(CIRCLE* circle_1, CIRCLE* circle_2)
 bool 
 COLLISION_HDL::isCollide(RECTANGLE* rect_1, RECTANGLE* rect_2)
 {
-    if(rect_1->ismoving() | rect_2->ismoving())
-    {
-        // possible collision on top or at the bottom
-        if(rect_1->getCenter().x + rect_1->getRect().x /2 > points[0] && 
-                circle->getCenter().x - rect_1->getRect().x /2 < points[1])
-            return true;
-
-        // possible collision at the side
-        if(circle->getCenter().y + rect_1->getRect().y /2> points[1] && 
-                circle->getCenter().y  circle->getR().y /2 < points[3])
-            return true;
-        
-    }
-    return false;
+    std::vector<VECTOR*> p1 = rect_1->getPoints();
+    std::vector<VECTOR*> p2 = rect_2->getPoints();
+   
+    // If one rectangle is on left side of other
+    if (p1[1]->x > p2[0]->x || p2[1]->x > p1[0]->x)
+        return false;
+ 
+    // If one rectangle is above other
+    if (p1[1]->y > p2[0]->y || p2[1]->y > p1[0]->y)
+        return false;
+ 
+    return true;
 }
 
 void
 COLLISION_HDL::collisionHDL(CIRCLE* circle)
 {
-    for(auto it : _set_shape_holder)
+    for(auto it : *(get_shape_holder()->get_set_shape_holder()))
     {
         if(static_cast<CIRCLE*>(it)) 
             collisionHDL(circle,static_cast<CIRCLE*>(it));
@@ -94,7 +92,7 @@ COLLISION_HDL::collisionHDL(CIRCLE* circle)
 void
 COLLISION_HDL::collisionHDL(RECTANGLE* rect)
 {
-    for(auto it : _set_shape_holder)
+    for(auto it : *(get_shape_holder()->get_set_shape_holder()))
     {
         if(static_cast<CIRCLE*>(it)) 
             collisionHDL(static_cast<CIRCLE*>(it),rect);
@@ -117,13 +115,14 @@ COLLISION_HDL::collisionHDL(CIRCLE* circle, RECTANGLE* rect)
         VECTOR v1 = circle->getVelocity();
         VECTOR v2 = rect->getVelocity();
 
-        VECTOR c1 = circle->getCenter();
-        VECTOR c2 = rect->getCenter();
+        VECTOR* c1 = circle->getCenter();
+        VECTOR* c2 = rect->getCenter();
 
-        VECTOR v_fn1 = v1 - (2*m2 / (m1+m2)) 
-            *( (v1 -v2).scalarProduct(c1 - c2)/pow((c1-c2).magnitude(),2))*(c1-c2);
-        VECTOR v_fn2 = v2 - (2*m1 / (m1+m2)) 
-            *( (v2 -v1).scalarProduct(c2 - c1)/pow((c2-c1).magnitude(),2))*(c2-c1);
+        VECTOR delta_v = (v1 - v2);
+        VECTOR delta_c = (*c1 - *c2);
+        float scalar_term = delta_v.scalarProduct(delta_c) / pow(delta_c.magnitude(), 2);
+        VECTOR v_fn1 = v1 - delta_c * ((2 * m2 / (m1 + m2)) * scalar_term) ;
+        VECTOR v_fn2 = v2 - delta_c * ((2 * m1 / (m1 + m2)) * scalar_term);
 
         circle->setVelocity(v_fn1);
         rect->setVelocity(v_fn2);
@@ -144,13 +143,14 @@ COLLISION_HDL::collisionHDL(CIRCLE* circle_1, CIRCLE* circle_2)
         VECTOR v1 = circle_1->getVelocity();
         VECTOR v2 = circle_2->getVelocity();
 
-        VECTOR c1 = circle_1->getCenter();
-        VECTOR c2 = circle_2->getCenter();
+        VECTOR* c1 = circle_1->getCenter();
+        VECTOR* c2 = circle_2->getCenter();
 
-        VECTOR v_fn1 = v1 - (2*m2 / (m1+m2)) 
-            *( (v1 -v2).scalarProduct(c1 - c2)/pow((c1-c2).magnitude(),2))*(c1-c2);
-        VECTOR v_fn2 = v2 - (2*m1 / (m1+m2)) 
-            *( (v2 -v1).scalarProduct(c2 - c1)/pow((c2-c1).magnitude(),2))*(c2-c1);
+        VECTOR delta_v = (v1 - v2);
+        VECTOR delta_c = (*c1 - *c2);
+        float scalar_term = delta_v.scalarProduct(delta_c) / pow(delta_c.magnitude(), 2);
+        VECTOR v_fn1 = v1 - delta_c * ((2 * m2 / (m1 + m2)) * scalar_term) ;
+        VECTOR v_fn2 = v2 - delta_c * ((2 * m1 / (m1 + m2)) * scalar_term);
 
         circle_1->setVelocity(v_fn1);
         circle_2->setVelocity(v_fn2);
@@ -171,13 +171,14 @@ COLLISION_HDL::collisionHDL(RECTANGLE* rect_1, RECTANGLE* rect_2)
         VECTOR v1 = rect_1->getVelocity();
         VECTOR v2 = rect_2->getVelocity();
 
-        VECTOR c1 = rect_1->getCenter();
-        VECTOR c2 = rect_2->getCenter();
+        VECTOR* c1 = rect_1->getCenter();
+        VECTOR* c2 = rect_2->getCenter();
 
-        VECTOR v_fn1 = v1 - (2*m2 / (m1+m2)) 
-            *( (v1 -v2).scalarProduct(c1 - c2)/pow((c1-c2).magnitude(),2))*(c1-c2);
-        VECTOR v_fn2 = v2 - (2*m1 / (m1+m2)) 
-            *( (v2 -v1).scalarProduct(c2 - c1)/pow((c2-c1).magnitude(),2))*(c2-c1);
+        VECTOR delta_v = (v1 - v2);
+        VECTOR delta_c = (*c1 - *c2);
+        float scalar_term = delta_v.scalarProduct(delta_c) / pow(delta_c.magnitude(), 2);
+        VECTOR v_fn1 = v1 - delta_c * ((2 * m2 / (m1 + m2)) * scalar_term) ;
+        VECTOR v_fn2 = v2 - delta_c * ((2 * m1 / (m1 + m2)) * scalar_term);
 
         rect_1->setVelocity(v_fn1);
         rect_2->setVelocity(v_fn2);
@@ -191,4 +192,28 @@ COLLISION_HDL::collisionHDL(SHAPE* s1, SHAPE* s2)
     collisionHDL(static_cast<CIRCLE*>(s1), static_cast<RECTANGLE*>(s2));
     collisionHDL(static_cast<RECTANGLE*>(s1), static_cast<RECTANGLE*>(s2));
     collisionHDL(static_cast<RECTANGLE*>(s1), static_cast<CIRCLE*>(s2));
+}
+
+shape_holder* 
+COLLISION_HDL::get_shape_holder() const
+{
+    return _shape_holder;
+}
+
+void
+shape_holder::addShape(SHAPE* s)
+{
+
+}
+
+void 
+shape_holder::removeShape(SHAPE* s)
+{
+
+}
+
+set_shape_holder*
+shape_holder::get_set_shape_holder() const
+{
+    return _set_shape_holder;
 }

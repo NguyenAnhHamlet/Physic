@@ -1,6 +1,8 @@
 #ifndef __CMM__
 #define __CMM__
 
+class VECTOR;
+
 /***
  * *****************************************************
  *      RBGR COLOR

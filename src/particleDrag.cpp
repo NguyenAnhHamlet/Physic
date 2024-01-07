@@ -2,7 +2,6 @@
 #include"particle.hpp"
 #include"pfgen.hpp"
 #include"vector.hpp"
-#include "forceVisitor.hpp"
 
 PARTICLE_DRAG::PARTICLE_DRAG(float _k1, float _k2) 
                 : k1(_k1), k2(_k2) 

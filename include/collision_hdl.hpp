@@ -28,8 +28,8 @@ class shape_holder;
 */
 class COLLISION_HDL
 {
-    shape_holder _shape_holder;
 
+    shape_holder* _shape_holder;
 public:
     shape_holder* get_shape_holder() const ;
 
@@ -38,8 +38,8 @@ public:
      * for checking colision of all object inside shape_holder
      * and handle it
     */
-    static void collisionHDL(CIRCLE* circle);
-    static void collisionHDL(RECTANGLE* rect);
+    void collisionHDL(CIRCLE* circle);
+    void collisionHDL(RECTANGLE* rect);
 
     static bool isCollide(CIRCLE* circle, RECTANGLE* rect);
     static bool isCollide(CIRCLE* circle_1, CIRCLE* circle_2);

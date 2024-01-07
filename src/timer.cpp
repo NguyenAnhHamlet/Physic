@@ -1,6 +1,5 @@
 #include "timer.hpp"
 #include<ctime>
-#include "forceVisitor.hpp"
 
 clock_t
 TIMER::getInterval(clock_t preVal)
