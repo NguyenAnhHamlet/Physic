@@ -20,7 +20,7 @@ RECTANGLE::RECTANGLE(COLOR* _color, int _w, int _h)
     rect.x = this->pos.x - _w/2;
     rect.y = this->pos.y - _h/2;
 
-    center = this->pos;
+    center = &(this->pos);
 
     // value of axis
     axis = hypotenuse(_w,_h)/2;
@@ -72,10 +72,10 @@ RECTANGLE::getPoints()
     float h_w = rect.x /2;
     float h_h = rect.y /2;
 
-    res.push_back(VECTOR(getCenter().x - h_w, getCenter() - h_h, getCenter().z));
-    res.push_back(VECTOR(getCenter().x + h_w, getCenter() - h_h, getCenter().z));
-    res.push_back(VECTOR(getCenter().x - h_w, getCenter() + h_h, getCenter().z));
-    res.push_back(VECTOR(getCenter().x + h_w, getCenter() + h_h, getCenter().z));
+    res.push_back(new VECTOR(getCenter()->x - h_w, getCenter()->y - h_h, getCenter()->z));
+    res.push_back(new VECTOR(getCenter()->x + h_w, getCenter()->y - h_h, getCenter()->z));
+    res.push_back(new VECTOR(getCenter()->x - h_w, getCenter()->y + h_h, getCenter()->z));
+    res.push_back(new VECTOR(getCenter()->x + h_w, getCenter()->y + h_h, getCenter()->z));
 
     return res;
 }
@@ -83,10 +83,10 @@ RECTANGLE::getPoints()
 SDL_Rect*
 RECTANGLE::getRect()
 {
-    return rect;
+    return &(rect);
 }
 
-VECTOR 
+VECTOR* 
 RECTANGLE::getCenter()
 {
     return center;
@@ -112,7 +112,7 @@ CIRCLE::CIRCLE(COLOR* _color, int _radius)
 {
     color = _color;
     radius = _radius;
-    center = this->pos;
+    center = &(this->pos);
 }
 
 void 
@@ -156,7 +156,8 @@ CIRCLE::updatePos()
 {
 }
 
-void CRICLE::collideOther(COLLISION_HDL* collision_hdl)
+void 
+CIRCLE::collideOther(COLLISION_HDL* collision_hdl)
 {
     collision_hdl->collisionHDL(this);
 }
@@ -166,7 +167,7 @@ float CIRCLE::getR()
     return radius;
 }
 
-VECTOR
+VECTOR*
 CIRCLE::getCenter()
 {
     return center;

@@ -2,7 +2,6 @@
 #include "particle.hpp"
 #include "pfgen.hpp"
 #include "vector.hpp"
-#include "forceVisitor.hpp"
 
 GFGEN::GFGEN() {}
 

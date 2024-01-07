@@ -1,5 +1,4 @@
 #include "particleForceRegister.hpp"
-#include "forceVisitor.hpp"
 #include "particle.hpp"
 
 void 

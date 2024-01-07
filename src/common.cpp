@@ -1,5 +1,6 @@
 #include "common.hpp"
 #include <cmath>
+#include "vector.hpp"
 
 float 
 convertCM(float pixel)
@@ -20,10 +21,10 @@ unsigned int hypotenuse(float a, float b)
 
 bool collinearPoints(VECTOR* a, VECTOR* b, VECTOR* c)
 {
-    if (a->getPos().x == b->getPos().x && b->getPos().x == c->getPos().x) 
+    if (a->x == b->x && b->x == c->x) 
         return true; 
     
-    float slope12 = (b->getPos().y - a->getPos().y) / (b->getPos().x - a->getPos().x);
-    float slope23 = (c->getPos().y - b->getPos().y) / (c->getPos().x - b->getPos().x);
+    float slope12 = (b->y - a->y) / (b->x - a->x);
+    float slope23 = (c->y - b->y) / (c->x - b->x);
     return abs(slope12 - slope23) < 1e-6;
 }

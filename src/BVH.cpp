@@ -1,6 +1,6 @@
 #include "BVH.hpp"
 #include "particle.hpp"
-#include "Bounds.hpp"
+#include "bounds.hpp"
 #include <vector>
 #include "collision_hdl.hpp"
 #include "timer.hpp"
@@ -19,7 +19,7 @@ BVHNodeArray generateBVHNodeArr(const bounds_vector& b_vec)
     BVHNodeArray res;
     for(auto it : b_vec)
     {
-        res.push_back(initNode(it));
+        res.push_back(initNode(&it));
     }
 
     return res;
@@ -45,15 +45,15 @@ BVHNodeArray sortBVHNodeArrY(BVHNodeArray arr)
     return arr;
 }
 
-BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
+void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
             const Bounds2D& ttBound, float Tt, float Ti, BVHNode* root)
 {
     if(!root) 
-        return NULL;
+        return ;
 
     // if array less then one element then the splitting is done
     if(arr.size() <= 1) 
-        return NULL;
+        return ;
 
     cost_infos min_x = {-1 ,{ 0, FLT_MAX} };
     cost_infos min_y = {-1 ,{ 0, FLT_MAX} };
@@ -106,7 +106,7 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
         }
     }
 
-    std::pair<Bounds2D, Bounds2D> p_bounds;
+    std::pair<Bounds2D*, Bounds2D*> p_bounds;
     unsigned int pos = 0;
 
     // if slitting using x axis is cheaper, use it
@@ -115,7 +115,7 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
         pos = min_x.first;
 
         // check which edge
-        if(min_x.second.first == x_arr[pos]->getpMax().x)
+        if(min_x.second.first == x_arr[pos]->_Bound2D->getpMax().x)
             pos++;
 
         p_bounds = splitAxis(ttBound, min_x.second.first, -1 );
@@ -126,7 +126,7 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
         pos = min_y.first;
 
         // check which edge
-        if(min_x.second.first == x_arr[pos]->getpMax().y)
+        if(min_x.second.first == x_arr[pos]->_Bound2D->getpMax().y)
             pos++;
 
         p_bounds = splitAxis(ttBound, -1, min_y.second.first );
@@ -141,12 +141,12 @@ BVHNode* SAH(const BVHNodeArray& arr, unsigned int maxRetry = 3,
     // recursively creating the tree
 
     // left first 
-    SAH(root->left.arr = BVHNodeArray l_arr(x_arr.begin(), x_arr.begin() + pos), 
-        maxRetry, p_bounds.first, Tt, Ti, l_node);
+    SAH(root->left->arr = BVHNodeArray(x_arr.begin(), x_arr.begin() + pos), 
+        maxRetry, *(p_bounds.first), Tt, Ti, l_node);
 
     // right after left is done
-    SAH(root->right.arr = BVHNodeArray r_arr(x_arr.begin() + pos, x_arr.end()), 
-        maxRetry,p_bounds.second, Tt, Ti, r_node);
+    SAH(root->right->arr = BVHNodeArray(x_arr.begin() + pos, x_arr.end()), 
+        maxRetry, *(p_bounds.second), Tt, Ti, r_node);
 }
 
 cost_infos getMinCostYAxis(const BVHNodeArray& arr, 
@@ -166,7 +166,7 @@ cost_infos getMinCostXAxis(const BVHNodeArray& arr,
                         const Bounds2D& ttBound,
                         float Tt, float Ti)
 {
-    std::pair<float, float> min = {0, {0,FLT_MAX}};
+    std::pair<float, std::pair<float, float>> min = {0, {0,FLT_MAX}};
     for( int pos = 0 ; pos < arr.size(); pos++ )
     {
         min = minCost(getCost(arr,ttBound,pos,Tt,Ti,axis::xAxis), min);
@@ -178,7 +178,7 @@ cost_infos getMinCostXAxis(const BVHNodeArray& arr,
 float getArea(const Bounds2D& b)
 {
     return (b.getPoints().second.x - b.getPoints().first.x) 
-            * (b.getPoints().second.y - b.getPoints().first.y)
+            * (b.getPoints().second.y - b.getPoints().first.y);
 }
 
 cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound, 
@@ -194,7 +194,7 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
 
     float splitPos;
 
-    std::pair<Bounds2D, Bounds2D> twoSide;
+    std::pair<Bounds2D*, Bounds2D*> twoSide;
 
     // Split the bounding box along the x-axis
     if (Axis == axis::xAxis) 
@@ -204,7 +204,7 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
             if(arr[pos]->_Bound2D->getpMax().x > arr[pos+1]->_Bound2D->getpMin().x)
                 return res;
             
-            splitPos = arr[pos]->_Bound2D->getpMax().x
+            splitPos = arr[pos]->_Bound2D->getpMax().x;
         }
         else if(pos == arr.size() - 1)
         {
@@ -244,7 +244,7 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
             if(arr[pos]->_Bound2D->getpMax().y > arr[pos+1]->_Bound2D->getpMin().y)
                 return res;
             
-            splitPos = arr[pos]->_Bound2D->getpMax().y
+            splitPos = arr[pos]->_Bound2D->getpMax().y;
         }
         else if(pos == arr.size() - 1)
         {
@@ -279,8 +279,8 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
 
     // Calculate surface areas
     float ttArea = getArea(ttBound);
-    float Area_1 = twoSide.first;
-    float Area_2 = twoSide.second;
+    float Area_1 = getArea(*(twoSide.first));
+    float Area_2 = getArea(*(twoSide.second));
 
     // Calculate probabilities
     float P1 = Area_1/ttArea;
@@ -304,7 +304,7 @@ void DFS(BVHNode* root, float Tt, float Ti)
      * if there is ovarlap between 2 bounds, then have to check 
      * for collision and perform SAH from this root downward
     */
-    if(doOverlap(root->left->_Bound2D, root->right->_Bound2D))
+    if(doOverlap(*(root->left->_Bound2D), *(root->right->_Bound2D)))
     {
         COLLISION_HDL::collisionHDL(root->left->_Bound2D->getShape(),
                                     root->right->_Bound2D->getShape());
@@ -314,8 +314,8 @@ void DFS(BVHNode* root, float Tt, float Ti)
 
         // done handle the collision, perform SAH
         SAH(root->arr, 3, 
-            getTotalBounds( root->left->_Bound2D, 
-                            root->right->_Bound2D),
+            getTotalBounds( *(root->left->_Bound2D), 
+                            *(root->right->_Bound2D)),
             Tt, Ti, root);
     }
 

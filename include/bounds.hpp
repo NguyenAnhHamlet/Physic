@@ -6,6 +6,8 @@
 #include "point2D.hpp"
 #include <vector>
 #include "common.hpp"
+#include <cfloat>
+#include "shape.hpp"
 
 class SHAPE;
 class CIRCLE;
@@ -21,15 +23,23 @@ class Bounds2D
     unsigned int numRetry;
 
 public:
-    Bounds2D() :    pMin(point2D p(FLT_MAX ,FLT_MAX)), 
-                    pMax(point2D p(FLT_MIN,FLT_MIN)),
-                    centroid(point2D p(0,0)),
+    Bounds2D() :    pMin(FLT_MAX, FLT_MAX),
+                    pMax(FLT_MIN, FLT_MIN),
+                    centroid(0,0),
                     numOfPrimitives(0) {}
 
     Bounds2D(point2D _pMin, point2D _pMax, point2D _centroid, 
             unsigned int _numOfPrimitives, SHAPE* s)
             : pMin(_pMin), pMax(_pMax), centroid(_centroid) ,
              numOfPrimitives(_numOfPrimitives), shape(s) {}
+
+    Bounds2D(point2D _pMin, point2D _pMax, point2D _centroid)
+            : pMin(_pMin), pMax(_pMax), centroid(_centroid)
+             {}
+
+    Bounds2D(point2D _pMin, point2D _pMax)
+            : pMin(_pMin), pMax(_pMax)
+             {}
 
     std::pair<point2D,point2D> getPoints() const;
 
@@ -39,18 +49,19 @@ public:
     point2D getpMax() const { return pMax ;}
     point2D getCentroid() const { return centroid ;}
     unsigned int getNumRetry() const {return numRetry ;}
-    SHAPE* getShape() const { return shape};
+    SHAPE* getShape() const { return shape ;}
 
     // set function 
     void setNumPrimitives(unsigned int n);
     void setpMin(const point2D& p) {pMin = p ;}
     void setpMax(const point2D& p) {pMax = p ;}
     void setCentroid(const point2D& c) {centroid = c ;}
+    void setCentroid() { centroid = point2D(pMin.x + pMax.x / 2, pMin.y + pMax.y /2 ); }
     void setNumRetry(unsigned int n) {numRetry = n ;}
-    void setShape(SHAPE* s) { shape = s};
+    void setShape(SHAPE* s) { shape = s; }
 };
 
-typedef std::vector<Bounds2D*> bounds_vector;
+typedef std::vector<Bounds2D> bounds_vector;
 
 // check if 2 Bounds overlap each other or not
 bool doOverlap(const Bounds2D& b1, const Bounds2D& b2);
@@ -70,7 +81,7 @@ std::pair<Bounds2D*, Bounds2D*> splitAxis(const Bounds2D& b, float xAxis = -1, f
 
 // create a bound around the shape
 Bounds2D createBound(SHAPE* shape);
-Bounds2D createBound(CRICLE* cir);
+Bounds2D createBound(CIRCLE* cir);
 Bounds2D createBound(RECTANGLE* rect);
 
 // get bound of each shape and return the list of all of them 

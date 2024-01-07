@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <utility>
+#include <set>
 
 class RENDERER;
 struct COLOR;
@@ -14,6 +15,7 @@ class SHAPE;
 class CIRCLE;
 class COLLISION_HDL;
 class shape_holder;
+class VECTOR;
 
 constexpr int _DEFAULT = 10;
 
@@ -27,7 +29,7 @@ class SHAPE : public PARTICLE
 {
 protected:
     int id = 0;
-    VECTOR center;
+    VECTOR* center;
 
 public:
     virtual void setid(int _id) =0;
@@ -38,8 +40,8 @@ public:
 
     virtual void collideOther(COLLISION_HDL* collision_hdl) = 0;
 
-    virtual VECTOR getCenter() = 0;
-    virtual void insertThisShape(shape_holder* _shape_holder) = 0;
+    virtual VECTOR* getCenter() = 0;
+    // virtual void insertThisShape(shape_holder* _shape_holder) = 0;
 };
 
 /***
@@ -52,7 +54,7 @@ class CIRCLE : public SHAPE
 {
     int radius;
     COLOR* color;
-    VECTOR center;
+    VECTOR* center;
 
 public : 
     CIRCLE(COLOR* _color, int _radius);
@@ -65,9 +67,9 @@ public :
 
     virtual void collideOther(COLLISION_HDL* collision_hdl) override;
 
-    VECTOR getCenter() override;
+    VECTOR* getCenter() override;
 
-    virtual void insertThisShape(shape_holder* _shape_holder) override;
+    // virtual void insertThisShape(shape_holder* _shape_holder) override;
 
     float getR();
 };
@@ -83,6 +85,7 @@ class RECTANGLE : public SHAPE
     SDL_Rect rect;
     COLOR* color;
     float axis;
+    VECTOR* center;
 
 public:
     RECTANGLE(COLOR* _color, int _w, int _h);
@@ -95,16 +98,16 @@ public:
 
     virtual void collideOther(COLLISION_HDL* collision_hdl) override;
 
-    VECTOR getCenter() override;
+    VECTOR* getCenter() override;
 
-    virtual void insertThisShape(shape_holder* _shape_holder) override;
+    // virtual void insertThisShape(shape_holder* _shape_holder) override;
 
     float getAxisL();
     std::vector<VECTOR*> getPoints();
     SDL_Rect* getRect();
 
     float getW();
-    float getH()
+    float getH();
 };
 
 /***
@@ -119,9 +122,10 @@ typedef std::set<SHAPE*> set_shape_holder;
 
 class shape_holder
 {
-    set_shape_holder _set_shape_holder;
+    set_shape_holder* _set_shape_holder;
 
 public:
+    set_shape_holder* get_set_shape_holder() const;
     void addShape(SHAPE* s);
     void removeShape(SHAPE* s);
 };
