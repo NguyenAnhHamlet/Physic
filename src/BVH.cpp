@@ -299,6 +299,24 @@ cost_infos minCost( cost_infos cost_1,
 
 void DFS(BVHNode* root, float Tt, float Ti)
 {
+    // Before using DFS to traverse the tree and check for 
+    // overlap, have to update the bounds
+    
+    // 1. update the bound of each node inside vector
+    for(auto node: root->left->arr)
+    {
+        node->_Bound2D->update();
+    }
+
+    for( auto node : root->right->arr)
+    {
+        node->_Bound2D->update();
+    }
+
+    // 2. create the entire bound again using function getBoundAll
+    // 3. update the bound of left and right 
+    *(root->left->_Bound2D) = getBoundAll(root->left->arr);
+    *(root->right->_Bound2D) = getBoundAll(root->right->arr);
 
     /**
      * if there is ovarlap between 2 bounds, then have to check 
@@ -328,4 +346,16 @@ void DFS(BVHNode* root, float Tt, float Ti)
     // right later
     DFS(root->right, Tt, Ti);
     
+}
+
+Bounds2D getBoundAll(const BVHNodeArray& arr )
+{
+    Bounds2D res;
+
+    for(auto node : arr)
+    {
+        res = getTotalBounds(res, *(node->_Bound2D) );
+    }
+
+    return res;
 }
