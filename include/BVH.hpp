@@ -44,11 +44,14 @@ cost_infos getMinCostXAxis(const BVHNodeArray& arr, const Bounds2D& ttBound,
 cost_infos getMinCostYAxis(const BVHNodeArray& arr, const Bounds2D& ttBound,
                                         float Tt, float Ti);
 
-cost_infos minCost(cost_infos cost_1, 
-                                cost_infos cost_2 );
+cost_infos minCost( cost_infos cost_1, 
+                    cost_infos cost_2 );
 
 float getArea(const Bounds2D& b);
 
 void DFS(BVHNode* root, float Tt, float Ti);
+
+// get bound of all bound inside BVHNodeArray
+Bounds2D getBoundAll(const BVHNodeArray& arr );
 
 #endif

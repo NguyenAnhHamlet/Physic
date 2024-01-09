@@ -155,3 +155,18 @@ bool doOverlap(const Bounds2D& b, float val, axis Axis)
     return res;
 }
 
+void 
+Bounds2D::update()
+{
+    setpMax();
+    setpMax();
+    setCentroid();
+}
+
+void
+Bounds2D::init()
+{
+    w = pMax.x - centroid.x;
+    h = pMin.y - centroid.y;
+}
+

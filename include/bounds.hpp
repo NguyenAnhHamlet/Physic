@@ -18,6 +18,8 @@ class Bounds2D
     point2D pMin;
     point2D pMax;
     point2D centroid;
+    float w;
+    float h;
     SHAPE* shape;
     unsigned int numOfPrimitives;
     unsigned int numRetry;
@@ -31,15 +33,38 @@ public:
     Bounds2D(point2D _pMin, point2D _pMax, point2D _centroid, 
             unsigned int _numOfPrimitives, SHAPE* s)
             : pMin(_pMin), pMax(_pMax), centroid(_centroid) ,
-             numOfPrimitives(_numOfPrimitives), shape(s) {}
+             numOfPrimitives(_numOfPrimitives), shape(s) 
+             {
+                init();
+             }
 
     Bounds2D(point2D _pMin, point2D _pMax, point2D _centroid)
             : pMin(_pMin), pMax(_pMax), centroid(_centroid)
-             {}
+             {
+                init();
+             }
 
     Bounds2D(point2D _pMin, point2D _pMax)
             : pMin(_pMin), pMax(_pMax)
-             {}
+             {
+                init();
+             }
+
+    Bounds2D(SHAPE* s)
+            : shape(s)
+            {
+                init();
+            }
+
+    // copy constructor 
+    void operator=(const Bounds2D& b)
+    {
+        pMin = b.pMin;
+        pMax = b.pMax;
+        centroid = b.centroid;
+        w = b.w;
+        h = b.h;
+    }
 
     std::pair<point2D,point2D> getPoints() const;
 
@@ -56,9 +81,38 @@ public:
     void setpMin(const point2D& p) {pMin = p ;}
     void setpMax(const point2D& p) {pMax = p ;}
     void setCentroid(const point2D& c) {centroid = c ;}
-    void setCentroid() { centroid = point2D(pMin.x + pMax.x / 2, pMin.y + pMax.y /2 ); }
     void setNumRetry(unsigned int n) {numRetry = n ;}
     void setShape(SHAPE* s) { shape = s; }
+
+    // initialize the needed components
+    void init();
+
+    /**
+     * Create a completely new bound would be costly, instead
+     * just upgrade some components of the bound since it 
+     * already store shape, which is the needed attribute to 
+     * upgrade the pMax, pMin and centroid in case the bounds 
+     * is a leaf
+    */
+    void setpMin() 
+    {
+        if(!shape) return;
+        pMin = point2D(shape->getCenter()->x - w, shape->getCenter()->y - h);
+    }
+
+    void setpMax() 
+    {
+        if(!shape) return;
+        pMin = point2D(shape->getCenter()->x + w, shape->getCenter()->y + h);
+    }
+
+    void setCentroid() 
+    {  
+        if(!shape) return;
+        centroid = point2D(shape->getCenter()->x, shape->getCenter()->y );
+    }
+
+    void update();
 };
 
 typedef std::vector<Bounds2D> bounds_vector;
