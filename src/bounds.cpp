@@ -68,7 +68,6 @@ std::pair<Bounds2D*, Bounds2D*> splitAxis(const Bounds2D& b, float xAxis , float
                                     point2D(b.getPoints().second.x, b.getPoints().second.y));
     }
 
-    // have to count how many primitives are there in each side
 
     res.first->setCentroid();
     res.second->setCentroid();
