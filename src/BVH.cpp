@@ -132,21 +132,21 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
         p_bounds = splitAxis(ttBound, -1, min_y.second.first );
     }
 
-    BVHNode* l_node = initNode(p_bounds.first);
-    BVHNode* r_node = initNode(p_bounds.second);
+    root->left = initNode(p_bounds.first);
+    root->right = initNode(p_bounds.second);
 
-    root->left = l_node;
-    root->right = r_node;
+    root->left->_Bound2D->setNumPrimitives(pos +1);
+    root->right->_Bound2D->setNumPrimitives(arr.size() - 1 - pos);
 
     // recursively creating the tree
 
     // left first 
     SAH(root->left->arr = BVHNodeArray(x_arr.begin(), x_arr.begin() + pos), 
-        maxRetry, *(p_bounds.first), Tt, Ti, l_node);
+        maxRetry, *(p_bounds.first), Tt, Ti, root->left);
 
     // right after left is done
     SAH(root->right->arr = BVHNodeArray(x_arr.begin() + pos, x_arr.end()), 
-        maxRetry, *(p_bounds.second), Tt, Ti, r_node);
+        maxRetry, *(p_bounds.second), Tt, Ti, root->right);
 }
 
 cost_infos getMinCostYAxis(const BVHNodeArray& arr, 
