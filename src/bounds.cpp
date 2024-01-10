@@ -94,16 +94,14 @@ Bounds2D createBound(SHAPE* shape)
 
 Bounds2D createBound(CIRCLE* cir)
 {
-    Bounds2D bound2D(   point2D(cir->getCenter()->x - cir->getR(), cir->getCenter()->y - cir->getR()),
-                        point2D(cir->getCenter()->x + cir->getR(), cir->getCenter()->y + cir->getR()));
+    Bounds2D bound2D(static_cast<SHAPE*>(cir));
     
     return bound2D;
 }
 
 Bounds2D createBound(RECTANGLE* rect)
 {
-    Bounds2D bound2D(   point2D(rect->getCenter()->x - rect->getW()/2, rect->getCenter()->y - rect->getH()/2),
-                        point2D(rect->getCenter()->x + rect->getW()/2, rect->getCenter()->y + rect->getH()/2));
+    Bounds2D bound2D( static_cast<SHAPE*>(rect) );
 
     return bound2D;
 }
