@@ -53,6 +53,7 @@ public:
     Bounds2D(SHAPE* s)
             : shape(s)
             {
+                update();
                 init();
             }
 
