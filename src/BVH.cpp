@@ -77,33 +77,28 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
      * */ 
     if(min_x.second.second == FLT_MAX && min_y.second.second == FLT_MAX)
     { 
-        try 
+        if(maxRetry > 0)
         {
-            if(maxRetry > 0)
+            // loop through all bounds in this array and handle 
+            // the collision
+            for(int i = 0; i < arr.size() -1; i++)
             {
-                // loop through all bounds in this array and handle 
-                // the collision
-                for(int i = 0; i < arr.size() -1; i++)
-                {
-                    COLLISION_HDL::collisionHDL(arr[i]->_Bound2D->getShape(), 
-                                                arr[i+1]->_Bound2D->getShape());
-                }
-                //delay for a short period of time
-                TIMER::static_delay(100, clock());
+                COLLISION_HDL::collisionHDL(arr[i]->_Bound2D->getShape(), 
+                                            arr[i+1]->_Bound2D->getShape());
+            }
+            //delay for a short period of time
+            TIMER::static_delay(100, clock());
 
-                // after this continue with the splitting
-                SAH(arr,maxRetry-1,ttBound,Tt,Ti,root);
-            }
-            else 
-            {
-                // if retry for maxRetry time but still failed, throw exception
-                throw (maxRetry);
-            }
+            // after this continue with the splitting
+            SAH(arr,maxRetry-1,ttBound,Tt,Ti,root);
         }
-        catch (unsigned int maxRetry)
+        else 
         {
-            std::cout << "Have tried for " << maxRetry << " times but failed";
+            // if retry for maxRetry time but still failed, stop trying to 
+            // split
+            return;
         }
+        
     }
 
     std::pair<Bounds2D*, Bounds2D*> p_bounds;
@@ -303,25 +298,17 @@ void DFS(BVHNode* root, float Tt, float Ti)
     // overlap, have to update the bounds
     
     // 1. update the bound of each node inside vector
-    for(auto node: root->left->arr)
-    {
-        node->_Bound2D->update();
-    }
-
-    for( auto node : root->right->arr)
-    {
-        node->_Bound2D->update();
-    }
+    upgrade_Bound(root->left->arr);
+    upgrade_Bound(root->right->arr);
 
     // 2. create the entire bound again using function getBoundAll
     // 3. update the bound of left and right 
     *(root->left->_Bound2D) = getBoundAll(root->left->arr);
     *(root->right->_Bound2D) = getBoundAll(root->right->arr);
 
-    /**
-     * if there is ovarlap between 2 bounds, then have to check 
-     * for collision and perform SAH from this root downward
-    */
+    // if there is ovarlap between 2 bounds, then have to check 
+    // for collision and perform SAH from this root downward
+    
     if(doOverlap(*(root->left->_Bound2D), *(root->right->_Bound2D)))
     {
         COLLISION_HDL::collisionHDL(root->left->_Bound2D->getShape(),
@@ -358,4 +345,12 @@ Bounds2D getBoundAll(const BVHNodeArray& arr )
     }
 
     return res;
+}
+
+void upgrade_Bound(BVHNodeArray arr)
+{
+    for(auto node: arr)
+    {
+        node->_Bound2D->update();
+    }
 }
