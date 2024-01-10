@@ -1,6 +1,11 @@
 #ifndef __POINT2D__
 #define __POINT2D__
 
+// point2D is just a 2D vector, this is used by Bounds2D to help 
+// create a bound that hold some important component including
+// pMin, pMax and centroid that used for splitting and creating 
+// bound around a primitive/SHAPE
+
 #include <iostream>
 #include <utility>
 

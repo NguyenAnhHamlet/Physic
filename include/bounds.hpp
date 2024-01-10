@@ -1,6 +1,17 @@
 #ifndef __BOUNDS__
 #define __BOUNDS__
 
+// Bounds2D is used for the purpose of creating a bound around a 
+// set of primitive for splitting purpose.
+
+// Some components needed for SAH algorithm and DFS traversal including 
+// pMin, pMax :        help to determine the space which this bound occupies
+// centroid :          help to sort a vector of bounds_vector
+// shape :             this is optional, only leaf level hold a shape, for simplify 
+//                     the updating position of Bounds2D 
+// numOfPrimitives :   for calculating cost in SAH 
+// numRetry :          the number of times SAH algorithm would try to split
+
 #include<iostream>
 #include <utility>
 #include "point2D.hpp"
@@ -67,6 +78,7 @@ public:
         h = b.h;
     }
 
+    // get pair with first is pMin and 2nd is pMax
     std::pair<point2D,point2D> getPoints() const;
 
     // get function
@@ -120,6 +132,8 @@ typedef std::vector<Bounds2D> bounds_vector;
 
 // check if 2 Bounds overlap each other or not
 bool doOverlap(const Bounds2D& b1, const Bounds2D& b2);
+
+// check if bound b overlap Axis with val or not
 bool doOverlap(const Bounds2D& b, float val, axis Axis);
 
 // return the bound that bounds both of b1, b2
@@ -135,6 +149,7 @@ Bounds2D getTotalBounds(const Bounds2D& b1, const Bounds2D& b2);
 std::pair<Bounds2D*, Bounds2D*> splitAxis(const Bounds2D& b, float xAxis = -1, float yAxis = -1);
 
 // create a bound around the shape
+// using overloadding
 Bounds2D createBound(SHAPE* shape);
 Bounds2D createBound(CIRCLE* cir);
 Bounds2D createBound(RECTANGLE* rect);
