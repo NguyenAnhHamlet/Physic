@@ -75,8 +75,6 @@ class RENDERER
     // color of the background
     COLOR* background;
 
-
-
 public:
     ~RENDERER();
     static RENDERER* getInstance()

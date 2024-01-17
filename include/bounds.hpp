@@ -23,7 +23,6 @@
 class SHAPE;
 class CIRCLE;
 class RECTANGLE;
-
 class Bounds2D
 {
     point2D pMin;
@@ -31,7 +30,7 @@ class Bounds2D
     point2D centroid;
     float w;
     float h;
-    SHAPE* shape;
+    SHAPE* shape = NULL;
     unsigned int numOfPrimitives;
     unsigned int numRetry;
 
@@ -61,8 +60,8 @@ public:
                 init();
              }
 
-    Bounds2D(SHAPE* s)
-            : shape(s)
+    Bounds2D(SHAPE* s, float _w , float _h)
+            : shape(s), w(_w), h(_h)
             {
                 update();
                 init();
@@ -88,6 +87,8 @@ public:
     point2D getCentroid() const { return centroid ;}
     unsigned int getNumRetry() const {return numRetry ;}
     SHAPE* getShape() const { return shape ;}
+    float getW() const {return w ;}
+    float getH() const {return h ;}
 
     // set function 
     void setNumPrimitives(unsigned int n);
@@ -116,13 +117,26 @@ public:
     void setpMax() 
     {
         if(!shape) return;
-        pMin = point2D(shape->getCenter()->x + w, shape->getCenter()->y + h);
+        pMax = point2D(shape->getCenter()->x + w, shape->getCenter()->y + h);
     }
 
     void setCentroid() 
     {  
-        if(!shape) return;
-        centroid = point2D(shape->getCenter()->x, shape->getCenter()->y );
+        // std::cout << "END SET"<< '\n';
+        // std::cout << "END SET"<< '\n';
+        if(!shape)
+        {
+            // std::cout << "END SET"<< '\n';
+            // std::cout << "END SET"<< '\n';
+            // std::cout << getpMax().x << '\n';
+            centroid = point2D(pMin.x + (pMax.x - pMin.x)/2, pMin.y + (pMax.y - pMin.y )/2);
+        }
+        else 
+        {
+            // std::cout << "END SET"<< '\n';
+            centroid = point2D(shape->getCenter()->x, shape->getCenter()->y );
+
+        }
     }
 
     void update();

@@ -11,15 +11,27 @@ BVHNode* initNode(Bounds2D* bound2D)
     BVHNode* node = new BVHNode;
     node->_Bound2D = bound2D;
 
+    // std::cout << "Value of bound in initNode: " << node->_Bound2D->getpMax().x << " " << node->_Bound2D->getpMax().y << '\n'; 
+
     return node;
 }
 
 BVHNodeArray generateBVHNodeArr(const bounds_vector& b_vec)
 {
     BVHNodeArray res;
-    for(auto it : b_vec)
+    BVHNode* node = NULL;
+    for(int i=0; i < b_vec.size(); i++)
     {
-        res.push_back(initNode(&it));
+        // std::cout << "Value of b in b_vec: " << b.getpMax().x << " " << b.getpMax().y << '\n'; 
+        BVHNode* node = initNode(const_cast<Bounds2D*>(&(b_vec[i])));
+        // std::cout << "Value of node: " << node->_Bound2D->getpMax().x << " " << node->_Bound2D->getpMax().y << 'n'; 
+        res.push_back(node);
+    }
+
+    for( int i=0; i < res.size(); i++)
+    {
+        // std::cout << "Value of node: " << res[i]->_Bound2D->getpMax().x << " " << res[i]->_Bound2D->getpMax().y << 'n'; 
+        // std::cout << node << '\n';
     }
 
     return res;
@@ -101,6 +113,12 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
         
     }
 
+
+    // std::cout << "Value Min" << '\n';
+    // std::cout << min_x.second.second<<'\n';
+    // std::cout << min_y.second.second<<'\n';
+    // std::cout << "END"<<'\n';
+
     std::pair<Bounds2D*, Bounds2D*> p_bounds;
     unsigned int pos = 0;
 
@@ -132,6 +150,12 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
 
     root->left->_Bound2D->setNumPrimitives(pos +1);
     root->right->_Bound2D->setNumPrimitives(arr.size() - 1 - pos);
+
+    // std::cout << p_bounds.first->getpMin().x <<'\n';
+    // std::cout << p_bounds.first->getpMin().y <<'\n';
+    // std::cout << p_bounds.first->getpMax().x <<'\n';
+    // std::cout << p_bounds.first->getpMax().y <<'\n';
+    // std::cout << "END"<<'\n';
 
     // recursively creating the tree
 
@@ -194,6 +218,8 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
     // Split the bounding box along the x-axis
     if (Axis == axis::xAxis) 
     {
+        // std::cout << "Value of Axis " << arr[pos]->_Bound2D->getpMax().x << '\n';
+
         if(pos == 0)
         {
             if(arr[pos]->_Bound2D->getpMax().x > arr[pos+1]->_Bound2D->getpMin().x)
@@ -228,6 +254,8 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
         {
             splitPos = arr[pos]->_Bound2D->getpMin().x;
         }
+
+        // std::cout << "END FUNCTION" << '\n';
 
         twoSide = splitAxis(ttBound ,splitPos);
 
@@ -272,6 +300,8 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
         twoSide = splitAxis(ttBound, -1, splitPos);
     }
 
+    // std::cout << "END FUNCTION" << '\n';
+
     // Calculate surface areas
     float ttArea = getArea(ttBound);
     float Area_1 = getArea(*(twoSide.first));
@@ -280,6 +310,9 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
     // Calculate probabilities
     float P1 = Area_1/ttArea;
     float P2 = Area_2/ttArea;
+
+    // std::cout << "getCost" <<'\n';
+    // std::cout << "Value of splitPos :" << splitPos <<'\n';
 
     // Calculate and return the SAH cost
     return res = {pos, {splitPos , traversalCost + intersectCost + P1*Area_1 + P2*Area_2}} ; 
@@ -294,6 +327,8 @@ cost_infos minCost( cost_infos cost_1,
 
 void DFS(BVHNode* root, float Tt, float Ti)
 {
+    if(!root) return;
+
     // Before using DFS to traverse the tree and check for 
     // overlap, have to update the bounds
     
