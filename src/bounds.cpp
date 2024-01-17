@@ -51,26 +51,36 @@ std::pair<Bounds2D*, Bounds2D*> splitAxis(const Bounds2D& b, float xAxis , float
 
     if(xAxis != -1)
     {
-        res.first = new Bounds2D(   point2D(b.getPoints().first.x,b.getPoints().first.y), 
-                                    point2D(std::max(b.getPoints().second.x, xAxis), b.getPoints().second.y));
-
-        res.second = new Bounds2D(  point2D(std::max(b.getPoints().first.x, xAxis),b.getPoints().first.y), 
-                                    point2D(b.getPoints().second.x, b.getPoints().second.y));
+        res.first = new Bounds2D( b.getpMin(),point2D(xAxis, b.getpMax().y ));
+        res.second = new Bounds2D( point2D(xAxis, b.getpMin().y), b.getpMax() );
 
     }
 
     if(yAxis != -1)
     {
-        res.first = new Bounds2D(   point2D(b.getPoints().first.x,b.getPoints().first.y), 
-                                    point2D(b.getPoints().second.x, std::max(b.getPoints().second.y, yAxis)));
-
-        res.second = new Bounds2D(  point2D(b.getPoints().first.x,std::max(b.getPoints().first.y,yAxis)), 
-                                    point2D(b.getPoints().second.x, b.getPoints().second.y));
+        res.first = new Bounds2D( b.getpMin(),point2D( b.getpMax().x, yAxis ));
+        res.second = new Bounds2D( point2D( b.getpMin().x, yAxis), b.getpMax() );
     }
 
 
+    // std::cout << "END FUNCTION" << '\n';
+    std::cout << res.first->getpMax().x << '\n';
+    std::cout << res.second->getpMax().y << '\n';
+    std::cout << "END" << '\n';
+
     res.first->setCentroid();
     res.second->setCentroid();
+
+
+    // std::cout << res.first->getpMin().x <<'\n';
+    // std::cout << res.first->getpMin().y <<'\n';
+    // std::cout << res.first->getpMax().x <<'\n';
+    // std::cout << res.first->getpMax().y <<'\n';
+
+    // std::cout << "Value axis" <<'\n';
+    // std::cout << xAxis <<'\n';
+    // std::cout << yAxis <<'\n';
+    // std::cout << "END"<<'\n';
 
     return res;
 }
@@ -94,14 +104,18 @@ Bounds2D createBound(SHAPE* shape)
 
 Bounds2D createBound(CIRCLE* cir)
 {
-    Bounds2D bound2D(static_cast<SHAPE*>(cir));
+    Bounds2D bound2D(static_cast<SHAPE*>(cir), cir->getR(), cir->getR());
+
+    // std::cout << "Value of bounds2D " << bound2D.getpMax().x << " " << bound2D.getpMax().y << '\n';  
     
     return bound2D;
 }
 
 Bounds2D createBound(RECTANGLE* rect)
 {
-    Bounds2D bound2D( static_cast<SHAPE*>(rect) );
+    Bounds2D bound2D( static_cast<SHAPE*>(rect), rect->getW()/2, rect->getH()/2 ) ;
+
+    // std::cout << "Value of bounds2D " << bound2D.getpMax().x << " " << bound2D.getpMax().y << '\n';
 
     return bound2D;
 }
@@ -155,7 +169,7 @@ bool doOverlap(const Bounds2D& b, float val, axis Axis)
 void 
 Bounds2D::update()
 {
-    setpMax();
+    setpMin();
     setpMax();
     setCentroid();
 }
@@ -164,6 +178,6 @@ void
 Bounds2D::init()
 {
     w = pMax.x - centroid.x;
-    h = pMin.y - centroid.y;
+    h = pMax.y - centroid.y;
 }
 

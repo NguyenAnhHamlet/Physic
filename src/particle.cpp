@@ -2,6 +2,7 @@
 #include "particleForceRegister.hpp"
 #include "timer.hpp"
 #include "common.hpp"
+#include <utility> 
 
 PARTICLE::PARTICLE() : damping(0.0), inverseMass(0.0), mass(0.0) 
 {
@@ -127,6 +128,13 @@ PARTICLE::setPos(VECTOR& _pos)
 {
     this->pos = _pos;
 }
+
+void 
+PARTICLE::setPos(VECTOR&& _pos)
+{
+    this->pos = std::move(_pos);
+}
+
 
 void 
 PARTICLE::setAcceleration(VECTOR& _acceleration)

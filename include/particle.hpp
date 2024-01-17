@@ -86,6 +86,7 @@ public:
     void setForceAccum(VECTOR& _forceAccum);
     void setDamping(float _damping);
     void setPos(VECTOR& _pos);
+    void setPos(VECTOR&& _pos);
     void setAcceleration(VECTOR& _acceleration);
     void setMass(float _mass);
     void setInverseMass(float _inverseMass);

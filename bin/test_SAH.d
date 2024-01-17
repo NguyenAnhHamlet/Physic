@@ -1,4 +1,4 @@
-bin/main: main.cpp include/vector.hpp include/particle.hpp \
+bin/test_SAH: test_SAH.cpp include/vector.hpp include/particle.hpp \
  include/vector.hpp include/gfgen.hpp include/pfgen.hpp include/timer.hpp \
  include/particleDrag.hpp include/common.hpp include/particleDrag.hpp \
  include/particleForceRegister.hpp include/pfgen.hpp \
@@ -27,7 +27,8 @@ bin/main: main.cpp include/vector.hpp include/particle.hpp \
  /usr/include/SDL2/SDL_version.h /usr/include/SDL2/SDL_locale.h \
  /usr/include/SDL2/SDL_misc.h include/shape.hpp include/particle.hpp \
  /usr/include/SDL2/SDL_rect.h include/renderer.hpp include/shape.hpp \
- include/common.hpp
+ include/common.hpp include/BVH.hpp include/bounds.hpp \
+ include/point2D.hpp include/bounds.hpp include/point2D.hpp
 include/vector.hpp:
 include/particle.hpp:
 include/vector.hpp:
@@ -92,3 +93,8 @@ include/particle.hpp:
 include/renderer.hpp:
 include/shape.hpp:
 include/common.hpp:
+include/BVH.hpp:
+include/bounds.hpp:
+include/point2D.hpp:
+include/bounds.hpp:
+include/point2D.hpp:
