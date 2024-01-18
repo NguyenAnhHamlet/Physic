@@ -13,6 +13,8 @@
 #include "bounds.hpp"
 #include "point2D.hpp" 
 
+int n = 0;
+
 void render_Bound(RENDERER* render, Bounds2D* b)
 {
     if(!b) return;
@@ -36,7 +38,6 @@ void render_Bound(RENDERER* render, Bounds2D* b)
     // std::cout << b->getpMax().x <<'\n';
     // std::cout << b->getpMax().y <<'\n';
     // std::cout << "END"<<'\n';
-
 
 }
 
@@ -131,12 +132,15 @@ int main(int argc, char* argv[])
     //     // std::cout << "Value of bound: " << node->_Bound2D->getpMax().x << " " << node->_Bound2D->getpMax().y << 'n'; 
     // }
 
+
     // creating a root node 
     BVHNode* root = new BVHNode;
 
     // using SAH algorithm now
     SAH(arr,3,tt_b,1,1,root);
 
+    // std::cout << n << '\n';
+    // n++;
 
     // std::cout << tt_b.getpMax().x;
 

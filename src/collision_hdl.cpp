@@ -104,6 +104,7 @@ COLLISION_HDL::collisionHDL(RECTANGLE* rect)
 void
 COLLISION_HDL::collisionHDL(CIRCLE* circle, RECTANGLE* rect)
 {
+    // std::cout << rect << '\n';
     if(!circle || !rect) 
         return ;
 
@@ -188,10 +189,11 @@ COLLISION_HDL::collisionHDL(RECTANGLE* rect_1, RECTANGLE* rect_2)
 void
 COLLISION_HDL::collisionHDL(SHAPE* s1, SHAPE* s2)
 {
-    collisionHDL(static_cast<CIRCLE*>(s1), static_cast<CIRCLE*>(s2));
-    collisionHDL(static_cast<CIRCLE*>(s1), static_cast<RECTANGLE*>(s2));
-    collisionHDL(static_cast<RECTANGLE*>(s1), static_cast<RECTANGLE*>(s2));
-    collisionHDL(static_cast<RECTANGLE*>(s1), static_cast<CIRCLE*>(s2));
+    // std::cout << "RUNNING" << '\n';
+    collisionHDL(dynamic_cast<CIRCLE*>(s1), dynamic_cast<CIRCLE*>(s2));
+    collisionHDL(dynamic_cast<CIRCLE*>(s1), dynamic_cast<RECTANGLE*>(s2));
+    collisionHDL(dynamic_cast<RECTANGLE*>(s1), dynamic_cast<RECTANGLE*>(s2));
+    collisionHDL(dynamic_cast<CIRCLE*>(s2), dynamic_cast<RECTANGLE*>(s1));
 }
 
 shape_holder* 

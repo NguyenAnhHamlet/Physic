@@ -64,9 +64,9 @@ std::pair<Bounds2D*, Bounds2D*> splitAxis(const Bounds2D& b, float xAxis , float
 
 
     // std::cout << "END FUNCTION" << '\n';
-    std::cout << res.first->getpMax().x << '\n';
-    std::cout << res.second->getpMax().y << '\n';
-    std::cout << "END" << '\n';
+    // std::cout << res.first->getpMax().x << '\n';
+    // std::cout << res.second->getpMax().y << '\n';
+    // std::cout << "END" << '\n';
 
     res.first->setCentroid();
     res.second->setCentroid();
