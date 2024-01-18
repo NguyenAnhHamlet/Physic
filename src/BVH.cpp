@@ -118,7 +118,7 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
 
                 // // if(arr[i]->_Bound2D->getShape() == NULL || arr[i+1]->_Bound2D->getShape() == NULL )
                 // //     std::cout << "NULL" << '\n';
-                // std::cout << "END" << '\n';
+                std::cout << "HAS COLLISION" << '\n';
 
                 COLLISION_HDL::collisionHDL(arr[i]->_Bound2D->getShape(), 
                                             arr[i+1]->_Bound2D->getShape());
@@ -275,80 +275,47 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
         // std::cout << "Value of Axis " << arr[pos]->_Bound2D->getpMax().x << '\n';
         if(pos == 0)
         {
-            if(arr[pos]->_Bound2D->getpMax().x > arr[pos+1]->_Bound2D->getpMin().x)
+            if( doOverlap(*(arr[pos]->_Bound2D), *(arr[pos+1]->_Bound2D)) )
                 return res;
-            
-            splitPos = arr[pos]->_Bound2D->getpMax().x;
         }
-        else if(pos == arr.size() - 1)
+        else if(pos != arr.size() - 1)
         {
-            if( arr[pos]->_Bound2D->getpMin().x < arr[pos-1]->_Bound2D->getpMax().x)
-                return res;
-            
-            splitPos = arr[pos]->_Bound2D->getpMin().x; 
+            if(doOverlap(*(arr[pos]->_Bound2D), *(arr[pos+1]->_Bound2D)) &&
+                doOverlap(*(arr[pos]->_Bound2D), *(arr[pos-1]->_Bound2D)))
+            {
+                // check for potential collision
+                return res;      
+            }
         }
 
-        // Make sure the splitting can be done
-        else if(arr[pos]->_Bound2D->getpMin().x < arr[pos-1]->_Bound2D->getpMax().x &&
-            arr[pos]->_Bound2D->getpMax().x > arr[pos+1]->_Bound2D->getpMin().x)
-        {
-            // check for potential collision
-            return res;      
-        }
+        splitPos = arr[pos]->_Bound2D->getpMax().x;
         
-        // In case centroid x value touchs left Bound
-        else if(arr[pos]->_Bound2D->getpMin().x < arr[pos-1]->_Bound2D->getpMax().x)
-        {
-            splitPos = arr[pos]->_Bound2D->getpMax().x;
-        }
-
-        // In case centroid x value touchs right Bound
-        else if(arr[pos]->_Bound2D->getpMax().x > arr[pos+1]->_Bound2D->getpMin().x)
-        {
-            splitPos = arr[pos]->_Bound2D->getpMin().x;
-        }
-
-        std::cout << "END FUNCTION" << '\n';
+        // std::cout << "END FUNCTION" << '\n';
 
         twoSide = splitAxis(ttBound ,splitPos);
 
     }
     else
     {
+        // std::cout << "Value of Axis " << arr[pos]->_Bound2D->getpMax().x << '\n';
         if(pos == 0)
         {
-            if(arr[pos]->_Bound2D->getpMax().y > arr[pos+1]->_Bound2D->getpMin().y)
+            if( doOverlap(*(arr[pos]->_Bound2D), *(arr[pos+1]->_Bound2D)) )
                 return res;
-            
-            splitPos = arr[pos]->_Bound2D->getpMax().y;
         }
-        else if(pos == arr.size() - 1)
+        else if(pos != arr.size() - 1)
         {
-            if( arr[pos]->_Bound2D->getpMin().y < arr[pos-1]->_Bound2D->getpMax().y)
-                return res;
-            
-            splitPos = arr[pos]->_Bound2D->getpMin().y;
+            if(doOverlap(*(arr[pos]->_Bound2D), *(arr[pos+1]->_Bound2D)) &&
+                doOverlap(*(arr[pos]->_Bound2D), *(arr[pos-1]->_Bound2D)))
+            {
+                // check for potential collision
+                return res;      
+            }
         }
 
-        // Make sure the splitting can be done
-        else if(arr[pos]->_Bound2D->getpMin().y < arr[pos-1]->_Bound2D->getpMax().y &&
-            arr[pos]->_Bound2D->getpMax().y > arr[pos+1]->_Bound2D->getpMin().y)
-        {
-            // check for potential collision
-            return res;      
-        }
+        splitPos = arr[pos]->_Bound2D->getpMax().y;
         
-        // In case edge x value touchs left Bound
-        else if(arr[pos]->_Bound2D->getpMin().y < arr[pos-1]->_Bound2D->getpMax().y)
-        {
-            splitPos = arr[pos]->_Bound2D->getpMax().y;
-        }
-
-        // In case centroid x value touchs right Bound
-        else if(arr[pos]->_Bound2D->getpMax().y > arr[pos+1]->_Bound2D->getpMin().y)
-        {
-            splitPos = arr[pos]->_Bound2D->getpMin().y;
-        }
+        // std::cout << "END FUNCTION" << '\n';
 
         twoSide = splitAxis(ttBound, -1, splitPos);
     }
