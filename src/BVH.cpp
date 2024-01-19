@@ -90,7 +90,7 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
     BVHNodeArray y_arr = sortBVHNodeArrY(arr);
     min_y = minCost(getMinCostYAxis(y_arr, ttBound, Tt, Ti ), min_y);
 
-    std::cout << min_x.second.second << min_y.second.second << '\n';
+    // std::cout << min_x.second.second << min_y.second.second << '\n';
     
 
     /**
@@ -136,19 +136,19 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
 
             for(int i = 0; i < arr.size()-1; i++)
             {
-                std::cout << "START" << '\n';
+                // std::cout << "START" << '\n';
                 // std::cout << arr[i]->_Bound2D->getCentroid().x << " " << arr[i]->_Bound2D->getCentroid().y << '\n' ;
                 // std::cout << arr[i+1]->_Bound2D->getCentroid().x << " " << arr[i+1]->_Bound2D->getCentroid().y << '\n' ;
 
-                std::cout << arr[i]->_Bound2D->getpMin().x << " " << arr[i]->_Bound2D->getpMin().y << '\n' ;
-                std::cout << arr[i+1]->_Bound2D->getpMin().x << " " << arr[i+1]->_Bound2D->getpMin().y << '\n' ;
+                // std::cout << arr[i]->_Bound2D->getpMin().x << " " << arr[i]->_Bound2D->getpMin().y << '\n' ;
+                // std::cout << arr[i+1]->_Bound2D->getpMin().x << " " << arr[i+1]->_Bound2D->getpMin().y << '\n' ;
 
-                std::cout << arr[i]->_Bound2D->getpMax().x << " " << arr[i]->_Bound2D->getpMax().y << '\n' ;
-                std::cout << arr[i+1]->_Bound2D->getpMax().x << " " << arr[i+1]->_Bound2D->getpMax().y << '\n' ;
+                // std::cout << arr[i]->_Bound2D->getpMax().x << " " << arr[i]->_Bound2D->getpMax().y << '\n' ;
+                // std::cout << arr[i+1]->_Bound2D->getpMax().x << " " << arr[i+1]->_Bound2D->getpMax().y << '\n' ;
 
                 // if(arr[i]->_Bound2D->getShape() == NULL || arr[i+1]->_Bound2D->getShape() == NULL )
                 //     std::cout << "NULL" << '\n';
-                std::cout << "END" << '\n';
+                // std::cout << "END" << '\n';
             // if retry for maxRetry time but still failed, stop trying to 
             // split
             }
@@ -267,7 +267,7 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
 
     std::pair<Bounds2D*, Bounds2D*> twoSide;
 
-    std::cout << arr.size() << '\n';
+    // std::cout << arr.size() << '\n';
 
     // Split the bounding box along the x-axis
     if (Axis == axis::xAxis) 
