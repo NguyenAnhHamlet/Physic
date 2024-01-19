@@ -193,7 +193,7 @@ PARTICLE::callbackUpdateFunc(PARTICLE_FORCE_REGISTER* p_force_reg,
     p_force_reg->updateForce(this, duration);
     posUpdate(this->velocity,this->acceleration, duration);
     this->clearForce();
-    std::cout << this->getPos().x << "," << this->getPos().y << "," << this->getVelocity().x << '\n';
+    // std::cout << this->getPos().x << "," << this->getPos().y << "," << this->getVelocity().x << '\n';
 }
 
 void 
