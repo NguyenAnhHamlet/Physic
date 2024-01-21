@@ -65,9 +65,9 @@ RENDERER::renderShape()
 void 
 RENDERER::renderShape(SHAPE* shape)
 {
-    std::cout << shape << '\n';
-    if(!shape) return ;
-    std::cout << "RUNNING" << '\n';
+    // std::cout << shape << '\n';
+    // if(!shape) return ;
+    // std::cout << "RUNNING" << '\n';
     shape->render(this);
 }
 

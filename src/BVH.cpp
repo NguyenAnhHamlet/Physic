@@ -9,6 +9,8 @@
 BVHNode* initNode(Bounds2D* bound2D)
 {
     BVHNode* node = new BVHNode;
+    node->left = NULL;
+    node->right = NULL;
     node->_Bound2D = bound2D;
 
     // std::cout << "Value of bound in initNode: " << node->_Bound2D->getpMax().x << " " << node->_Bound2D->getpMax().y << '\n'; 
@@ -57,22 +59,30 @@ BVHNodeArray sortBVHNodeArrY(BVHNodeArray arr)
     return arr;
 }
 
-void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
+void SAH(BVHNodeArray& arr, unsigned int maxRetry,
             const Bounds2D& ttBound, float Tt, float Ti, BVHNode* root)
 {
     if(!root) 
         return ;
 
-    // std::cout << arr.size() << '\n';
+    std::cout << arr.size() << '\n';
 
     // if array less then zero element then the splitting is done
     if(arr.size() <= 0) 
         return ;
 
-    // if there is only one element, assign shape
+    // if there is only one element, assign final node
     if(arr.size() == 1)
     {
-        root->_Bound2D->setShape(arr[0]->_Bound2D->getShape());
+        std::cout << "=1" <<'\n';
+        root->left = arr[0];
+        return;
+    }
+
+    if(arr.size() == 2)
+    {
+        root->left = arr[0];
+        root->right = arr[1];
         return;
     }
 
@@ -92,12 +102,11 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
     // minimum cost 
     min_x = minCost(getMinCostXAxis(x_arr, ttBound, Tt, Ti ), min_x);
 
-
     // do the same with y axis
     BVHNodeArray y_arr = sortBVHNodeArrY(arr);
     min_y = minCost(getMinCostYAxis(y_arr, ttBound, Tt, Ti ), min_y);
 
-    // std::cout << min_x.second.second << min_y.second.second << '\n';
+    std::cout << min_x.second.second <<" " <<  min_y.second.second << '\n';
     
 
     /**
@@ -107,6 +116,7 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
      * */ 
     if(min_x.second.second == FLT_MAX && min_y.second.second == FLT_MAX)
     { 
+        std::cout << "HAS COLLISION" << '\n';
         if(maxRetry > 0)
         {
             // loop through all bounds in this array and handle 
@@ -125,7 +135,6 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
 
                 // // if(arr[i]->_Bound2D->getShape() == NULL || arr[i+1]->_Bound2D->getShape() == NULL )
                 // //     std::cout << "NULL" << '\n';
-                std::cout << "HAS COLLISION" << '\n';
 
                 COLLISION_HDL::collisionHDL(arr[i]->_Bound2D->getShape(), 
                                             arr[i+1]->_Bound2D->getShape());
@@ -175,22 +184,24 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
     // if slitting using x axis is cheaper, use it
     if(min_x.second.second < min_y.second.second)
     {
-        pos = min_x.first;
+        pos = min_x.first +1;
+        arr = x_arr;
 
-        // check which edge
-        if(min_x.second.first == x_arr[pos]->_Bound2D->getpMax().x)
-            pos++;
+        // // check which edge
+        // if(min_x.second.first == x_arr[pos]->_Bound2D->getpMax().x)
+        //     pos++;
 
         p_bounds = splitAxis(ttBound, min_x.second.first, -1 );
     }
     // if not splitting using y axis
-    else 
+    else
     {
-        pos = min_y.first;
+        pos = min_y.first +1;
+        arr = y_arr;
 
-        // check which edge
-        if(min_x.second.first == x_arr[pos]->_Bound2D->getpMax().y)
-            pos++;
+        // // check which edge
+        // if(min_x.second.first == x_arr[pos]->_Bound2D->getpMax().y)
+        //     pos++;
 
         p_bounds = splitAxis(ttBound, -1, min_y.second.first );
     }
@@ -210,21 +221,21 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
     // recursively creating the tree
 
     // left first 
-    SAH(root->left->arr = BVHNodeArray(x_arr.begin(), x_arr.begin() + pos), 
-        maxRetry, *(p_bounds.first), Tt, Ti, root->left);
+    SAH(root->left->arr = BVHNodeArray(arr.begin(), arr.begin() + pos), 
+        3, *(p_bounds.first), Tt, Ti, root->left);
 
     // std::cout << "LEFT" << '\n';
 
     // right after left is done
-    SAH(root->right->arr = BVHNodeArray(x_arr.begin() + pos, x_arr.end()), 
-        maxRetry, *(p_bounds.second), Tt, Ti, root->right);
+    SAH(root->right->arr = BVHNodeArray(arr.begin() + pos, arr.end()), 
+        3, *(p_bounds.second), Tt, Ti, root->right);
 
     // std::cout << "RIGHT" << '\n';
 }
 
-cost_infos getMinCostYAxis(const BVHNodeArray& arr, 
-                                        const Bounds2D& ttBound,
-                                        float Tt, float Ti)
+cost_infos getMinCostYAxis( const BVHNodeArray& arr, 
+                            const Bounds2D& ttBound,
+                            float Tt, float Ti)
 {
     cost_infos min = {0, {0,FLT_MAX}};
     for( int pos = 0 ; pos < arr.size(); pos++ )
@@ -280,20 +291,27 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
     if (Axis == axis::xAxis) 
     {
         // std::cout << "Value of Axis " << arr[pos]->_Bound2D->getpMax().x << '\n';
-        if(pos == 0)
+        if(pos != arr.size() - 1)
         {
-            if( doOverlap(*(arr[pos]->_Bound2D), *(arr[pos+1]->_Bound2D)) )
+            if(arr[pos]->_Bound2D->getpMax().x >= arr[pos+1]->_Bound2D->getpMin().x )
                 return res;
         }
-        else if(pos != arr.size() - 1)
-        {
-            if(doOverlap(*(arr[pos]->_Bound2D), *(arr[pos+1]->_Bound2D)) &&
-                doOverlap(*(arr[pos]->_Bound2D), *(arr[pos-1]->_Bound2D)))
-            {
-                // check for potential collision
-                return res;      
-            }
-        }
+        // else if(pos != arr.size() - 1)
+        // {
+        //     if( arr[pos]->_Bound2D->getpMax().x >= arr[pos+1]->_Bound2D->getpMin().x &&
+        //         arr[pos]->_Bound2D->getpMin().x <= arr[pos-1]->_Bound2D->getpMax().x)
+        //     {
+        //         // check for potential collision
+        //         return res;      
+        //     }
+        // }
+        // else 
+        // {
+        //     if(arr[pos]->_Bound2D->getpMin().x <= arr[pos-1]->_Bound2D->getpMax().x)
+        //     {
+        //         return res;
+        //     }
+        // }
 
         splitPos = arr[pos]->_Bound2D->getpMax().x;
         
@@ -305,20 +323,27 @@ cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound,
     else
     {
         // std::cout << "Value of Axis " << arr[pos]->_Bound2D->getpMax().x << '\n';
-        if(pos == 0)
+        if(pos != arr.size() - 1)
         {
-            if( doOverlap(*(arr[pos]->_Bound2D), *(arr[pos+1]->_Bound2D)) )
+            if(arr[pos]->_Bound2D->getpMax().y >= arr[pos+1]->_Bound2D->getpMin().y )
                 return res;
         }
-        else if(pos != arr.size() - 1)
-        {
-            if(doOverlap(*(arr[pos]->_Bound2D), *(arr[pos+1]->_Bound2D)) &&
-                doOverlap(*(arr[pos]->_Bound2D), *(arr[pos-1]->_Bound2D)))
-            {
-                // check for potential collision
-                return res;      
-            }
-        }
+        // else if(pos != arr.size() - 1)
+        // {
+        //     if( arr[pos]->_Bound2D->getpMax().y >= arr[pos+1]->_Bound2D->getpMin().y &&
+        //         arr[pos]->_Bound2D->getpMin().y <= arr[pos-1]->_Bound2D->getpMax().y)
+        //     {
+        //         // check for potential collision
+        //         return res;      
+        //     }
+        // }
+        // else
+        // {
+        //     if(arr[pos]->_Bound2D->getpMin().y <= arr[pos-1]->_Bound2D->getpMax().y)
+        //     {
+        //         return res;
+        //     }
+        // }
 
         splitPos = arr[pos]->_Bound2D->getpMax().y;
         

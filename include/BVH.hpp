@@ -45,7 +45,7 @@ BVHNodeArray sortBVHNodeArrX(BVHNodeArray arr);
 
 BVHNodeArray sortBVHNodeArrY(BVHNodeArray arr);
 
-void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
+void SAH(BVHNodeArray& arr, unsigned int maxRetry,
             const Bounds2D& ttBound, float Tt, float Ti, BVHNode* root);
 
 cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound, 

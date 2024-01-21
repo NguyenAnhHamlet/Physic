@@ -21,7 +21,7 @@ set_shape_holder shape_holder;
 
 void render_Bound(RENDERER* render, Bounds2D* b)
 {
-    if (!b) ret urn;
+    if (!b) return;
 
     SDL_RenderDrawLine(render->getRenderer(), b->getpMin().x, b->getpMin().y,
                                        b->getpMax().x, b->getpMin().y);
@@ -35,6 +35,7 @@ void render_Bound(RENDERER* render, Bounds2D* b)
     SDL_RenderDrawLine(render->getRenderer(), b->getpMin().x, b->getpMax().y,
                                        b->getpMin().x, b->getpMin().y);
 
+    // std::cout << "RUNNING" << '\n';
     if(b->getShape()) b->getShape()->render(render);
 }
 
@@ -164,7 +165,7 @@ int main(int argc, char* argv[])
     // using SAH algorithm now
     SAH(arr,3,tt_b,1,1,root);
 
-    // std::cout << n << '\n';
+    std::cout << n << '\n';
     // n++;
 
     // std::cout << tt_b.getpMax().x;
