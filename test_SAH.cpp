@@ -21,7 +21,7 @@ set_shape_holder shape_holder;
 
 void render_Bound(RENDERER* render, Bounds2D* b)
 {
-    if (!b) return;
+    if (!b) ret urn;
 
     SDL_RenderDrawLine(render->getRenderer(), b->getpMin().x, b->getpMin().y,
                                        b->getpMax().x, b->getpMin().y);
