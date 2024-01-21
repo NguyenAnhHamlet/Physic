@@ -30,7 +30,7 @@ class Bounds2D
     point2D centroid;
     float w;
     float h;
-    SHAPE* shape = NULL;
+    SHAPE* shape =NULL;
     unsigned int numOfPrimitives;
     unsigned int numRetry;
 
@@ -63,6 +63,8 @@ public:
     Bounds2D(SHAPE* s, float _w , float _h)
             : shape(s), w(_w), h(_h)
             {
+                // if(shape) std::cout << shape << '\n';
+                // else std::cout << "NULL" << '\n';
                 update();
                 init();
             }

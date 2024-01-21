@@ -13,8 +13,11 @@
 #include "bounds.hpp"
 #include "point2D.hpp" 
 #include <queue>
+#include <thread>
 
 int n = 0;
+bounds_vector b_vector;
+set_shape_holder shape_holder; 
 
 void render_Bound(RENDERER* render, Bounds2D* b)
 {
@@ -31,6 +34,8 @@ void render_Bound(RENDERER* render, Bounds2D* b)
 
     SDL_RenderDrawLine(render->getRenderer(), b->getpMin().x, b->getpMax().y,
                                        b->getpMin().x, b->getpMin().y);
+
+    if(b->getShape()) b->getShape()->render(render);
 }
 
 void render_SAH(RENDERER* render, BVHNode* root)
@@ -62,6 +67,8 @@ void render_SAH(RENDERER* render, BVHNode* root)
 
             BVHNode* node = q.front();
             render_Bound(render, node->_Bound2D);
+            // for(auto shape : shape_holder)
+            //     shape->render(render);
             q.pop();
 
             if (node->left)
@@ -93,7 +100,7 @@ int main(int argc, char* argv[])
 {
     // create a BVH node array, shape
     BVHNodeArray arr;
-    set_shape_holder shape_holder; 
+    
 
     // create multiple shape with different pos to add to array
     SHAPE* s0 =  new CIRCLE(new COLOR(255,255,255,255),20);
@@ -132,7 +139,7 @@ int main(int argc, char* argv[])
     shape_holder.insert(s9);
 
     // create a bound for all of them
-    bounds_vector b_vector = getBoundEach(&shape_holder);
+    b_vector = getBoundEach(&shape_holder);
 
     // for (auto b : b_vector)
     // {
@@ -169,9 +176,7 @@ int main(int argc, char* argv[])
     for( auto shape : shape_holder )
         render->addShape(shape);
 
-
     render_SAH(render,root);
-    render->renderShape();
 
     return 0;
 }

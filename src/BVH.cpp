@@ -65,9 +65,16 @@ void SAH(const BVHNodeArray& arr, unsigned int maxRetry,
 
     // std::cout << arr.size() << '\n';
 
-    // if array less then one element then the splitting is done
-    if(arr.size() <= 1) 
+    // if array less then zero element then the splitting is done
+    if(arr.size() <= 0) 
         return ;
+
+    // if there is only one element, assign shape
+    if(arr.size() == 1)
+    {
+        root->_Bound2D->setShape(arr[0]->_Bound2D->getShape());
+        return;
+    }
 
     cost_infos min_x = {-1 ,{ 0, FLT_MAX} };
     cost_infos min_y = {-1 ,{ 0, FLT_MAX} };
