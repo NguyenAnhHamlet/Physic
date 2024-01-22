@@ -130,12 +130,12 @@ int main(int argc, char* argv[])
     // push all of them into set holder
     shape_holder.insert(s0);
     shape_holder.insert(s1);
-    shape_holder.insert(s2);
-    shape_holder.insert(s3);
+    // shape_holder.insert(s2);
+    // shape_holder.insert(s3);
     shape_holder.insert(s4);
     shape_holder.insert(s5);
     shape_holder.insert(s6);
-    shape_holder.insert(s7);
+    // shape_holder.insert(s7);
     shape_holder.insert(s8);
     shape_holder.insert(s9);
 

@@ -25,6 +25,9 @@ all : $(OBJ_FILES)
 
 test_SAH : $(OBJ_FILES)
 	$(CC) -o $(TAR_DIRS)/test_SAH $^ $(CXXFLAGS)
+
+test_BVH : $(OBJ_FILES)
+	$(CC) -o $(TAR_DIRS)/test_BVH $^ $(CXXFLAGS)
 	
 
 .PHONY : clean

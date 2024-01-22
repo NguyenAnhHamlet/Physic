@@ -381,6 +381,8 @@ void DFS(BVHNode* root, float Tt, float Ti)
 {
     if(!root) return;
 
+    if(!root->left || !root->right) return;
+
     // Before using DFS to traverse the tree and check for 
     // overlap, have to update the bounds
     
@@ -398,11 +400,11 @@ void DFS(BVHNode* root, float Tt, float Ti)
     
     if(doOverlap(*(root->left->_Bound2D), *(root->right->_Bound2D)))
     {
-        COLLISION_HDL::collisionHDL(root->left->_Bound2D->getShape(),
-                                    root->right->_Bound2D->getShape());
+        // COLLISION_HDL::collisionHDL(root->left->_Bound2D->getShape(),
+        //                             root->right->_Bound2D->getShape());
 
-        //delay for a short period of time
-        TIMER::static_delay(100, clock());
+        // //delay for a short period of time
+        // TIMER::static_delay(100, clock());
 
         // done handle the collision, perform SAH
         SAH(root->arr, 3, 

@@ -237,3 +237,9 @@ PARTICLE::ismoving()
         return false;
     return true;
 }
+
+void 
+PARTICLE::setVelocity(VECTOR&& _v)
+{
+    velocity = std::move(_v);
+}

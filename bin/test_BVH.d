@@ -1,4 +1,4 @@
-bin/test_SAH: test_SAH.cpp include/vector.hpp include/particle.hpp \
+bin/test_BVH: test_BVH.cpp include/vector.hpp include/particle.hpp \
  include/vector.hpp include/gfgen.hpp include/pfgen.hpp include/timer.hpp \
  include/particleDrag.hpp include/common.hpp include/particleDrag.hpp \
  include/particleForceRegister.hpp include/pfgen.hpp \

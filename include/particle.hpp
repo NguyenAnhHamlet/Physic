@@ -86,11 +86,12 @@ public:
     void setForceAccum(VECTOR& _forceAccum);
     void setDamping(float _damping);
     void setPos(VECTOR& _pos);
-    void setPos(VECTOR&& _pos);
     void setAcceleration(VECTOR& _acceleration);
+    void setPos(VECTOR&& _pos);
     void setMass(float _mass);
     void setInverseMass(float _inverseMass);
     void setVelocity(VECTOR& _velocity);
+    void setVelocity(VECTOR&& _v);
     void setElasticity(float _elasticity );
 
     // use this function after object being created
