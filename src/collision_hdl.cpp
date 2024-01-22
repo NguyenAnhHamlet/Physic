@@ -189,7 +189,11 @@ COLLISION_HDL::collisionHDL(RECTANGLE* rect_1, RECTANGLE* rect_2)
 void
 COLLISION_HDL::collisionHDL(SHAPE* s1, SHAPE* s2)
 {
-    // std::cout << "RUNNING" << '\n';
+    std::cout << "COLLISION" << '\n';
+    while(1)
+    {
+        
+    }
     collisionHDL(dynamic_cast<CIRCLE*>(s1), dynamic_cast<CIRCLE*>(s2));
     collisionHDL(dynamic_cast<CIRCLE*>(s1), dynamic_cast<RECTANGLE*>(s2));
     collisionHDL(dynamic_cast<RECTANGLE*>(s1), dynamic_cast<RECTANGLE*>(s2));

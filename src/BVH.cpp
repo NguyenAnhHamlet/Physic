@@ -65,7 +65,7 @@ void SAH(BVHNodeArray& arr, unsigned int maxRetry,
     if(!root) 
         return ;
 
-    std::cout << arr.size() << '\n';
+    // std::cout << arr.size() << '\n';
 
     // if array less then zero element then the splitting is done
     if(arr.size() <= 0) 
@@ -380,32 +380,19 @@ cost_infos minCost( cost_infos cost_1,
 void DFS(BVHNode* root, float Tt, float Ti)
 {
     if(!root) return;
-
-    if(!root->left || !root->right) return;
-
     // Before using DFS to traverse the tree and check for 
     // overlap, have to update the bounds
-    
-    // 1. update the bound of each node inside vector
-    upgrade_Bound(root->left->arr);
-    upgrade_Bound(root->right->arr);
+
+    // 1. upgrade bound
+    upgrade_Bound(root->arr);
 
     // 2. create the entire bound again using function getBoundAll
-    // 3. update the bound of left and right 
-    *(root->left->_Bound2D) = getBoundAll(root->left->arr);
-    *(root->right->_Bound2D) = getBoundAll(root->right->arr);
-
-    // if there is ovarlap between 2 bounds, then have to check 
-    // for collision and perform SAH from this root downward
+    if(root->_Bound2D) *(root->_Bound2D) = getBoundAll(root->arr);
     
-    if(doOverlap(*(root->left->_Bound2D), *(root->right->_Bound2D)))
+    if((root->left && root->right) && doOverlap(*(root->left->_Bound2D), *(root->right->_Bound2D)))
     {
-        // COLLISION_HDL::collisionHDL(root->left->_Bound2D->getShape(),
-        //                             root->right->_Bound2D->getShape());
-
-        // //delay for a short period of time
-        // TIMER::static_delay(100, clock());
-
+        std::cout <<"COLISION HAPPENING" <<'\n';
+        while(1) {};
         // done handle the collision, perform SAH
         SAH(root->arr, 3, 
             getTotalBounds( *(root->left->_Bound2D), 

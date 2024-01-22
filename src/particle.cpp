@@ -35,7 +35,11 @@ PARTICLE::posUpdate(VECTOR velocity, float duration)
 {
     assert(duration > 0.0);
 
+    // std::cout << "RUNNING" <<'\n';
+
     pos = pos + velocity * duration;
+
+    // std::cout << pos.x << " " << pos.y << '\n';
 }
 
 void 

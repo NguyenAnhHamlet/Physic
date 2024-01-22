@@ -6,7 +6,6 @@
 
 bool doOverlap(const Bounds2D& b1, const Bounds2D& b2)
 {
-
     // If one rectangle is on left side of other
     if (b1.getPoints().first.x > b2.getPoints().second.x || 
         b2.getPoints().first.x > b1.getPoints().second.x)

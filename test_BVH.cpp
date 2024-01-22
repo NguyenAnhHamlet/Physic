@@ -23,6 +23,8 @@ void render_Bound(RENDERER* render, Bounds2D* b)
 {
     if (!b) return;
 
+    SDL_SetRenderDrawColor(render->getRenderer(), 255, 255, 255, 255);
+
     SDL_RenderDrawLine(render->getRenderer(), b->getpMin().x, b->getpMin().y,
                                        b->getpMax().x, b->getpMin().y);
 
@@ -41,17 +43,9 @@ void render_Bound(RENDERER* render, Bounds2D* b)
 
 void render_BVH(RENDERER* render, BVHNode* root)
 {
-    if (!root) return;
-
-    std::queue<BVHNode*> q;
-    std::set<BVHNode*> vis;
-
-    q.push(root);
-
     bool run = true;
 
     SDL_Event event;
-    SDL_SetRenderDrawColor(render->getRenderer(), 255, 255, 255, 255);
 
     while (run)
     {
@@ -63,13 +57,26 @@ void render_BVH(RENDERER* render, BVHNode* root)
             }
         }
 
+        if (!root) return;
+
+        std::queue<BVHNode*> q;
+        std::set<BVHNode*> vis;
+
+        q.push(root);
+
         DFS(root,1,1);
 
         for(auto s : shape_holder)
         {
-            if(s->getPos().x >= 800) s->setPos(VECTOR(s->getPos().x * -1, s->getPos().y, s->getPos().z));
-            if(s->getPos().y >= 600) s->setPos(VECTOR(s->getPos().x , s->getPos().y * -1, s->getPos().z));
+            s->posUpdate(s->getVelocity(),0.001);
+
+            if(s->getPos().x >= 800 || s->getPos().x <= 0) s->setPos(VECTOR(s->getPos().x * -1, s->getPos().y, s->getPos().z));
+            if(s->getPos().y >= 600 || s->getPos().y <= 0) s->setPos(VECTOR(s->getPos().x , s->getPos().y * -1, s->getPos().z));
+
         }
+
+        SDL_SetRenderDrawColor(render->getRenderer(), 0, 0, 0, 255);
+        SDL_RenderClear(render->getRenderer());
 
         while(!q.empty())
         {
@@ -96,7 +103,8 @@ void render_BVH(RENDERER* render, BVHNode* root)
                 }
             }
 
-            SDL_RenderPresent(render->getRenderer());  
+            SDL_RenderPresent(render->getRenderer()); 
+         
         }
     }
 }
@@ -134,9 +142,9 @@ int main(int argc, char* argv[])
 
     // set velocity
     s0->setVelocity(VECTOR(100,100,0));
-    s0->setVelocity(VECTOR(200,200,0));
-    s0->setVelocity(VECTOR(150,150,0));
-    s0->setVelocity(VECTOR(-200,-200,0));
+    s1->setVelocity(VECTOR(200,200,0));
+    s2->setVelocity(VECTOR(-150,150,0));
+    s3->setVelocity(VECTOR(-200,-200,0));
 
     // push all of them into set holder
     shape_holder.insert(s0);

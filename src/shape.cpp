@@ -147,8 +147,8 @@ CIRCLE::render(RENDERER* renderer)
     int dx = radius * cosf(M_PI); // offset by radius in x-axis direction
     int dy = radius * sinf(M_PI); // offset by radius in y-axis direction
 
-    SDL_RenderDrawLine(renderer->getRenderer(), getPos().x - dx, 
-                        getPos().y - dy,getPos().x + dx, getPos().y + dy);
+    // SDL_RenderDrawLine(renderer->getRenderer(), getPos().x - dx, 
+    //                     getPos().y - dy,getPos().x + dx, getPos().y + dy);
 }
 
 void 
