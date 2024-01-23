@@ -69,8 +69,10 @@ void DFS(BVHNode* root, float Tt, float Ti);
 // get bound of all bound inside BVHNodeArray
 Bounds2D getBoundAll(const BVHNodeArray& arr );
 
+void upgradeBoundAll(BVHNode* root);
+
 // upgrade bound of all nodes inside array
 // run this function before DFS
-void upgrade_Bound(BVHNodeArray arr);
+void upgrade_Bound(BVHNode* root);
 
 #endif

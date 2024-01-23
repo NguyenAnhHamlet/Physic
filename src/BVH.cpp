@@ -377,18 +377,31 @@ cost_infos minCost( cost_infos cost_1,
     return cost_1.second.second > cost_2.second.second ? cost_2 : cost_1;
 }
 
+void upgradeBoundAll(BVHNode* root)
+{
+    if(!root) return;
+
+    Bounds2D b;
+
+    if(root->arr.size() > 0) 
+        b = getBoundAll(root->arr);
+    
+    root->_Bound2D->setpMin(point2D(std::min(b.getpMin().x, root->_Bound2D->getpMin().x),
+                                    std::min(b.getpMin().y, root->_Bound2D->getpMin().y)));
+    root->_Bound2D->setpMax(point2D(std::max(b.getpMax().x, root->_Bound2D->getpMax().x),
+                                    std::max(b.getpMax().y, root->_Bound2D->getpMax().y)));
+
+    // left first
+    upgradeBoundAll(root->left);
+
+    // then right
+    upgradeBoundAll(root->right);
+}
+
 void DFS(BVHNode* root, float Tt, float Ti)
 {
     if(!root) return;
-    // Before using DFS to traverse the tree and check for 
-    // overlap, have to update the bounds
 
-    // 1. upgrade bound
-    upgrade_Bound(root->arr);
-
-    // 2. create the entire bound again using function getBoundAll
-    if(root->_Bound2D) *(root->_Bound2D) = getBoundAll(root->arr);
-    
     if((root->left && root->right) && doOverlap(*(root->left->_Bound2D), *(root->right->_Bound2D)))
     {
         std::cout <<"COLISION HAPPENING" <<'\n';
@@ -420,12 +433,14 @@ Bounds2D getBoundAll(const BVHNodeArray& arr )
         res = getTotalBounds(res, *(node->_Bound2D) );
     }
 
+    // std::cout << res.getCentroid().x << ' ' << res.getCentroid().y << '\n';
+
     return res;
 }
 
-void upgrade_Bound(BVHNodeArray arr)
+void upgrade_Bound( BVHNode* root)
 {
-    for(auto node: arr)
+    for(auto node: root->arr)
     {
         node->_Bound2D->update();
     }

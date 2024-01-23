@@ -143,6 +143,8 @@ CIRCLE::render(RENDERER* renderer)
         SDL_RenderDrawPoint(renderer->getRenderer(), x, y);
     }
 
+    // std::cout << getPos().x << getPos().y <<'\n'; 
+
     // Calculate diameter endpoints
     int dx = radius * cosf(M_PI); // offset by radius in x-axis direction
     int dy = radius * sinf(M_PI); // offset by radius in y-axis direction

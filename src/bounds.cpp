@@ -171,6 +171,8 @@ Bounds2D::update()
     setpMin();
     setpMax();
     setCentroid();
+
+    // std::cout << pMin.x << ' ' << pMin.y << '\n';
 }
 
 void

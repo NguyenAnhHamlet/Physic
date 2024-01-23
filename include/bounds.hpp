@@ -66,7 +66,7 @@ public:
                 // if(shape) std::cout << shape << '\n';
                 // else std::cout << "NULL" << '\n';
                 update();
-                init();
+                // init();
             }
 
     // copy constructor 
@@ -112,8 +112,16 @@ public:
     */
     void setpMin() 
     {
-        if(!shape) return;
-        pMin = point2D(shape->getCenter()->x - w, shape->getCenter()->y - h);
+        if(!shape)
+        {
+            std::cout << "SHAPE IS NULL" << '\n';
+            return;
+        } 
+        // std::cout << "SHAPE IS NULL" << '\n';
+
+        // std::cout << shape << '\n';
+
+        pMin = point2D(shape->getCenter()->x - w, shape->getCenter()->y -h );
     }
 
     void setpMax() 

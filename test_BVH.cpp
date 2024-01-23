@@ -37,6 +37,8 @@ void render_Bound(RENDERER* render, Bounds2D* b)
     SDL_RenderDrawLine(render->getRenderer(), b->getpMin().x, b->getpMax().y,
                                        b->getpMin().x, b->getpMin().y);
 
+    // std::cout << b->getpMin().x << " " << b->getpMin().y << '\n';
+
     // std::cout << "RUNNING" << '\n';
     if(b->getShape()) b->getShape()->render(render);
 }
@@ -64,7 +66,9 @@ void render_BVH(RENDERER* render, BVHNode* root)
 
         q.push(root);
 
-        DFS(root,1,1);
+        upgrade_Bound(root);
+        upgradeBoundAll(root);
+        // DFS(root,1,1);
 
         for(auto s : shape_holder)
         {
@@ -180,6 +184,8 @@ int main(int argc, char* argv[])
 
     // creating a root node 
     BVHNode* root = new BVHNode;
+    root->arr = arr;
+    root->_Bound2D = &tt_b;
 
     // using SAH algorithm now
     SAH(arr,3,tt_b,1,1,root);
