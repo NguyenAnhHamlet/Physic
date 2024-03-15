@@ -342,3 +342,31 @@ BVHNode* rootNode(Bounds2D* tt_b, const BVHNodeArray& arr  )
 
     return root;
 }
+
+void addNode(BVHNode* root, BVHNodeArray& arr, BVHNode* newNode, float Tt, float Ti)
+{
+    // adding guard
+    if(!root || !newNode) return ;
+
+    // push node into arr
+    arr.push_back(newNode);
+
+    if(isInBounds(root->_Bound2D, newNode->_Bound2D))
+    {
+        // newNode Bound is within this node, just need to 
+        // check whether it is within left or right node 
+        if(isInBounds(root->left->_Bound2D, newNode->_Bound2D))
+            addNode(root->left, root->left->arr, newNode);
+        else 
+            addNode(root->right, root->right->arr, newNode);
+    }
+    else
+    {
+        // doesnt belong to any bound on both left and right
+        // side, need to perform SAH again to update BVH tree
+        SAH(root->arr, 3, 
+            getTotalBounds( *(root->left->_Bound2D), 
+                            *(root->right->_Bound2D)),
+            Tt, Ti, root,1);
+    }
+}

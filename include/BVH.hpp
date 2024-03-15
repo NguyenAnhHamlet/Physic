@@ -81,4 +81,6 @@ void upgrade_Bound(BVHNode* root);
 // create a root node
 BVHNode* rootNode(Bounds2D* tt_b, const BVHNodeArray& arr  );
 
+void addNode(BVHNode* root, BVHNodeArray& arr, BVHNode* newNode, float Tt, float Ti);
+
 #endif

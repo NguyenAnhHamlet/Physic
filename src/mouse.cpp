@@ -1,8 +1,10 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include "mouse.hpp"
+#include "bounds.hpp"
+#include "BVH.hpp"
 
-std::namespace Mouse
+namespace Mouse
 {
     std::pair<float,float> getPosMouseClick(SDL_Event& event, mouse click)
     {
@@ -93,26 +95,69 @@ std::namespace Mouse
 
 
     // return a list of Bounds2D that intersect with the coordination
-    std::list<Bounds2D*> getBounds(BVHNode* root, std::pair<float, float> coor)
+    void getBounds(BVHNode* root, std::list<Bounds2D*> listB,  std::pair<float, float> coor)
     {
+        // root is NULL, do nothing
+        if(!root ) return;
 
+        // only those bounds which intersect with coor 
+        // will be continued with the search
+        if(isInBounds(root->_Bound2D, coor))
+        {   
+            // in case this is not a leave node, continue down
+            if(root->_Bound2D->getShape() == NULL) 
+            {
+                getBounds(root->left, listB, coor);
+                getBounds(root->right, listB, coor);
+            }
+            else 
+            {
+                // found leave node that intersect with coor, 
+                // add it to listB
+                listB.push_back(root->_Bound2D);
+            }
+        }
     }
 
     // return a list of SHAPE that intersect with the coordination
-    std::list<SHAPE*> isOnShape(std::list<Bounds2D> b_list, std::pair<float, float> coor)
+    std::list<SHAPE*> isOnShape(std::list<Bounds2D*> b_list, std::pair<float, float> coor)
     {
+        std::list<SHAPE*> res;
 
+        for(auto b : b_list)
+        {
+            if(isOnShape( b->getShape(), coor))
+                res.push_back(b->getShape());
+        }
+
+        return res;
     }
 
     // update pos of each SHAPE in a list to current location of mouse
-    void updatePos(std::list<SHAPE*> s_list, bool update)
+    void updatePos(std::list<SHAPE*> s_list, bool update, SDL_Event &event, mouse click)
     {
-
+        std::pair<float, float> pos2D = getPosMouseClick(event, click);
+        for(auto s : s_list)
+        {
+            if(pos2D != {-1,-1})
+                s->setPos(pos2D.first, pos2D.second, 0);
+        }
     }
 
     // true if mouse coordination is on SHAPE
     bool isOnShape(SHAPE* shape, std::pair<float, float> coor)
     {
-        
+        // need to learn about GJK to implement this feature
+    }
+
+    BVHNode* createNode(std::pair<float, float> coor, SHAPE* s, float w, float h)
+    {
+        if(coor == {-1,-1}) return NULL;
+
+        s->setPos(VECTOR(cor.first, coor.second, 0));
+        BVHNode* newNode = initNode(new Bounds2D(s,w,h));
+
+        return newNode;
+
     }
 }

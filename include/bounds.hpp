@@ -175,4 +175,10 @@ bounds_vector getBoundEach(set_shape_holder* _set_shape_holder);
 // get bound of all bound inside bounds_vector
 Bounds2D getBoundAll(const bounds_vector& b_vec);
 
+// return true if the coordination is in Bounds2D
+bool isInBounds(const Bounds2D* b, std::pair<float,float> coor);
+
+// return true if b1 lies within b2 or vice versa
+bool isInBounds(const Bounds2D* b1, const Bounds2D* b2 );
+
 #endif

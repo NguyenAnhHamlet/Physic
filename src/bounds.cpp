@@ -181,3 +181,26 @@ Bounds2D::init()
     h = pMax.y - centroid.y;
 }
 
+bool isInBounds(const Bounds2D* b, std::pair<float,float> coor)
+{
+    if(b.getpMin().x > coor.first || b.getpMax().x < coor.first)
+        return false;
+    
+    if(b.getpMin().y > coor.second || b.getpMax().y < coor.second)
+        return false;
+    
+    return true;
+}
+
+bool isInBounds(const Bounds2D* b1, const Bounds2D* b2 )
+{
+    // b1 is within b2
+    if(b1->getpMin() > b2->getpMin() && b1->getpMax() < b2->getpMax())   
+        return true;
+
+    // b2 is within b1
+    if(b2->getpMin() > b1->getpMin() && b2->getpMax() < b1->getpMax())   
+        return true;
+    
+    return false;
+}
