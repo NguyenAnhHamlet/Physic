@@ -16,6 +16,7 @@ class CIRCLE;
 class COLLISION_HDL;
 class shape_holder;
 class VECTOR;
+class point2D;
 
 constexpr int _DEFAULT = 10;
 
@@ -42,7 +43,7 @@ public:
 
     virtual VECTOR* getCenter() = 0;
     virtual float getArea() = 0;
-    // virtual void insertThisShape(shape_holder* _shape_holder) = 0;
+    virtual VECTOR* support(VECTOR* direction);
 };
 
 /***
@@ -72,7 +73,7 @@ public :
     VECTOR* getCenter() override;
     float getArea();
 
-    // virtual void insertThisShape(shape_holder* _shape_holder) override;
+    virtual VECTOR* support(VECTOR* direction);
 
     float getR();
 };
@@ -104,7 +105,7 @@ public:
 
     VECTOR* getCenter() override;
 
-    // virtual void insertThisShape(shape_holder* _shape_holder) override;
+    virtual VECTOR* support(VECTOR* direction);
 
     float getAxisL();
     std::vector<VECTOR*> getPoints();

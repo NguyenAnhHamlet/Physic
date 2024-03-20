@@ -4,6 +4,8 @@
 #include <cmath>
 #include "collision_hdl.hpp"
 #include <math.h>
+#include "point2D.hpp"
+#include "vector"
 
 #define _USE_MATH_DEFINES
 
@@ -128,6 +130,26 @@ RECTANGLE::edgeCollide(RENDERER* render)
     }
 }
 
+VECTOR
+RECTANGLE::support(VECTOR* direction)
+{
+    float furthestDistance = FLT_MIN;
+    VECTOR* furthestVertex = NULL;
+
+    std::vector<VECTOR*> vertices = getPoints();
+
+    for(VECTOR* v : vertices) 
+    {
+        float distance = v->scalarProduct(direction);
+        if(distance > furthestDistance) {
+            furthestDistance = distance;
+            furthestVertex = v;
+        }
+    }
+
+    return furthestVertex;
+}
+
 /***
  * *****************************************************
  *      CIRCLE
@@ -250,6 +272,12 @@ CIRCLE::edgeCollide(RENDERER* render)
         pos.y - getR() <= 0 ? setPos(VECTOR(pos.x, getR() , pos.z)) : setPos(VECTOR(pos.x, WH.second - getR(), pos.z));
         setVelocity(VECTOR(getVelocity().x , getVelocity().y * -1, pos.z));
     }
+}
+
+VECTOR* 
+CIRCLE::support(VECTOR* direction)
+{
+    return getCenter() + direction.normalized() * getR();
 }
 
 
