@@ -7,11 +7,11 @@
 
 enum EvolveResult 
 {
-    NoIntersection;
-    FoundIntersection;
-    StillEvolving;
-}
+    NoIntersection,
+    FoundIntersection,
+    StillEvolving
+};
 
-void evolveSimplex(SHAPE* s1, SHAPE* s2, std::list<VECTOR*> vertices);
+EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::list<VECTOR*> vertices);
 
 #endif

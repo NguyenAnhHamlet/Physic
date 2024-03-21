@@ -3,6 +3,7 @@
 #include "mouse.hpp"
 #include "bounds.hpp"
 #include "BVH.hpp"
+#include "gjk.hpp"
 
 namespace Mouse
 {
@@ -145,9 +146,27 @@ namespace Mouse
     }
 
     // true if mouse coordination is on SHAPE
-    bool isOnShape(SHAPE* shape, std::pair<float, float> coor)
+    int isOnShape(SHAPE* shape, std::pair<float, float> coor)
     {
-        // need to learn about GJK to implement this feature
+        CIRCLE* tmpC = new CIRCLE(NULL,0);
+        std::list<VECTOR*> vertices;
+        while(1)
+        {
+            switch (evolveSimplex(shape, tmpC, vertices))
+            {
+                case EvolveResult::NoIntersection:
+                    return 0;
+                
+                case EvolveResult::FoundIntersection:
+                    return 1;
+
+                default:
+                    break;
+            }
+        }
+
+        // there is problem happen 
+        return -1;
     }
 
     BVHNode* createNode(std::pair<float, float> coor, SHAPE* s, float w, float h)

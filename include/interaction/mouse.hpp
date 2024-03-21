@@ -35,7 +35,7 @@ namespace Mouse
     void updatePos(std::list<SHAPE*> s_list, bool update, SDL_Event &event, mouse click);
 
     // true if mouse coordination is on SHAPE
-    bool isOnShape(SHAPE* shape, std::pair<float, float> coor);
+    int isOnShape(SHAPE* shape, std::pair<float, float> coor);
 
     // create BVHNode with a shape on this coordination
     BVHNode* createNode(std::pair<float, float> coor, SHAPE* s, float w, float h);

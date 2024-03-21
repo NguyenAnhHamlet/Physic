@@ -43,7 +43,7 @@ public:
 
     virtual VECTOR* getCenter() = 0;
     virtual float getArea() = 0;
-    virtual VECTOR* support(VECTOR* direction);
+    virtual VECTOR* support(VECTOR* direction) = 0;
 };
 
 /***

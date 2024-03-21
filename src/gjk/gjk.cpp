@@ -11,7 +11,7 @@ bool addSupport(SHAPE* s1, SHAPE* s2 ,VECTOR* direction)
     return newVertex->scalarProduct(direction) >= 0;
 }
 
-void evolveSimplex(SHAPE* s1, SHAPE* s2, std::list<VECTOR*> vertices)
+EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::list<VECTOR*> vertices)
 {
     VECTOR* direction;
 
@@ -72,7 +72,7 @@ void evolveSimplex(SHAPE* s1, SHAPE* s2, std::list<VECTOR*> vertices)
         else {
             // the origin is inside both ab and ac,
             // so it must be inside the triangle!
-            return EvolveResult.FoundIntersection;
+            return EvolveResult::FoundIntersection;
         }
 
     default:
