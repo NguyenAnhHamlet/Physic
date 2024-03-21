@@ -76,7 +76,7 @@ EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::list<VECTOR*> vertices)
         }
 
     default:
-        break;
+        return -1;
     }
 
     return addSupport(s1, s2, direction) ? EvolveResult.StillEvolving : EvolveResult.NoIntersection;
