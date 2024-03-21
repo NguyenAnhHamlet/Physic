@@ -106,3 +106,9 @@ VECTOR::clear()
     this->y =0;
     this->z =0;
 }
+
+VECTOR tripleProduct(VECTOR a, VECTOR b, VECTOR c)
+{
+  return a.vectorProduct(b.vectorProduct(c));
+}
+

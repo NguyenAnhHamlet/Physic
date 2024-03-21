@@ -40,4 +40,6 @@ public:
     void clear();
 };
 
+VECTOR tripleProduct(VECTOR a, VECTOR b, VECTOR c);
+
 #endif // __TIMER__
