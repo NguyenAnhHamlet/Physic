@@ -1,6 +1,6 @@
-#include "common.hpp"
+#include "common/common.hpp"
 #include <cmath>
-#include "vector.hpp"
+#include "base/Vector3D.hpp"
 
 float 
 convertCM(float pixel)
@@ -19,7 +19,7 @@ float hypotenuse(float a, float b)
     return sqrt(pow(a,2) + pow(b,2));
 }
 
-bool collinearPoints(VECTOR* a, VECTOR* b, VECTOR* c)
+bool collinearPoints(Vector3D* a, Vector3D* b, Vector3D* c)
 {
     if (a->x == b->x && b->x == c->x) 
         return true; 

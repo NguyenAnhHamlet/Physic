@@ -1,8 +1,8 @@
 #include <iostream>
 #include<utility>
-#include "bounds.hpp"
-#include "shape.hpp"
-#include "point2D.hpp"
+#include "bvh/bounds.hpp"
+#include "render/shape.hpp"
+#include "bvh/point2D.hpp"
 
 bool doOverlap(const Bounds2D& b1, const Bounds2D& b2)
 {

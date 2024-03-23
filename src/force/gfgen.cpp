@@ -1,14 +1,14 @@
-#include "gfgen.hpp"
-#include "particle.hpp"
-#include "pfgen.hpp"
-#include "vector.hpp"
-#include "shape.hpp"
+#include "force/gfgen.hpp"
+#include "base/particle.hpp"
+#include "force/pfgen.hpp"
+#include "base/Vector3D.hpp"
+#include "render/shape.hpp"
 
 GFGEN* GFGEN::gfgen = nullptr;
 
 GFGEN::GFGEN() 
 {
-    gravity = VECTOR(0,convertCM(1000000),0);
+    gravity = Vector3D(0,convertCM(1000000),0);
 }
 
 void

@@ -17,7 +17,7 @@
 
 #include<iostream>
 #include<vector>
-#include "bounds.hpp"
+#include "bvh/bounds.hpp"
 #include <utility>
 
 class Bounds2D; 

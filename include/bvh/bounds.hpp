@@ -14,11 +14,11 @@
 
 #include<iostream>
 #include <utility>
-#include "point2D.hpp"
+#include "bvh/point2D.hpp"
 #include <vector>
-#include "common.hpp"
+#include "common/common.hpp"
 #include <cfloat>
-#include "shape.hpp"
+#include "shape/shape.hpp"
 
 class SHAPE;
 class CIRCLE;

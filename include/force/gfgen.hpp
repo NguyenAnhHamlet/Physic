@@ -5,17 +5,17 @@
 #include<cmath>
 #include<utility>
 #include<vector>
-#include "pfgen.hpp"
-#include "vector.hpp"
+#include "force/pfgen.hpp"
+#include "base/Vector3D.hpp"
 
 class PARTICLE;
 class PFGEN;
-class VECTOR;
+class Vector3D;
 class SHAPE;
 
 class GFGEN: public PFGEN
 {   
-    VECTOR gravity;
+    Vector3D gravity;
     GFGEN();
     static GFGEN* gfgen;
 

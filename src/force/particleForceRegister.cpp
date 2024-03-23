@@ -1,5 +1,5 @@
-#include "particleForceRegister.hpp"
-#include "particle.hpp"
+#include "force/particleForceRegister.hpp"
+#include "base/particle.hpp"
 
 PARTICLE_FORCE_REGISTER::PARTICLE_FORCE_REGISTER()
 {

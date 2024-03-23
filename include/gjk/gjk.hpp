@@ -1,8 +1,8 @@
 #ifndef __GJK__ 
 #define __GJK__
 
-#include "../point2D.hpp"
-#include "../shape.hpp"
+#include "bvh/point2D.hpp"
+#include "render/shape.hpp"
 #include<list>
 
 enum EvolveResult 
@@ -12,6 +12,6 @@ enum EvolveResult
     StillEvolving
 };
 
-EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::list<VECTOR*> vertices);
+EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::list<Vector3D*> vertices);
 
 #endif

@@ -1,11 +1,11 @@
-#include "shape.hpp"
-#include "renderer.hpp"
-#include "common.hpp"
+#include "render/shape.hpp"
+#include "render/renderer.hpp"
+#include "common/common.hpp"
 #include <cmath>
-#include "collision_hdl.hpp"
+#include "collision/collision_hdl.hpp"
 #include <math.h>
-#include "point2D.hpp"
-#include "vector"
+#include "bvh/point2D.hpp"
+#include "base/Vector3D"
 
 #define _USE_MATH_DEFINES
 
@@ -27,6 +27,17 @@ RECTANGLE::RECTANGLE(COLOR* _color, int _w, int _h)
 
     // value of axis
     axis = hypotenuse(_w,_h)/2;
+}
+
+RECTANGLE::RECTANGLE()
+{
+    this->color = new COLOR();
+    rect.w = 0;
+    rect.h = 0;
+    rect.x = this->pos.x - _w/2;
+    rect.y = this->pos.y - _h/2;
+
+    center = &(this->pos);
 }
 
 void 
@@ -67,18 +78,18 @@ float RECTANGLE::getAxisL()
     return axis;
 }
 
-std::vector<VECTOR*> 
+std::vector<Vector3D*> 
 RECTANGLE::getPoints()
 {
-    std::vector<VECTOR*> res;
+    std::vector<Vector3D*> res;
 
     float h_w = rect.x /2;
     float h_h = rect.y /2;
 
-    res.push_back(new VECTOR(getCenter()->x - h_w, getCenter()->y - h_h, getCenter()->z));
-    res.push_back(new VECTOR(getCenter()->x + h_w, getCenter()->y - h_h, getCenter()->z));
-    res.push_back(new VECTOR(getCenter()->x - h_w, getCenter()->y + h_h, getCenter()->z));
-    res.push_back(new VECTOR(getCenter()->x + h_w, getCenter()->y + h_h, getCenter()->z));
+    res.push_back(new Vector3D(getCenter()->x - h_w, getCenter()->y - h_h, getCenter()->z));
+    res.push_back(new Vector3D(getCenter()->x + h_w, getCenter()->y - h_h, getCenter()->z));
+    res.push_back(new Vector3D(getCenter()->x - h_w, getCenter()->y + h_h, getCenter()->z));
+    res.push_back(new Vector3D(getCenter()->x + h_w, getCenter()->y + h_h, getCenter()->z));
 
     return res;
 }
@@ -89,7 +100,7 @@ RECTANGLE::getRect()
     return &(rect);
 }
 
-VECTOR* 
+Vector3D* 
 RECTANGLE::getCenter()
 {
     return center;
@@ -115,30 +126,30 @@ void
 RECTANGLE::edgeCollide(RENDERER* render)
 {
     std::pair<unsigned int, unsigned int> WH = render->getWH();
-    VECTOR pos = getPos();
+    Vector3D pos = getPos();
 
     if(getPos().x - rect.w /2 <= 0 || getPos().x + rect.w / 2 >= WH.first )
     {
-        pos.x - rect.w /2 <= 0 ? setPos(VECTOR(rect.w /2  ,pos.y, pos.z)) : setPos(VECTOR(WH.first - rect.w /2 , pos.y, pos.z));
-        setVelocity(VECTOR(getVelocity().x * -1, getVelocity().y, getPos().z));
+        pos.x - rect.w /2 <= 0 ? setPos(Vector3D(rect.w /2  ,pos.y, pos.z)) : setPos(Vector3D(WH.first - rect.w /2 , pos.y, pos.z));
+        setVelocity(Vector3D(getVelocity().x * -1, getVelocity().y, getPos().z));
     }
 
     if(getPos().y - rect.h /2 <= 0 || getPos().y + rect.h / 2 >= WH.second )
     {
-        pos.y - rect.h /2 <= 0 ? setPos(VECTOR(pos.x, rect.h /2, pos.z)) : setPos(VECTOR(pos.x, WH.second - rect.h /2, pos.z));
-        setVelocity(VECTOR(getVelocity().x , getVelocity().y * -1, getPos().z));
+        pos.y - rect.h /2 <= 0 ? setPos(Vector3D(pos.x, rect.h /2, pos.z)) : setPos(Vector3D(pos.x, WH.second - rect.h /2, pos.z));
+        setVelocity(Vector3D(getVelocity().x , getVelocity().y * -1, getPos().z));
     }
 }
 
-VECTOR
-RECTANGLE::support(VECTOR* direction)
+Vector3D
+RECTANGLE::support(Vector3D* direction)
 {
     float furthestDistance = FLT_MIN;
-    VECTOR* furthestVertex = NULL;
+    Vector3D* furthestVertex = NULL;
 
-    std::vector<VECTOR*> vertices = getPoints();
+    std::vector<Vector3D*> vertices = getPoints();
 
-    for(VECTOR* v : vertices) 
+    for(Vector3D* v : vertices) 
     {
         float distance = v->scalarProduct(direction);
         if(distance > furthestDistance) {
@@ -148,6 +159,12 @@ RECTANGLE::support(VECTOR* direction)
     }
 
     return furthestVertex;
+}
+
+
+float RECTANGLE::getR()
+{
+    return hypotenuse(getH(), getW());
 }
 
 /***
@@ -160,6 +177,13 @@ CIRCLE::CIRCLE(COLOR* _color, int _radius)
 {
     color = _color;
     radius = _radius;
+    center = &(this->pos);
+}
+
+CIRCLE::CIRCLE()
+{
+    color  = new COLOR();
+    radius = 0;
     center = &(this->pos);
 }
 
@@ -243,7 +267,7 @@ float CIRCLE::getR()
     return radius;
 }
 
-VECTOR*
+Vector3D*
 CIRCLE::getCenter()
 {
     return center;
@@ -259,23 +283,23 @@ void
 CIRCLE::edgeCollide(RENDERER* render)
 {
     std::pair<unsigned int, unsigned int> WH = render->getWH();
-    VECTOR pos = getPos();
+    Vector3D pos = getPos();
 
     if(pos.x - getR() <= 0 || pos.x + getR() >= WH.first )
     {
-        pos.x - getR() <= 0 ? setPos(VECTOR(getR() , pos.y, pos.z)) : setPos(VECTOR(WH.first - getR(), pos.y, pos.z));
-        setVelocity(VECTOR(getVelocity().x * -1, getVelocity().y, pos.z));
+        pos.x - getR() <= 0 ? setPos(Vector3D(getR() , pos.y, pos.z)) : setPos(Vector3D(WH.first - getR(), pos.y, pos.z));
+        setVelocity(Vector3D(getVelocity().x * -1, getVelocity().y, pos.z));
     }
 
     if(pos.y - getR() <= 0 || pos.y + getR() >= WH.second )
     {
-        pos.y - getR() <= 0 ? setPos(VECTOR(pos.x, getR() , pos.z)) : setPos(VECTOR(pos.x, WH.second - getR(), pos.z));
-        setVelocity(VECTOR(getVelocity().x , getVelocity().y * -1, pos.z));
+        pos.y - getR() <= 0 ? setPos(Vector3D(pos.x, getR() , pos.z)) : setPos(Vector3D(pos.x, WH.second - getR(), pos.z));
+        setVelocity(Vector3D(getVelocity().x , getVelocity().y * -1, pos.z));
     }
 }
 
-VECTOR* 
-CIRCLE::support(VECTOR* direction)
+Vector3D* 
+CIRCLE::support(Vector3D* direction)
 {
     return getCenter() + direction.normalized() * getR();
 }

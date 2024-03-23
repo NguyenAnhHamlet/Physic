@@ -5,12 +5,12 @@
 #include <cmath>
 #include <assert.h>
 #include <cstdlib>
-#include "pfgen.hpp"
-#include "common.hpp"
+#include "force/pfgen.hpp"
+#include "common/common.hpp"
 
 class PARTICLE;
 class PFGEN;
-class VECTOR;
+class Vector3D;
 class SHAPE;
 
 class PARTICLE_DRAG: public PFGEN

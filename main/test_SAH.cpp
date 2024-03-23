@@ -1,22 +1,22 @@
-#include "vector.hpp"
-#include "particle.hpp"
-#include "particleDrag.hpp"
-#include "particleForceRegister.hpp"
+#include "base/Vector3D.hpp"
+#include "base/particle.hpp"
+#include "force/particleDrag.hpp"
+#include "force/particleForceRegister.hpp"
 #include <list>
-#include "pfgen.hpp"
+#include "force/pfgen.hpp"
 #include <ctime>
 #include <SDL.h>
-#include "shape.hpp"
-#include "renderer.hpp"
-#include "common.hpp"
-#include "BVH.hpp"
-#include "bounds.hpp"
-#include "point2D.hpp" 
+#include "render/shape.hpp"
+#include "render/renderer.hpp"
+#include "common/common.hpp"
+#include "bvh/BVH.hpp"
+#include "bvh/bounds.hpp"
+#include "bvh/point2D.hpp" 
 #include <queue>
 #include <thread>
 
 int n = 0;
-bounds_vector b_vector;
+bounds_Vector3D b_Vector3D;
 set_shape_holder shape_holder; 
 
 void render_Bound(RENDERER* render, Bounds2D* b)
@@ -113,16 +113,16 @@ int main(int argc, char* argv[])
     SHAPE* s9 =  new CIRCLE(new COLOR(255,255,255,255),20);
 
     // set pos for all of them 
-    s0->setPos(VECTOR(20,20,0));
-    s1->setPos(VECTOR(100,120,0));
-    s2->setPos(VECTOR(300,160,0));
-    s3->setPos(VECTOR(150,400,0));
-    s4->setPos(VECTOR(200,100,0));
-    s5->setPos(VECTOR(180,500,0));
-    s6->setPos(VECTOR(120,300,0));
-    s7->setPos(VECTOR(250,400,0));
-    s8->setPos(VECTOR(300,500,0));
-    s9->setPos(VECTOR(400,450,0));
+    s0->setPos(Vector3D(20,20,0));
+    s1->setPos(Vector3D(100,120,0));
+    s2->setPos(Vector3D(300,160,0));
+    s3->setPos(Vector3D(150,400,0));
+    s4->setPos(Vector3D(200,100,0));
+    s5->setPos(Vector3D(180,500,0));
+    s6->setPos(Vector3D(120,300,0));
+    s7->setPos(Vector3D(250,400,0));
+    s8->setPos(Vector3D(300,500,0));
+    s9->setPos(Vector3D(400,450,0));
 
     // push all of them into set holder
     shape_holder.insert(s0);
@@ -137,13 +137,13 @@ int main(int argc, char* argv[])
     shape_holder.insert(s9);
 
     // create a bound for all of them
-    b_vector = getBoundEach(&shape_holder);
+    b_Vector3D = getBoundEach(&shape_holder);
 
     // take the total bound of all of them
-    Bounds2D tt_b  = getBoundAll(b_vector);
+    Bounds2D tt_b  = getBoundAll(b_Vector3D);
 
     // get the array of bvh node
-    arr = generateBVHNodeArr(b_vector);
+    arr = generateBVHNodeArr(b_Vector3D);
 
     // creating a root node 
     BVHNode* root = rootNode(&tt_b,arr);

@@ -1,9 +1,9 @@
 #include <SDL2/SDL.h>
 #include <iostream>
-#include "mouse.hpp"
-#include "bounds.hpp"
-#include "BVH.hpp"
-#include "gjk.hpp"
+#include "interaction/mouse.hpp"
+#include "bvh/bounds.hpp"
+#include "bvh/BVH.hpp"
+#include "gjk/gjk.hpp"
 
 namespace Mouse
 {
@@ -148,12 +148,17 @@ namespace Mouse
     // true if mouse coordination is on SHAPE
     int isOnShape(SHAPE* shape, std::pair<float, float> coor)
     {
-        CIRCLE* tmpC = new CIRCLE(NULL,0);
-        std::list<VECTOR*> vertices;
+        CIRCLE* tmpC = new CIRCLE();
+        tmpC->setPos(coor.first, coor.second, 0);
+        std::list<Vector3D*> vertices;
         while(1)
         {
             switch (evolveSimplex(shape, tmpC, vertices))
             {
+                if(tmpC) delete tmpC;
+                case EvolveResult::StillEvolving:
+                    break;
+
                 case EvolveResult::NoIntersection:
                     return 0;
                 
@@ -161,11 +166,12 @@ namespace Mouse
                     return 1;
 
                 default:
-                    break;
+                    return -1;
             }
         }
 
         // there is problem happen 
+        if(tmpC) delete tmpC;
         return -1;
     }
 
@@ -173,10 +179,9 @@ namespace Mouse
     {
         if(coor == {-1,-1}) return NULL;
 
-        s->setPos(VECTOR(cor.first, coor.second, 0));
+        s->setPos(Vector3D(cor.first, coor.second, 0));
         BVHNode* newNode = initNode(new Bounds2D(s,w,h));
 
         return newNode;
-
     }
 }

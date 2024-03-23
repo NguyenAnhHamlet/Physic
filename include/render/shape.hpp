@@ -1,7 +1,7 @@
 #ifndef __SHAPE__
 #define __SHAPE__
 
-#include "particle.hpp"
+#include "base/particle.hpp"
 #include <SDL_rect.h>
 #include <vector>
 #include <map>
@@ -15,7 +15,7 @@ class SHAPE;
 class CIRCLE;
 class COLLISION_HDL;
 class shape_holder;
-class VECTOR;
+class Vector3D;
 class point2D;
 
 constexpr int _DEFAULT = 10;
@@ -30,7 +30,7 @@ class SHAPE : public PARTICLE
 {
 protected:
     int id = 0;
-    VECTOR* center;
+    Vector3D* center;
 
 public:
     virtual void setid(int _id) =0;
@@ -41,9 +41,10 @@ public:
     virtual void collideOther(COLLISION_HDL* collision_hdl) = 0;
     virtual void edgeCollide(RENDERER* render) = 0;
 
-    virtual VECTOR* getCenter() = 0;
+    virtual Vector3D* getCenter() = 0;
     virtual float getArea() = 0;
-    virtual VECTOR* support(VECTOR* direction) = 0;
+    virtual Vector3D* support(Vector3D* direction) = 0;
+    virtual void getR() = 0;
 };
 
 /***
@@ -56,10 +57,11 @@ class CIRCLE : public SHAPE
 {
     int radius;
     COLOR* color;
-    VECTOR* center;
+    Vector3D* center;
 
 public : 
     CIRCLE(COLOR* _color, int _radius);
+    CIRCLE();
 
     virtual void setid(int _id) override;   
     virtual unsigned int getid() override;
@@ -70,12 +72,12 @@ public :
     virtual void collideOther(COLLISION_HDL* collision_hdl) override;
     virtual void edgeCollide(RENDERER* render) override;
 
-    VECTOR* getCenter() override;
+    Vector3D* getCenter() override;
     float getArea();
 
-    virtual VECTOR* support(VECTOR* direction);
+    virtual Vector3D* support(Vector3D* direction);
 
-    float getR();
+    float getR() override;
 };
 
 /***
@@ -89,10 +91,11 @@ class RECTANGLE : public SHAPE
     SDL_Rect rect;
     COLOR* color;
     float axis;
-    VECTOR* center;
+    Vector3D* center;
 
 public:
     RECTANGLE(COLOR* _color, int _w, int _h);
+    RECTANGLE();
 
     virtual void render(RENDERER* renderer) override;
     virtual void setid(int _id) override;
@@ -103,16 +106,17 @@ public:
     virtual void collideOther(COLLISION_HDL* collision_hdl) override;
     virtual void edgeCollide(RENDERER* render) override;
 
-    VECTOR* getCenter() override;
+    Vector3D* getCenter() override;
 
-    virtual VECTOR* support(VECTOR* direction);
+    virtual Vector3D* support(Vector3D* direction);
 
     float getAxisL();
-    std::vector<VECTOR*> getPoints();
+    std::vector<Vector3D*> getPoints();
     SDL_Rect* getRect();
     float getW();
     float getH();
     float getArea();
+    float getR() override;
 };
 
 /***

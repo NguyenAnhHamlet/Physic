@@ -1,9 +1,9 @@
-#include "particle.hpp"
-#include "particleForceRegister.hpp"
-#include "timer.hpp"
-#include "common.hpp"
+#include "base/particle.hpp"
+#include "force/particleForceRegister.hpp"
+#include "common/timer.hpp"
+#include "common/common.hpp"
 #include <utility> 
-#include "shape.hpp"
+#include "render/shape.hpp"
 
 PARTICLE::PARTICLE() : damping(0.0), inverseMass(0.0), mass(0.0) 
 {
@@ -11,7 +11,7 @@ PARTICLE::PARTICLE() : damping(0.0), inverseMass(0.0), mass(0.0)
 }
 
 PARTICLE::PARTICLE(float _damping, float _inverseMass, float _gravity
-            ,VECTOR _pos, VECTOR _velocity, VECTOR _acceleration )
+            ,Vector3D _pos, Vector3D _velocity, Vector3D _acceleration )
             :damping(_damping), inverseMass(_inverseMass)
             ,pos(_pos), velocity(_velocity), acceleration(_acceleration)
 {
@@ -32,7 +32,7 @@ PARTICLE::init()
 }
 
 void 
-PARTICLE::posUpdate(VECTOR velocity, float duration)
+PARTICLE::posUpdate(Vector3D velocity, float duration)
 {
     assert(duration > 0.0);
 
@@ -40,12 +40,12 @@ PARTICLE::posUpdate(VECTOR velocity, float duration)
 }
 
 void 
-PARTICLE::posUpdate(VECTOR velocity, VECTOR acceleration, float duration )
+PARTICLE::posUpdate(Vector3D velocity, Vector3D acceleration, float duration )
 {
     assert(duration > 0.0);
 
     // Calculate velocity from force and apply it
-    VECTOR _velocity = getVelocity(forceAccum, duration);
+    Vector3D _velocity = getVelocity(forceAccum, duration);
     this->velocity = this->velocity + _velocity;
 
     /**
@@ -63,15 +63,15 @@ PARTICLE::posUpdate(VECTOR velocity, VECTOR acceleration, float duration )
 }
 
 void 
-PARTICLE::addForce(const VECTOR& force)
+PARTICLE::addForce(const Vector3D& force)
 {
     forceAccum = forceAccum + force;
 
     std::cout << "FORCE:" << forceAccum.y << '\n';
 }
 
-VECTOR
-PARTICLE::getAcceleration(VECTOR force)
+Vector3D
+PARTICLE::getAcceleration(Vector3D force)
 {
     return force / (float) mass;
 }
@@ -81,7 +81,7 @@ PARTICLE::getTimer()
     return this->timer;
 }
 
-VECTOR 
+Vector3D 
 PARTICLE::getForceAccum()
 {
     return forceAccum;
@@ -99,13 +99,13 @@ PARTICLE::getDamping()
     return damping;
 }
 
-VECTOR 
+Vector3D 
 PARTICLE::getPos()
 {
     return pos;
 }
 
-VECTOR 
+Vector3D 
 PARTICLE::getAcceleration()
 {
     return acceleration;
@@ -118,7 +118,7 @@ PARTICLE::setTimer(TIMER& _timer)
 }
 
 void 
-PARTICLE::setForceAccum(VECTOR& _forceAccum)
+PARTICLE::setForceAccum(Vector3D& _forceAccum)
 {
     forceAccum = _forceAccum;
 }
@@ -130,20 +130,20 @@ PARTICLE::setDamping(float _damping)
 }
 
 void 
-PARTICLE::setPos(VECTOR& _pos)
+PARTICLE::setPos(Vector3D& _pos)
 {
     pos = _pos;
 }
 
 void 
-PARTICLE::setPos(VECTOR&& _pos)
+PARTICLE::setPos(Vector3D&& _pos)
 {
     pos = std::move(_pos);
 }
 
 
 void 
-PARTICLE::setAcceleration(VECTOR& _acceleration)
+PARTICLE::setAcceleration(Vector3D& _acceleration)
 {
     acceleration = _acceleration;
 }
@@ -160,22 +160,22 @@ PARTICLE::clearForce()
     forceAccum.clear();
 }
 
-VECTOR 
-PARTICLE::getVelocity(const VECTOR& force, float duration)
+Vector3D 
+PARTICLE::getVelocity(const Vector3D& force, float duration)
 {
-    VECTOR _acceleration = getAcceleration(force);
+    Vector3D _acceleration = getAcceleration(force);
     _acceleration = _acceleration * duration;
     return _acceleration;
 }
 
-VECTOR 
+Vector3D 
 PARTICLE::getVelocity()
 {
     return this->velocity; 
 }
 
 void 
-PARTICLE::setVelocity(VECTOR& _velocity)
+PARTICLE::setVelocity(Vector3D& _velocity)
 {
     this->velocity = _velocity;
 }
@@ -242,7 +242,7 @@ PARTICLE::ismoving()
 }
 
 void 
-PARTICLE::setVelocity(VECTOR&& _v)
+PARTICLE::setVelocity(Vector3D&& _v)
 {
     velocity = std::move(_v);
 }

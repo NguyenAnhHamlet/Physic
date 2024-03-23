@@ -1,5 +1,5 @@
-#include "timer.hpp"
-#include<ctime>
+#include "common/timer.hpp"
+#include <ctime>
 
 clock_t
 TIMER::getInterval(clock_t preVal)

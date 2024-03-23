@@ -1,9 +1,9 @@
-#include "BVH.hpp"
-#include "particle.hpp"
-#include "bounds.hpp"
+#include "bvh/BVH.hpp"
+#include "bvh/particle.hpp"
+#include "bvh/bounds.hpp"
 #include <vector>
-#include "collision_hdl.hpp"
-#include "timer.hpp"
+#include "collision/collision_hdl.hpp"
+#include "common/timer.hpp"
 #include <ctime>
 #include <memory>
 

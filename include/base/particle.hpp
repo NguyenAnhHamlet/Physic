@@ -5,15 +5,15 @@
 #include <cmath>
 #include <assert.h>
 
-#include "vector.hpp"
-#include "gfgen.hpp"
-#include "timer.hpp"
-#include "particleDrag.hpp"
-#include "common.hpp"
+#include "base/Vector3D.hpp"
+#include "force/gfgen.hpp"
+#include "common/timer.hpp"
+#include "force/particleDrag.hpp"
+#include "common/common.hpp"
 
 class GFGEN;
 class PARTICLE_DRAG;
-class VECTOR;
+class Vector3D3D;
 class TIMER;
 class PARTICLE_FORCE_REGISTER;
 
@@ -21,13 +21,13 @@ class PARTICLE
 {
 protected:
     // position of the particle in space
-    VECTOR pos;
+    Vector3D pos;
 
     // velocity of this particle in space
-    VECTOR velocity;
+    Vector3D velocity;
 
     // acceleration of this particle in space
-    VECTOR acceleration;
+    Vector3D acceleration;
 
     /*
     /   this value is used to remove the energy added
@@ -46,9 +46,9 @@ protected:
     /**
      * Speed is different from velocity, it doesnt involes
      * 3D space like velocity and is just a magnitude of
-     * vector velocity
+     * Vector3D velocity
      *
-     * Default is set to magnitude of velocity vector
+     * Default is set to magnitude of velocity Vector3D
     */
     float speed;
 
@@ -60,7 +60,7 @@ public:
     /**
      * Total force applied uppon this particle
     */
-    VECTOR forceAccum;
+    Vector3D forceAccum;
 
     TIMER timer;
 
@@ -69,29 +69,29 @@ public:
 
     // user can determine these var
     PARTICLE(float _damping, float _inverseMass, float _gravity
-            ,VECTOR _pos, VECTOR _velocity, VECTOR _acceleration );  
+            ,Vector3D _pos, Vector3D _velocity, Vector3D _acceleration );  
 
     TIMER getTimer();
-    VECTOR getForceAccum();
+    Vector3D getForceAccum();
     float getSpeed();
     float getDamping();
-    VECTOR getPos();
-    VECTOR getAcceleration();
+    Vector3D getPos();
+    Vector3D getAcceleration();
     float getMass();
-    VECTOR getVelocity();
+    Vector3D getVelocity();
     float getElasticity();
     float getInverseMass();
 
     void setTimer(TIMER& _timer);
-    void setForceAccum(VECTOR& _forceAccum);
+    void setForceAccum(Vector3D& _forceAccum);
     void setDamping(float _damping);
-    void setPos(VECTOR& _pos);
-    void setAcceleration(VECTOR& _acceleration);
-    void setPos(VECTOR&& _pos);
+    void setPos(Vector3D& _pos);
+    void setAcceleration(Vector3D& _acceleration);
+    void setPos(Vector3D&& _pos);
     void setMass(float _mass);
     void setInverseMass(float _inverseMass);
-    void setVelocity(VECTOR& _velocity);
-    void setVelocity(VECTOR&& _v);
+    void setVelocity(Vector3D& _velocity);
+    void setVelocity(Vector3D&& _v);
     void setElasticity(float _elasticity );
 
     // use this function after object being created
@@ -101,10 +101,10 @@ public:
      *  update the position of this particle in a given time
      *  without acceleration and force
     */
-    void posUpdate(VECTOR velocity, float duration);
+    void posUpdate(Vector3D velocity, float duration);
 
     //this one update the position of this particle with acceleration and force
-    void posUpdate(VECTOR velocity, VECTOR acceleration,
+    void posUpdate(Vector3D velocity, Vector3D acceleration,
         float duration);
 
     /**
@@ -115,10 +115,10 @@ public:
     */
 
     //add force onto forceAccum
-    void addForce(const VECTOR& force);
+    void addForce(const Vector3D& force);
 
     // Get velocity of this particle through force
-    VECTOR getAcceleration(VECTOR force);
+    Vector3D getAcceleration(Vector3D force);
 
     void clearForce();
 
@@ -141,7 +141,7 @@ public:
      *
      * v' = v + integration of a(dt) = v + at
     */
-    VECTOR getVelocity(const VECTOR& force, float duration);
+    Vector3D getVelocity(const Vector3D& force, float duration);
 
     /**
      * Use this as a callback function with timer

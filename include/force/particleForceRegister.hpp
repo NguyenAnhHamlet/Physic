@@ -1,7 +1,7 @@
 #ifndef __PFR__
 #define __PFR__
 
-#include "pfgen.hpp"
+#include "force/pfgen.hpp"
 #include<list>
 #include<map>
 

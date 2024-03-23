@@ -4,9 +4,9 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <utility>
-#include "BVH.hpp"
-#include "point2D.hpp"
-#include "shape.hpp"
+#include "bvh/BVH.hpp"
+#include "bvh/point2D.hpp"
+#include "render/shape.hpp"
 #include<list>
 
 typedef enum mouse

@@ -3,7 +3,7 @@
 
 #include <SDL.h>
 #include <list>
-#include "shape.hpp"
+#include "render/shape.hpp"
 #include <map>
 #include <queue>
 

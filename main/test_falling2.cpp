@@ -1,20 +1,20 @@
-#include "vector.hpp"
-#include "particle.hpp"
-#include "particleDrag.hpp"
-#include "particleForceRegister.hpp"
+#include "base/Vector3D.hpp"
+#include "base/particle.hpp"
+#include "force/particleDrag.hpp"
+#include "force/particleForceRegister.hpp"
 #include <list>
-#include "pfgen.hpp"
+#include "force/pfgen.hpp"
 #include <ctime>
 #include <SDL.h>
-#include "shape.hpp"
-#include "renderer.hpp"
-#include "common.hpp"
-#include "BVH.hpp"
-#include "bounds.hpp"
-#include "point2D.hpp" 
+#include "render/shape.hpp"
+#include "render/renderer.hpp"
+#include "common/common.hpp"
+#include "bvh/BVH.hpp"
+#include "bvh/bounds.hpp"
+#include "bvh/point2D.hpp" 
 #include <queue>
 #include <thread>
-#include "gfgen.hpp"
+#include "force/gfgen.hpp"
 
 PARTICLE_FORCE_REGISTER pfreg;  
 PARTICLE_DRAG* p_drag ;
@@ -23,8 +23,8 @@ GFGEN* gfgen;
 int main()
 {
     SHAPE* s0 =  new CIRCLE(new COLOR(255,255,255,255),20);
-    s0->setPos(VECTOR(20,400,0));
-    s0->setVelocity(VECTOR(100000,-10000,0));
+    s0->setPos(Vector3D(20,400,0));
+    s0->setVelocity(Vector3D(100000,-10000,0));
     s0->setMass(10000);
     p_drag = new PARTICLE_DRAG(convertCM(60), convertCM(60));
     gfgen = GFGEN::getInstance();

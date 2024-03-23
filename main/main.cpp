@@ -1,14 +1,14 @@
-#include "vector.hpp"
-#include "particle.hpp"
-#include "particleDrag.hpp"
-#include "particleForceRegister.hpp"
+#include "base/Vector3D.hpp"
+#include "base/particle.hpp"
+#include "force/particleDrag.hpp"
+#include "force/particleForceRegister.hpp"
 #include <list>
-#include "pfgen.hpp"
+#include "force/pfgen.hpp"
 #include <ctime>
 #include <SDL.h>
-#include "shape.hpp"
-#include "renderer.hpp"
-#include "common.hpp"
+#include "render/shape.hpp"
+#include "render/renderer.hpp"
+#include "common/common.hpp"
 
 int
 SDL_RenderDrawCircle(SDL_Renderer * renderer, int x, int y, int radius)

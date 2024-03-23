@@ -1,9 +1,9 @@
 CC = g++ 
 
-INC_DIRS=include 
-TAR_DIRS = bin
-SRC_DIRS = src
-OBJ_DIRS = obj
+INC_DIRS= ../include 
+TAR_DIRS = ../bin
+SRC_DIRS = ../src
+OBJ_DIRS = ../obj
 TAR_NAME = ${MAKECMDGOALS}
 
 DEP_FLAGS = -MMD -MP

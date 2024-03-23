@@ -8,10 +8,10 @@ class SHAPE;
 class RECTANGLE;
 class CIRCLE;
 class shape_holder;
-class VECTOR;
+class Vector3D;
 
-float penetrationDepth(VECTOR pos1, VECTOR pos2, float r1, float r2);
-VECTOR penetrationVec(VECTOR pos1, VECTOR pos2);
+float penetrationDepth(Vector3D pos1, Vector3D pos2, float r1, float r2);
+Vector3D penetrationVec(Vector3D pos1, Vector3D pos2);
 
 /***
  * *****************************************************
@@ -42,17 +42,11 @@ public:
      * for checking colision of all object inside shape_holder
      * and handle it
     */
-    void collisionHDL(CIRCLE* circle);
-    void collisionHDL(RECTANGLE* rect);
+    void collisionHDL(SHAPE* s);
 
-    static bool isCollide(CIRCLE* circle, RECTANGLE* rect);
-    static bool isCollide(CIRCLE* circle_1, CIRCLE* circle_2);
-    static bool isCollide(RECTANGLE* rect_1, RECTANGLE* rect_2);
+    static bool isCollide(SHAPE* s1, SHAPE* s2);
 
     static void collisionHDL(SHAPE* s1, SHAPE* s2, float COR = 0.85);
-    static void collisionHDL(CIRCLE* circle, RECTANGLE* rect, float COR = 0.85);
-    static void collisionHDL(CIRCLE* circle_1, CIRCLE* circle_2, float COR = 0.85);
-    static void collisionHDL(RECTANGLE* rect_1, RECTANGLE* rect_2, float COR = 0.85);
 };
 
 #endif

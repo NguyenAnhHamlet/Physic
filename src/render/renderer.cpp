@@ -1,6 +1,6 @@
-#include "renderer.hpp"
-#include "common.hpp"
-#include "shape.hpp"
+#include "render/renderer.hpp"
+#include "common/common.hpp"
+#include "render/shape.hpp"
 
 RENDERER* RENDERER::render = nullptr;
 
