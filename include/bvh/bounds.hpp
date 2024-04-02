@@ -18,7 +18,11 @@
 #include <vector>
 #include "common/common.hpp"
 #include <cfloat>
+<<<<<<< HEAD
 #include "render/shape.hpp"
+=======
+#include "shape/shape.hpp"
+>>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 
 class SHAPE;
 class CIRCLE;
