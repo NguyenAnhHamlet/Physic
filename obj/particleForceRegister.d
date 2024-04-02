@@ -1,12 +1,13 @@
-obj/particleForceRegister.o: src/particleForceRegister.cpp \
- include/particleForceRegister.hpp include/pfgen.hpp include/particle.hpp \
- include/vector.hpp include/gfgen.hpp include/timer.hpp \
- include/particleDrag.hpp include/common.hpp
-include/particleForceRegister.hpp:
-include/pfgen.hpp:
-include/particle.hpp:
-include/vector.hpp:
-include/gfgen.hpp:
-include/timer.hpp:
-include/particleDrag.hpp:
-include/common.hpp:
+../obj/particleForceRegister.o: ../src/force/particleForceRegister.cpp \
+ ../include/force/particleForceRegister.hpp ../include/force/pfgen.hpp \
+ ../include/base/particle.hpp ../include/base/Vector3D.hpp \
+ ../include/force/gfgen.hpp ../include/common/timer.hpp \
+ ../include/force/particleDrag.hpp ../include/common/common.hpp
+../include/force/particleForceRegister.hpp:
+../include/force/pfgen.hpp:
+../include/base/particle.hpp:
+../include/base/Vector3D.hpp:
+../include/force/gfgen.hpp:
+../include/common/timer.hpp:
+../include/force/particleDrag.hpp:
+../include/common/common.hpp:

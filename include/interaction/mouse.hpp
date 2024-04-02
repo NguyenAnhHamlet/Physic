@@ -7,11 +7,7 @@
 #include "bvh/BVH.hpp"
 #include "bvh/point2D.hpp"
 #include "render/shape.hpp"
-<<<<<<< HEAD
 #include <list>
-=======
-#include<list>
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 
 typedef enum mouse
 {

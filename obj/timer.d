@@ -1,2 +1,2 @@
-obj/timer.o: src/timer.cpp include/timer.hpp
-include/timer.hpp:
+../obj/timer.o: ../src/common/timer.cpp ../include/common/timer.hpp
+../include/common/timer.hpp:

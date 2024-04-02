@@ -15,21 +15,6 @@ COLLISION_HDL::collisionHDL(SHAPE* s)
 }
 
 void
-<<<<<<< HEAD
-=======
-COLLISION_HDL::collisionHDL(RECTANGLE* rect)
-{
-    for(auto it : *(get_shape_holder()->get_set_shape_holder()))
-    {
-        if(static_cast<CIRCLE*>(it)) 
-            collisionHDL(static_cast<CIRCLE*>(it),rect);
-        else
-            collisionHDL(static_cast<RECTANGLE*>(it), rect); 
-    }
-}
-
-void
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 COLLISION_HDL::collisionHDL(SHAPE* s1, SHAPE* s2, float COR)
 {
     if(!s1 || !s2) 
@@ -89,11 +74,7 @@ shape_holder::addShape(SHAPE* s)
 void 
 shape_holder::removeShape(SHAPE* s)
 {
-<<<<<<< HEAD
     _set_shape_holder->erase(s);
-=======
-    _set_shape_holder.erase(s);
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 }
 
 set_shape_holder*
@@ -118,7 +99,6 @@ Vector3D penetrationVec(Vector3D pos1, Vector3D pos2)
     return penetrationVector3D;
 }
 
-<<<<<<< HEAD
 bool
 COLLISION_HDL::isCollide(SHAPE* s1, SHAPE* s2)
 {
@@ -127,15 +107,6 @@ COLLISION_HDL::isCollide(SHAPE* s1, SHAPE* s2)
     while(1)
         {
             switch (evolveSimplex(s1, s2, vertices, direction))
-=======
-static bool
-COLLISION_HDL::isCollide(SHAPE* s1, SHAPE* s2)
-{
-    std::list<Vector3D*> vertices;
-    while(1)
-        {
-            switch (evolveSimplex(s1, s2, vertices))
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
             {
                 case EvolveResult::NoIntersection:
                     return 0;

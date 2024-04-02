@@ -1,10 +1,12 @@
-obj/shape.o: src/shape.cpp include/shape.hpp include/particle.hpp \
- include/vector.hpp include/gfgen.hpp include/pfgen.hpp include/timer.hpp \
- include/particleDrag.hpp include/common.hpp /usr/include/SDL2/SDL_rect.h \
+../obj/shape.o: ../src/render/shape.cpp ../include/render/shape.hpp \
+ ../include/base/particle.hpp ../include/base/Vector3D.hpp \
+ ../include/force/gfgen.hpp ../include/force/pfgen.hpp \
+ ../include/common/timer.hpp ../include/force/particleDrag.hpp \
+ ../include/common/common.hpp /usr/include/SDL2/SDL_rect.h \
  /usr/include/SDL2/SDL_stdinc.h /usr/include/SDL2/SDL_config.h \
  /usr/include/SDL2/SDL_error.h /usr/include/SDL2/SDL_pixels.h \
  /usr/include/SDL2/SDL_endian.h /usr/include/SDL2/SDL_rwops.h \
- include/renderer.hpp /usr/include/SDL2/SDL.h \
+ ../include/render/renderer.hpp /usr/include/SDL2/SDL.h \
  /usr/include/SDL2/SDL_main.h /usr/include/SDL2/SDL_assert.h \
  /usr/include/SDL2/SDL_atomic.h /usr/include/SDL2/SDL_platform.h \
  /usr/include/SDL2/SDL_audio.h /usr/include/SDL2/SDL_mutex.h \
@@ -25,15 +27,15 @@ obj/shape.o: src/shape.cpp include/shape.hpp include/particle.hpp \
  /usr/include/SDL2/SDL_shape.h /usr/include/SDL2/SDL_system.h \
  /usr/include/SDL2/SDL_timer.h /usr/include/SDL2/SDL_version.h \
  /usr/include/SDL2/SDL_locale.h /usr/include/SDL2/SDL_misc.h \
- include/shape.hpp include/common.hpp include/collision_hdl.hpp
-include/shape.hpp:
-include/particle.hpp:
-include/vector.hpp:
-include/gfgen.hpp:
-include/pfgen.hpp:
-include/timer.hpp:
-include/particleDrag.hpp:
-include/common.hpp:
+ ../include/collision/collision_hdl.hpp ../include/bvh/point2D.hpp
+../include/render/shape.hpp:
+../include/base/particle.hpp:
+../include/base/Vector3D.hpp:
+../include/force/gfgen.hpp:
+../include/force/pfgen.hpp:
+../include/common/timer.hpp:
+../include/force/particleDrag.hpp:
+../include/common/common.hpp:
 /usr/include/SDL2/SDL_rect.h:
 /usr/include/SDL2/SDL_stdinc.h:
 /usr/include/SDL2/SDL_config.h:
@@ -41,7 +43,7 @@ include/common.hpp:
 /usr/include/SDL2/SDL_pixels.h:
 /usr/include/SDL2/SDL_endian.h:
 /usr/include/SDL2/SDL_rwops.h:
-include/renderer.hpp:
+../include/render/renderer.hpp:
 /usr/include/SDL2/SDL.h:
 /usr/include/SDL2/SDL_main.h:
 /usr/include/SDL2/SDL_assert.h:
@@ -83,6 +85,5 @@ include/renderer.hpp:
 /usr/include/SDL2/SDL_version.h:
 /usr/include/SDL2/SDL_locale.h:
 /usr/include/SDL2/SDL_misc.h:
-include/shape.hpp:
-include/common.hpp:
-include/collision_hdl.hpp:
+../include/collision/collision_hdl.hpp:
+../include/bvh/point2D.hpp:

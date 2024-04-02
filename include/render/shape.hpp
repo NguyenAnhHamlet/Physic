@@ -43,14 +43,9 @@ public:
 
     virtual Vector3D* getCenter() = 0;
     virtual float getArea() = 0;
-<<<<<<< HEAD
     virtual Vector3D support(Vector3D& direction) = 0;
     virtual Vector3D support(Vector3D&& direction) = 0;
     virtual float getR() = 0;
-=======
-    virtual Vector3D* support(Vector3D* direction) = 0;
-    virtual void getR() = 0;
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 };
 
 /***
@@ -81,12 +76,8 @@ public :
     Vector3D* getCenter() override;
     float getArea();
 
-<<<<<<< HEAD
     virtual Vector3D support(Vector3D& direction) override ;
     virtual Vector3D support(Vector3D&& direction) override ;
-=======
-    virtual Vector3D* support(Vector3D* direction);
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 
     float getR() override;
 };
@@ -119,12 +110,8 @@ public:
 
     Vector3D* getCenter() override;
 
-<<<<<<< HEAD
     virtual Vector3D support(Vector3D&& direction) override ;
     virtual Vector3D support(Vector3D& direction) override ;
-=======
-    virtual Vector3D* support(Vector3D* direction);
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 
     float getAxisL();
     std::vector<Vector3D*> getPoints();

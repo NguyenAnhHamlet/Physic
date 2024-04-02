@@ -5,11 +5,7 @@
 #include "collision/collision_hdl.hpp"
 #include <math.h>
 #include "bvh/point2D.hpp"
-<<<<<<< HEAD
 #include "base/Vector3D.hpp"
-=======
-#include "base/Vector3D"
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 
 #define _USE_MATH_DEFINES
 
@@ -38,13 +34,8 @@ RECTANGLE::RECTANGLE()
     this->color = new COLOR();
     rect.w = 0;
     rect.h = 0;
-<<<<<<< HEAD
     rect.x = this->pos.x;
     rect.y = this->pos.y;
-=======
-    rect.x = this->pos.x - _w/2;
-    rect.y = this->pos.y - _h/2;
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 
     center = &(this->pos);
 }
@@ -151,11 +142,7 @@ RECTANGLE::edgeCollide(RENDERER* render)
 }
 
 Vector3D
-<<<<<<< HEAD
 RECTANGLE::support(Vector3D& direction)
-=======
-RECTANGLE::support(Vector3D* direction)
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 {
     float furthestDistance = FLT_MIN;
     Vector3D* furthestVertex = NULL;
@@ -170,8 +157,6 @@ RECTANGLE::support(Vector3D* direction)
             furthestVertex = v;
         }
     }
-
-<<<<<<< HEAD
     return std::move(*furthestVertex);
 }
 
@@ -193,9 +178,6 @@ RECTANGLE::support(Vector3D&& direction)
     }
 
     return std::move(*furthestVertex);
-=======
-    return furthestVertex;
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 }
 
 
@@ -335,7 +317,6 @@ CIRCLE::edgeCollide(RENDERER* render)
     }
 }
 
-<<<<<<< HEAD
 Vector3D
 CIRCLE::support(Vector3D& direction)
 {
@@ -349,16 +330,3 @@ CIRCLE::support(Vector3D&& direction)
     Vector3D center = *getCenter();
     return (center + direction.normalize() * getR());
 }
-
-
-
-
-=======
-Vector3D* 
-CIRCLE::support(Vector3D* direction)
-{
-    return getCenter() + direction.normalized() * getR();
-}
-
-
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5

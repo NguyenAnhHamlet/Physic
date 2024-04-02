@@ -13,10 +13,19 @@ CXXFLAGS = $(DEP_FLAGS) $(INC_FLAGS) $(LD_FLAGS)
 
 CPP_FILES = $(wildcard $(SRC_DIRS)/**/*.cpp)
 CPP_FILES += ../main/${TAR_NAME}.cpp
-OBJ_FILES = $(patsubst $(SRC_DIRS)/**/%.cpp,$(OBJ_DIRS)/%.o,$(CPP_FILES))
+
+OBJ_FILES += $(patsubst $(SRC_DIRS)/base/%.cpp,$(OBJ_DIRS)/%.o,$(CPP_FILES))
+OBJ_FILES += $(patsubst $(SRC_DIRS)/bvh/%.cpp,$(OBJ_DIRS)/%.o,$(CPP_FILES))
+OBJ_FILES += $(patsubst $(SRC_DIRS)/collision/%.cpp,$(OBJ_DIRS)/%.o,$(CPP_FILES))
+OBJ_FILES += $(patsubst $(SRC_DIRS)/common/%.cpp,$(OBJ_DIRS)/%.o,$(CPP_FILES))
+OBJ_FILES += $(patsubst $(SRC_DIRS)/force/%.cpp,$(OBJ_DIRS)/%.o,$(CPP_FILES))
+OBJ_FILES += $(patsubst $(SRC_DIRS)/gjk/%.cpp,$(OBJ_DIRS)/%.o,$(CPP_FILES))
+OBJ_FILES += $(patsubst $(SRC_DIRS)/interaction/%.cpp,$(OBJ_DIRS)/%.o,$(CPP_FILES))
+OBJ_FILES += $(patsubst $(SRC_DIRS)/render/%.cpp,$(OBJ_DIRS)/%.o,$(CPP_FILES)) 
+
 DEP_FILES = $(patsubst $(OBJ_DIRS)/%.o,$(DEP_DIRS)/%.d,$(OBJ_FILES))
 
-$(OBJ_DIRS)/%.o : $(SRC_DIRS)/%.cpp
+$(OBJ_DIRS)/%.o : $(SRC_DIRS)/**/%.cpp
 	$(CC) -c -o $@ $< $(CXXFLAGS) 
 
 .DEFAULT : all
@@ -27,8 +36,7 @@ test_SAH : $(OBJ_FILES)
 	$(CC) -g -o $(TAR_DIRS)/test_SAH $^ $(CXXFLAGS)
 
 test_BVH : $(OBJ_FILES)
-	@echo "File cpp:" 
-	@echo ${CPP_FILES}
+	@echo "object file : $(OBJ_FILES)"
 	$(CC) -g -o $(TAR_DIRS)/test_BVH $^ $(CXXFLAGS)
 
 test_Falling: $(OBJ_FILES)

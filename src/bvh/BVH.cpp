@@ -1,9 +1,5 @@
 #include "bvh/BVH.hpp"
-<<<<<<< HEAD
 #include "base/particle.hpp"
-=======
-#include "bvh/particle.hpp"
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 #include "bvh/bounds.hpp"
 #include <vector>
 #include "collision/collision_hdl.hpp"
@@ -360,15 +356,9 @@ void addNode(BVHNode* root, BVHNodeArray& arr, BVHNode* newNode, float Tt, float
         // newNode Bound is within this node, just need to 
         // check whether it is within left or right node 
         if(isInBounds(root->left->_Bound2D, newNode->_Bound2D))
-<<<<<<< HEAD
             addNode(root->left, root->left->arr, newNode, Tt, Ti);
         else 
             addNode(root->right, root->right->arr, newNode, Tt, Ti);
-=======
-            addNode(root->left, root->left->arr, newNode);
-        else 
-            addNode(root->right, root->right->arr, newNode);
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
     }
     else
     {

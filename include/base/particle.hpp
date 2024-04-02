@@ -13,11 +13,8 @@
 
 class GFGEN;
 class PARTICLE_DRAG;
-<<<<<<< HEAD
 class Vector3D;
-=======
 class Vector3D3D;
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 class TIMER;
 class PARTICLE_FORCE_REGISTER;
 

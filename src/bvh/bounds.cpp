@@ -183,17 +183,10 @@ Bounds2D::init()
 
 bool isInBounds(const Bounds2D* b, std::pair<float,float> coor)
 {
-<<<<<<< HEAD
     if(b->getpMin().x > coor.first || b->getpMax().x < coor.first)
         return false;
     
     if(b->getpMin().y > coor.second || b->getpMax().y < coor.second)
-=======
-    if(b.getpMin().x > coor.first || b.getpMax().x < coor.first)
-        return false;
-    
-    if(b.getpMin().y > coor.second || b.getpMax().y < coor.second)
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
         return false;
     
     return true;
@@ -202,19 +195,11 @@ bool isInBounds(const Bounds2D* b, std::pair<float,float> coor)
 bool isInBounds(const Bounds2D* b1, const Bounds2D* b2 )
 {
     // b1 is within b2
-<<<<<<< HEAD
     if(b1->getpMin().x > b2->getpMin().x && b1->getpMax().y < b2->getpMax().y)   
         return true;
 
     // b2 is within b1
     if(b2->getpMin().x > b1->getpMin().x && b2->getpMax().y < b1->getpMax().y)   
-=======
-    if(b1->getpMin() > b2->getpMin() && b1->getpMax() < b2->getpMax())   
-        return true;
-
-    // b2 is within b1
-    if(b2->getpMin() > b1->getpMin() && b2->getpMax() < b1->getpMax())   
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
         return true;
     
     return false;
