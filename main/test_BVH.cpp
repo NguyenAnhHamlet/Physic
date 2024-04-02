@@ -16,7 +16,11 @@
 #include <thread>
 
 int n = 0;
+<<<<<<< HEAD
 bounds_vector b_vector; 
+=======
+bounds_Vector3D b_Vector3D;
+>>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 set_shape_holder shape_holder; 
 BVHNode* node = NULL;
  // create a BVH node array, shape
@@ -182,6 +186,7 @@ int main(int argc, char* argv[])
     }
 
     // create a bound for all of them
+<<<<<<< HEAD
     b_vector = getBoundEach(&shape_holder);
 
     // take the total bound of all of them
@@ -189,6 +194,15 @@ int main(int argc, char* argv[])
 
     // get the array of bvh node
     arr = generateBVHNodeArr(b_vector);
+=======
+    b_Vector3D = getBoundEach(&shape_holder);
+
+    // take the total bound of all of them
+    Bounds2D tt_b  = getBoundAll(b_Vector3D);
+
+    // get the array of bvh node
+    arr = generateBVHNodeArr(b_Vector3D);
+>>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 
     // creating a root node 
     BVHNode* root = rootNode(&tt_b,arr);

@@ -1,7 +1,11 @@
 #include "base/Vector3D.hpp"
 
+<<<<<<< HEAD
 Vector3D::Vector3D(float x, float y, float z) : 
             x(x), y(y), z(z)
+=======
+Vector3D::Vector3D(float x, float y, float z) : x(x), y(y), z(z)
+>>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 {}
 
 void 

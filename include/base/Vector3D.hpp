@@ -7,6 +7,10 @@
 
 class Vector3D
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 public:
     /*
     * Three coordinate of a vector
@@ -20,7 +24,11 @@ public:
 
     Vector3D(float x, float y, float z);
 
+<<<<<<< HEAD
     //operator overloading with instance
+=======
+    //operator overloading
+>>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
     void operator=(const Vector3D& vector);
     Vector3D operator+(const Vector3D& vector);
     Vector3D operator-(const Vector3D& vector);

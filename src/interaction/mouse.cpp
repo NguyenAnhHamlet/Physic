@@ -140,8 +140,13 @@ namespace Mouse
         std::pair<float, float> pos2D = getPosMouseClick(event, click);
         for(auto s : s_list)
         {
+<<<<<<< HEAD
             if(pos2D.first != -1 && pos2D.second != -1)
                 s->setPos(Vector3D(pos2D.first, pos2D.second, 0));
+=======
+            if(pos2D != {-1,-1})
+                s->setPos(pos2D.first, pos2D.second, 0);
+>>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
         }
     }
 
@@ -149,6 +154,7 @@ namespace Mouse
     int isOnShape(SHAPE* shape, std::pair<float, float> coor)
     {
         CIRCLE* tmpC = new CIRCLE();
+<<<<<<< HEAD
         tmpC->setPos(Vector3D(coor.first, coor.second, 0));
         std::vector<Vector3D> vertices;
         Vector3D direction;
@@ -156,10 +162,20 @@ namespace Mouse
         {
             switch (evolveSimplex(shape, tmpC, vertices, direction))
             {
+=======
+        tmpC->setPos(coor.first, coor.second, 0);
+        std::list<Vector3D*> vertices;
+        while(1)
+        {
+            switch (evolveSimplex(shape, tmpC, vertices))
+            {
+                if(tmpC) delete tmpC;
+>>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
                 case EvolveResult::StillEvolving:
                     break;
 
                 case EvolveResult::NoIntersection:
+<<<<<<< HEAD
                     if(tmpC) delete tmpC;
                     return 0;
                 
@@ -169,6 +185,14 @@ namespace Mouse
 
                 default:
                     if(tmpC) delete tmpC;
+=======
+                    return 0;
+                
+                case EvolveResult::FoundIntersection:
+                    return 1;
+
+                default:
+>>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
                     return -1;
             }
         }
@@ -180,9 +204,15 @@ namespace Mouse
 
     BVHNode* createNode(std::pair<float, float> coor, SHAPE* s, float w, float h)
     {
+<<<<<<< HEAD
         if(coor.first == -1 &&  coor.second == -1) return NULL;
 
         s->setPos(Vector3D(coor.first, coor.second, 0));
+=======
+        if(coor == {-1,-1}) return NULL;
+
+        s->setPos(Vector3D(cor.first, coor.second, 0));
+>>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
         BVHNode* newNode = initNode(new Bounds2D(s,w,h));
 
         return newNode;
