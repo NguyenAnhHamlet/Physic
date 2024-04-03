@@ -43,4 +43,4 @@ public:
 
 Vector3D tripleProduct(Vector3D a, Vector3D b, Vector3D c);
 
-#endif // __TIMER__
+#endif

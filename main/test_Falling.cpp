@@ -16,11 +16,7 @@
 #include <thread>
 #include "force/gfgen.hpp"
 
-<<<<<<< HEAD
 bounds_vector b_vector;
-=======
-bounds_Vector3D b_Vector3D;
->>>>>>> f643c6cccabf372d6914e417cd8a5ae3c37bb2a5
 set_shape_holder shape_holder; 
 BVHNode* node = NULL;
 BVHNodeArray arr;
