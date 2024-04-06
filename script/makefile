@@ -32,7 +32,11 @@ $(OBJ_DIRS)/${TAR_NAME}.o : ../main/${TAR_NAME}.cpp
 $(OBJ_DIRS)/%.o : $(SRC_DIRS)/**/%.cpp
 	$(CC) -c -o $@ $< $(CXXFLAGS) 
 
+<<<<<<< HEAD
 .DEFAULT : ${TAR_NAME}
+=======
+.DEFAULT : all
+>>>>>>> 4e1521eebb7fad5ee78b101c9f54ee435e9ad754
 ${TAR_NAME} : $(OBJ_FILES)
 	$(CC) -g -o $(TAR_DIRS)/$(TAR_NAME) $^ $(CXXFLAGS)
 
