@@ -5,14 +5,15 @@
 #include<vector>
 
 
-bool addSupport(SHAPE* s1, SHAPE* s2 ,Vector3D& direction, std::vector<Vector3D> vertices) 
+bool addSupport(SHAPE* s1, SHAPE* s2 ,Vector3D& direction, std::vector<Vector3D>& vertices) 
 {
     Vector3D newVertex = s1->support(direction) - s2->support( direction * -1);
     vertices.push_back(newVertex);
+    // std::cout << "SIZE : " << vertices.size() << '\n';
     return newVertex.scalarProduct(direction) >= 0;
 }
 
-EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::vector<Vector3D> vertices, Vector3D& direction)
+EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::vector<Vector3D>& vertices, Vector3D& direction)
 {
     switch (vertices.size())
     {
@@ -21,14 +22,12 @@ EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::vector<Vector3D> vertices,
             Vector3D c1 = *(s1->getCenter());
             Vector3D c2 = *(s2->getCenter());
             direction = c1 - c2;
-            vertices.push_back(s1->support(direction) - s2->support(direction * -1));
             break;
         }
         
         case 1: 
         {
             direction = direction * -1;
-            vertices.push_back(s1->support(direction) - s2->support(direction * -1));
             break;
         }
 
@@ -45,7 +44,6 @@ EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::vector<Vector3D> vertices,
             // use the triple-cross-product to calculate a direction perpendicular to line cb
             // in the direction of the origin
             direction = tripleProduct(cb, c0, cb);
-            vertices.push_back(s1->support(direction) - s2->support( direction * -1));
             break;
         }
         
@@ -68,14 +66,12 @@ EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::vector<Vector3D> vertices,
                 // get rid of c and add a new support in the direction of abPerp
                     vertices.erase(vertices.begin());
                     direction = abPerp;
-                    vertices.push_back(s1->support(direction) - s2->support( direction * -1));
             }
             else if(acPerp.scalarProduct(a0) > 0) {
                 // the origin is outside line ac
                 // get rid of b and add a new support in the direction of acPerp
                     vertices.erase(vertices.begin() + 1);
                     direction = acPerp;
-                    vertices.push_back(s1->support(direction) - s2->support( direction * -1));
             }
             else {
                 // the origin is inside both ab and ac,
@@ -89,6 +85,9 @@ EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::vector<Vector3D> vertices,
             return EvolveResult::Error;
         }
     }
+
+    std::cout <<"RUNNING" << '\n';
+    std::cout << vertices.size() << '\n';
 
     return addSupport(s1, s2, direction, vertices) ? EvolveResult::StillEvolving : EvolveResult::NoIntersection;
 }

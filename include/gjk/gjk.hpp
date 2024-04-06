@@ -13,7 +13,7 @@ enum EvolveResult
     Error
 };
 
-bool addSupport(SHAPE* s1, SHAPE* s2 ,Vector3D& direction, std::vector<Vector3D> vertices);
-EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::vector<Vector3D> vertice, Vector3D& directions);
+bool addSupport(SHAPE* s1, SHAPE* s2 ,Vector3D& direction, std::vector<Vector3D>& vertices);
+EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::vector<Vector3D>& vertice, Vector3D& directions);
 
 #endif
