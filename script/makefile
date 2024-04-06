@@ -32,9 +32,21 @@ $(OBJ_DIRS)/${TAR_NAME}.o : ../main/${TAR_NAME}.cpp
 $(OBJ_DIRS)/%.o : $(SRC_DIRS)/**/%.cpp
 	$(CC) -c -o $@ $< $(CXXFLAGS) 
 
-.DEFAULT : ${TAR_NAME}
-${TAR_NAME} : $(OBJ_FILES)
-	$(CC) -g -o $(TAR_DIRS)/$(TAR_NAME) $^ $(CXXFLAGS)
+test_SAH : $(OBJ_FILES)
+	$(CC) -g -o $(TAR_DIRS)/test_SAH $^ $(CXXFLAGS)
+
+test_BVH : $(OBJ_FILES)
+	@echo "object file : $(OBJ_FILES)"
+	$(CC) -g -o $(TAR_DIRS)/test_BVH $^ $(CXXFLAGS)
+
+test_Falling: $(OBJ_FILES)
+	$(CC) -g -o $(TAR_DIRS)/test_Falling $^ $(CXXFLAGS)
+
+test_falling2: $(OBJ_FILES)
+	$(CC) -g -o $(TAR_DIRS)/test_falling2 $^ $(CXXFLAGS)
+
+main : $(OBJ_FILES)
+	$(CC) -o $(TAR_DIRS)/main $^ $(CXXFLAGS)
 
 .PHONY : clean
 clean : 
