@@ -9,7 +9,6 @@ bool addSupport(SHAPE* s1, SHAPE* s2 ,Vector3D& direction, std::vector<Vector3D>
 {
     Vector3D newVertex = s1->support(direction) - s2->support( direction * -1);
     vertices.push_back(newVertex);
-    // std::cout << "SIZE : " << vertices.size() << '\n';
     return newVertex.scalarProduct(direction) >= 0;
 }
 
@@ -85,9 +84,6 @@ EvolveResult evolveSimplex(SHAPE* s1, SHAPE* s2, std::vector<Vector3D>& vertices
             return EvolveResult::Error;
         }
     }
-
-    std::cout <<"RUNNING" << '\n';
-    std::cout << vertices.size() << '\n';
 
     return addSupport(s1, s2, direction, vertices) ? EvolveResult::StillEvolving : EvolveResult::NoIntersection;
 }

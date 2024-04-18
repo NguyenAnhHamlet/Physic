@@ -23,11 +23,14 @@ int main(int argc, char* argv[]) {
     while (running) {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
+            if (event.type == SDL_QUIT) 
+            {
                 running = false;
-        }
-            } else if (event.type == SDL_MOUSEBUTTONDOWN && 
-                       event.button.button == SDL_BUTTON_LEFT) {
+            }
+            } 
+            else if (event.type == SDL_MOUSEBUTTONDOWN && 
+                       event.button.button == SDL_BUTTON_LEFT) 
+            {
                 int x, y;
                 SDL_GetMouseState(&x, &y);
                 std::cout << "Left mouse click at (" << x << ", " << y << ")" << std::endl;
