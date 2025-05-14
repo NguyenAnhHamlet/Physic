@@ -14,7 +14,6 @@
 class GFGEN;
 class PARTICLE_DRAG;
 class Vector3D;
-class Vector3D3D;
 class TIMER;
 class PARTICLE_FORCE_REGISTER;
 

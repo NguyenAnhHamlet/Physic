@@ -16,7 +16,7 @@
 #include <thread>
 
 int n = 0;
-bounds_Vector3D b_Vector3D;
+bounds_vector b_Vector3D;
 set_shape_holder shape_holder; 
 
 void render_Bound(RENDERER* render, Bounds2D* b)

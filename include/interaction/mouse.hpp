@@ -11,19 +11,19 @@
 
 typedef enum mouse
 {
-    leftclick,
-    rightclick,
-    leftrelease,
-    rightrelease
+    leftside = 1,
+    rightside = 2
 } mouse;
 
 namespace Mouse
 {
-    std::pair<float,float> getPosMouseClick(SDL_Event& event, mouse click);
-    std::pair<float,float> getPosMouseRelease(SDL_Event& event, mouse click);
+    // return the coordinate of the mouse click
+    std::pair<float,float> getPosMouseClick(SDL_Event& event, mouse& click);
+    // return the coordinate of the mouse release
+    std::pair<float,float> getPosMouseRelease(SDL_Event& event, mouse& release);
 
-    bool isMouseClick(SDL_Event& event,  mouse click);
-    bool isMouseRelease(SDL_Event& event,  mouse click);
+    bool isMouseClick(SDL_Event& event);
+    bool isMouseRelease(SDL_Event& event);
 
     // return a list of Bounds2D that intersect with the coordination
     void getBounds(BVHNode* root, std::list<Bounds2D*> listB,  std::pair<float, float> coor);
@@ -37,8 +37,15 @@ namespace Mouse
     // true if mouse coordination is on SHAPE
     int isOnShape(SHAPE* shape, std::pair<float, float> coor);
 
-    // create BVHNode with a shape on this coordination
-    BVHNode* createNode(std::pair<float, float> coor, SHAPE* s, float w, float h);
+    // create BVHNode on this coordination
+    // w : the width of the bound
+    // h : high of the bound 
+    BVHNode* createNode(std::pair<float, float> coor, SHAPE* s, 
+                        float w =0, float h =0);
+
+    // create a shape on this position of mouse click
+    SHAPE* createShape(Vector3D& coor, COLOR* color, 
+                       float r =0, float w =0, float h =0); 
 }
 
 #endif

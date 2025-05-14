@@ -1,21 +1,23 @@
-../obj/test_BVH.o: ../main/test_BVH.cpp ../include/base/Vector3D.hpp \
+../obj/testMouse.o: ../main/testMouse.cpp ../include/base/Vector3D.hpp \
  ../include/base/particle.hpp ../include/force/gfgen.hpp \
  ../include/force/pfgen.hpp ../include/common/timer.hpp \
  ../include/force/particleDrag.hpp ../include/common/common.hpp \
  ../include/force/particleForceRegister.hpp /usr/include/SDL2/SDL.h \
  /usr/include/SDL2/SDL_main.h /usr/include/SDL2/SDL_stdinc.h \
- /usr/include/SDL2/SDL_config.h /usr/include/SDL2/SDL_assert.h \
- /usr/include/SDL2/SDL_atomic.h /usr/include/SDL2/SDL_platform.h \
- /usr/include/SDL2/SDL_audio.h /usr/include/SDL2/SDL_error.h \
- /usr/include/SDL2/SDL_endian.h /usr/include/SDL2/SDL_mutex.h \
- /usr/include/SDL2/SDL_thread.h /usr/include/SDL2/SDL_rwops.h \
- /usr/include/SDL2/SDL_clipboard.h /usr/include/SDL2/SDL_cpuinfo.h \
- /usr/include/SDL2/SDL_events.h /usr/include/SDL2/SDL_video.h \
- /usr/include/SDL2/SDL_pixels.h /usr/include/SDL2/SDL_rect.h \
- /usr/include/SDL2/SDL_surface.h /usr/include/SDL2/SDL_blendmode.h \
- /usr/include/SDL2/SDL_keyboard.h /usr/include/SDL2/SDL_keycode.h \
- /usr/include/SDL2/SDL_scancode.h /usr/include/SDL2/SDL_mouse.h \
- /usr/include/SDL2/SDL_joystick.h /usr/include/SDL2/SDL_gamecontroller.h \
+ /usr/include/SDL2/SDL_config.h /usr/include/SDL2/SDL_config-x86_64.h \
+ /usr/include/SDL2/SDL_platform.h /usr/include/SDL2/begin_code.h \
+ /usr/include/SDL2/close_code.h /usr/include/SDL2/SDL_assert.h \
+ /usr/include/SDL2/SDL_atomic.h /usr/include/SDL2/SDL_audio.h \
+ /usr/include/SDL2/SDL_error.h /usr/include/SDL2/SDL_endian.h \
+ /usr/include/SDL2/SDL_mutex.h /usr/include/SDL2/SDL_thread.h \
+ /usr/include/SDL2/SDL_rwops.h /usr/include/SDL2/SDL_clipboard.h \
+ /usr/include/SDL2/SDL_cpuinfo.h /usr/include/SDL2/SDL_events.h \
+ /usr/include/SDL2/SDL_video.h /usr/include/SDL2/SDL_pixels.h \
+ /usr/include/SDL2/SDL_rect.h /usr/include/SDL2/SDL_surface.h \
+ /usr/include/SDL2/SDL_blendmode.h /usr/include/SDL2/SDL_keyboard.h \
+ /usr/include/SDL2/SDL_keycode.h /usr/include/SDL2/SDL_scancode.h \
+ /usr/include/SDL2/SDL_mouse.h /usr/include/SDL2/SDL_joystick.h \
+ /usr/include/SDL2/SDL_guid.h /usr/include/SDL2/SDL_gamecontroller.h \
  /usr/include/SDL2/SDL_sensor.h /usr/include/SDL2/SDL_quit.h \
  /usr/include/SDL2/SDL_gesture.h /usr/include/SDL2/SDL_touch.h \
  /usr/include/SDL2/SDL_filesystem.h /usr/include/SDL2/SDL_haptic.h \
@@ -28,7 +30,8 @@
  /usr/include/SDL2/SDL_locale.h /usr/include/SDL2/SDL_misc.h \
  ../include/render/shape.hpp /usr/include/SDL2/SDL_rect.h \
  ../include/render/renderer.hpp ../include/bvh/BVH.hpp \
- ../include/bvh/bounds.hpp ../include/bvh/point2D.hpp
+ ../include/bvh/bounds.hpp ../include/bvh/point2D.hpp \
+ ../include/interaction/mouse.hpp
 ../include/base/Vector3D.hpp:
 ../include/base/particle.hpp:
 ../include/force/gfgen.hpp:
@@ -41,9 +44,12 @@
 /usr/include/SDL2/SDL_main.h:
 /usr/include/SDL2/SDL_stdinc.h:
 /usr/include/SDL2/SDL_config.h:
+/usr/include/SDL2/SDL_config-x86_64.h:
+/usr/include/SDL2/SDL_platform.h:
+/usr/include/SDL2/begin_code.h:
+/usr/include/SDL2/close_code.h:
 /usr/include/SDL2/SDL_assert.h:
 /usr/include/SDL2/SDL_atomic.h:
-/usr/include/SDL2/SDL_platform.h:
 /usr/include/SDL2/SDL_audio.h:
 /usr/include/SDL2/SDL_error.h:
 /usr/include/SDL2/SDL_endian.h:
@@ -63,6 +69,7 @@
 /usr/include/SDL2/SDL_scancode.h:
 /usr/include/SDL2/SDL_mouse.h:
 /usr/include/SDL2/SDL_joystick.h:
+/usr/include/SDL2/SDL_guid.h:
 /usr/include/SDL2/SDL_gamecontroller.h:
 /usr/include/SDL2/SDL_sensor.h:
 /usr/include/SDL2/SDL_quit.h:
@@ -90,3 +97,4 @@
 ../include/bvh/BVH.hpp:
 ../include/bvh/bounds.hpp:
 ../include/bvh/point2D.hpp:
+../include/interaction/mouse.hpp:

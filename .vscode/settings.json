@@ -111,6 +111,7 @@
     "thread": "cpp",
     "typeinfo": "cpp",
     "cinttypes": "cpp",
-    "queue": "cpp"
+    "queue": "cpp",
+    "optional": "cpp"
   }
 }

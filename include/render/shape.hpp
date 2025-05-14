@@ -88,7 +88,8 @@ public :
  * *****************************************************
 */
 
-class RECTANGLE : public SHAPE
+class 
+RECTANGLE : public SHAPE
 {
     SDL_Rect rect;
     COLOR* color;
@@ -127,6 +128,11 @@ public:
  *      shape_holder
  * *****************************************************
 */
+
+// TODO : 
+// Consider remove this since shape is often used with 
+// BVH tree and tree traversal sounds like a better 
+// idea than using an object as an holder 
 
 typedef std::set<CIRCLE*> set_circle_holder ;
 typedef std::set<RECTANGLE*> set_rect_holder;

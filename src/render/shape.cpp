@@ -68,7 +68,8 @@ RECTANGLE::updatePos()
     rect.y = this->pos.y;
 }
 
-void RECTANGLE::collideOther(COLLISION_HDL* collision_hdl)
+void 
+RECTANGLE::collideOther(COLLISION_HDL* collision_hdl)
 {
     collision_hdl->collisionHDL(this);
 }

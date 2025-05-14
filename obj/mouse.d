@@ -5,7 +5,8 @@
  ../include/base/particle.hpp ../include/base/Vector3D.hpp \
  ../include/force/gfgen.hpp ../include/force/pfgen.hpp \
  ../include/common/timer.hpp ../include/force/particleDrag.hpp \
- /usr/include/SDL2/SDL_rect.h ../include/gjk/gjk.hpp
+ /usr/include/SDL2/SDL_rect.h ../include/gjk/gjk.hpp \
+ ../include/render/shapeFactory.hpp
 ../include/interaction/mouse.hpp:
 ../include/bvh/BVH.hpp:
 ../include/bvh/bounds.hpp:
@@ -20,3 +21,4 @@
 ../include/force/particleDrag.hpp:
 /usr/include/SDL2/SDL_rect.h:
 ../include/gjk/gjk.hpp:
+../include/render/shapeFactory.hpp:

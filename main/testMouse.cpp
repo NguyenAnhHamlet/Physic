@@ -1,45 +1,66 @@
-#include <SDL2/SDL.h>
-#include <iostream>
+#include "base/Vector3D.hpp"
+#include "base/particle.hpp"
+#include "force/particleDrag.hpp"
+#include "force/particleForceRegister.hpp"
+#include <list>
+#include "force/pfgen.hpp"
+#include <ctime>
+#include <SDL.h>
+#include "render/shape.hpp"
+#include "render/renderer.hpp"
+#include "common/common.hpp"
+#include "bvh/BVH.hpp"
+#include "bvh/bounds.hpp"
+#include "bvh/point2D.hpp" 
+#include <queue>
+#include <thread>
+#include "interaction/mouse.hpp"
 
-int main(int argc, char* argv[]) {
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        std::cerr << "Error initializing SDL: " << SDL_GetError() << std::endl;
-        return 1;
-    }
+int main(int argc, char* argv[]) 
+{
+    // create a window
+    RENDERER* render = RENDERER::getInstance();
+    render->setBGColor(new COLOR(0,0,0,255));
+    SDL_SetRenderDrawColor(render->getRenderer(), 255, 255, 255, 255);
 
-    // Create a window (you'd normally also create a renderer)
-    SDL_Window* window = SDL_CreateWindow("Mouse Click Detection", 
-                                          SDL_WINDOWPOS_UNDEFINED,
-                                          SDL_WINDOWPOS_UNDEFINED,
-                                          640, 480, 0);
-    if (!window) {
-        std::cerr << "Error creating window: " << SDL_GetError() << std::endl;
-        return 1;
-    }
-
-    // Main game loop
-    bool running = true;
-    while (running) {
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) 
+    bool run = true;
+    SDL_Event event;
+    mouse mousebutt;
+    SHAPE* new_shape = NULL;
+    
+    while( run)
+    {
+        while (SDL_PollEvent(&event))
+        {
+            if (event.type == SDL_QUIT)
             {
-                running = false;
+                run = false;
             }
-            } 
-            else if (event.type == SDL_MOUSEBUTTONDOWN && 
-                       event.button.button == SDL_BUTTON_LEFT) 
+            
+            std::pair<int, int> posMouseClick(0,0);
+            if(Mouse::isMouseClick(event))
+                posMouseClick = Mouse::getPosMouseClick(event, mousebutt);
+            
+            if(posMouseClick.first && mousebutt == mouse::leftside)
             {
-                int x, y;
-                SDL_GetMouseState(&x, &y);
-                std::cout << "Left mouse click at (" << x << ", " << y << ")" << std::endl;
+                Vector3D v(posMouseClick.first, posMouseClick.second, 0);
+                COLOR* c = new COLOR();
+                new_shape =  Mouse::createShape(v, c, 5);
             }
-    }
+            
+        }
+        
+        if(new_shape) new_shape->render(render);
 
-    // Clean up
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+        SDL_RenderPresent(render->getRenderer()); 
+        SDL_SetRenderDrawColor(render->getRenderer(), 0, 0, 0, 255);
+        SDL_RenderClear(render->getRenderer());
+
+        SDL_SetRenderDrawColor(render->getRenderer(), 255, 255, 255, 255);
+        SDL_Delay(5);
+
+
+    }
 
     return 0;
 }
