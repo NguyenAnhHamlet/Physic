@@ -29,7 +29,8 @@
  ../include/base/Vector3D.hpp ../include/force/gfgen.hpp \
  ../include/force/pfgen.hpp ../include/common/timer.hpp \
  ../include/force/particleDrag.hpp ../include/common/common.hpp \
- /usr/include/SDL2/SDL_rect.h
+ /usr/include/SDL2/SDL_rect.h ../include/bvh/BVH.hpp \
+ ../include/bvh/bounds.hpp ../include/bvh/point2D.hpp
 ../include/render/renderer.hpp:
 /usr/include/SDL2/SDL.h:
 /usr/include/SDL2/SDL_main.h:
@@ -91,3 +92,6 @@
 ../include/force/particleDrag.hpp:
 ../include/common/common.hpp:
 /usr/include/SDL2/SDL_rect.h:
+../include/bvh/BVH.hpp:
+../include/bvh/bounds.hpp:
+../include/bvh/point2D.hpp:

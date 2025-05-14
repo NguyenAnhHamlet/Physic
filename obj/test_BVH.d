@@ -1,4 +1,4 @@
-../obj/testMouse.o: ../main/testMouse.cpp ../include/base/Vector3D.hpp \
+../obj/test_BVH.o: ../main/test_BVH.cpp ../include/base/Vector3D.hpp \
  ../include/base/particle.hpp ../include/force/gfgen.hpp \
  ../include/force/pfgen.hpp ../include/common/timer.hpp \
  ../include/force/particleDrag.hpp ../include/common/common.hpp \
@@ -30,8 +30,7 @@
  /usr/include/SDL2/SDL_locale.h /usr/include/SDL2/SDL_misc.h \
  ../include/render/shape.hpp /usr/include/SDL2/SDL_rect.h \
  ../include/render/renderer.hpp ../include/bvh/BVH.hpp \
- ../include/bvh/bounds.hpp ../include/bvh/point2D.hpp \
- ../include/interaction/mouse.hpp
+ ../include/bvh/bounds.hpp ../include/bvh/point2D.hpp
 ../include/base/Vector3D.hpp:
 ../include/base/particle.hpp:
 ../include/force/gfgen.hpp:
@@ -97,4 +96,3 @@
 ../include/bvh/BVH.hpp:
 ../include/bvh/bounds.hpp:
 ../include/bvh/point2D.hpp:
-../include/interaction/mouse.hpp:

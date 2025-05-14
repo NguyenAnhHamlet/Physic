@@ -63,17 +63,20 @@ void render_BVH(RENDERER* render, BVHNode* root)
         // std::set<BVHNode*> vis;
 
         // q.push(root);
+        render->renderBVH(root);
 
         upgrade_Bound(root);
         upgradeBoundAll(root);
         DFS(root,1,1);
 
-        for(auto s : shape_holder)
-        {
-            s->posUpdate(s->getVelocity(),0.005);
-            s->edgeCollide(render);
-            s->render(render);
-        }
+        // for(auto s : shape_holder)
+        // {
+        //     s->posUpdate(s->getVelocity(),0.005);
+        //     s->edgeCollide(render);
+        //     s->render(render);
+        // }
+
+
         // for(auto node : arr) 
         //     render_Bound(render,node->_Bound2D);
 

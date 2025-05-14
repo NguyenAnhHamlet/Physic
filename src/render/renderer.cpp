@@ -145,3 +145,24 @@ RENDERER::getWH()
 {
     return {width,height};
 }
+
+void 
+RENDERER::renderBVH(BVHNode* root, float duration)
+{
+    // DFS to render shape in each node
+    
+    // Edge case
+    if(!root || !root->_Bound2D ) return;
+
+    // render shape
+    if(root->_Bound2D->getShape() )
+    {
+        root->_Bound2D->getShape()->posUpdate(root->_Bound2D->getShape()->getVelocity(), duration);
+        root->_Bound2D->getShape()->edgeCollide(this);
+        root->_Bound2D->getShape()->render(this);
+    } 
+        
+    // left then right
+    renderBVH(root->left);
+    renderBVH(root->right);
+}

@@ -109,14 +109,14 @@ Bounds2D createBound(SHAPE* shape)
 Bounds2D createBound(CIRCLE* cir)
 {
     Bounds2D bound2D(static_cast<SHAPE*>(cir), cir->getR(), cir->getR());
-    
+    bound2D.setShape(cir);
     return bound2D;
 }
 
 Bounds2D createBound(RECTANGLE* rect)
 {
     Bounds2D bound2D( static_cast<SHAPE*>(rect), rect->getW()/2, rect->getH()/2 ) ;
-
+    bound2D.setShape(rect);
     return bound2D;
 }
 

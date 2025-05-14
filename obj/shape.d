@@ -29,7 +29,8 @@
  /usr/include/SDL2/SDL_shape.h /usr/include/SDL2/SDL_system.h \
  /usr/include/SDL2/SDL_timer.h /usr/include/SDL2/SDL_version.h \
  /usr/include/SDL2/SDL_locale.h /usr/include/SDL2/SDL_misc.h \
- ../include/collision/collision_hdl.hpp ../include/bvh/point2D.hpp
+ ../include/bvh/BVH.hpp ../include/bvh/bounds.hpp \
+ ../include/bvh/point2D.hpp ../include/collision/collision_hdl.hpp
 ../include/render/shape.hpp:
 ../include/base/particle.hpp:
 ../include/base/Vector3D.hpp:
@@ -91,5 +92,7 @@
 /usr/include/SDL2/SDL_version.h:
 /usr/include/SDL2/SDL_locale.h:
 /usr/include/SDL2/SDL_misc.h:
-../include/collision/collision_hdl.hpp:
+../include/bvh/BVH.hpp:
+../include/bvh/bounds.hpp:
 ../include/bvh/point2D.hpp:
+../include/collision/collision_hdl.hpp:

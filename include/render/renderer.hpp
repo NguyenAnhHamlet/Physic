@@ -6,6 +6,7 @@
 #include "render/shape.hpp"
 #include <map>
 #include <queue>
+#include "bvh/BVH.hpp"
 
 /**
  * implement singleton here, allow only one renderer to 
@@ -108,9 +109,16 @@ public:
     // take the available fd and return it
     unsigned int takeid();
 
+    // TODO: maybe remove this since the 
+    // BVH is in used and this design is 
+    // quite time consuming  
     void removeShape(SHAPE* shape);
 
+    // set background color
     void setBGColor(COLOR* BGColor);
+
+    // render all shape in a BVH tree 
+    void renderBVH(BVHNode* root, float duration = 0.005);
 };
 
 #endif
