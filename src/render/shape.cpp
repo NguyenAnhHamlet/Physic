@@ -205,7 +205,7 @@ RECTANGLE::getBVHNode()
         return NULL;
     } 
 
-    return initNode(bound);
+    return priNode(bound);
 }
 
 /***
@@ -368,5 +368,5 @@ CIRCLE::getBVHNode()
         fprintf(stderr, "failed to create bound\n");
         return NULL;
     } 
-    return initNode(bound);
+    return priNode(bound);
 }

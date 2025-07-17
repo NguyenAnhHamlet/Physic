@@ -34,7 +34,6 @@ typedef struct BVHNode
     Bounds2D* _Bound2D;
     BVHNode *left, *right;
     BVHNodeArray arr;  
-    int num; 
     bool isroot;   
     bool isPrimitive;     
 } BVHNode;
@@ -46,6 +45,9 @@ BVHNode* initNode(Bounds2D* bound2D);
 
 // create root node 
 BVHNode* rootNode(Bounds2D* b2d);
+
+// create a primitive node
+BVHNode* priNode(Bounds2D* b2d);
 
 BVHNodeArray generateBVHNodeArr(const bounds_vector& b_vec);
 

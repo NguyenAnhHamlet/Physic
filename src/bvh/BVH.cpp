@@ -14,6 +14,7 @@ BVHNode* initNode(Bounds2D* bound2D)
     node->right = NULL;
     node->_Bound2D = bound2D;
     node->isroot = false;
+    node->isPrimitive = false;
     return node;
 }
 
@@ -24,6 +25,18 @@ BVHNode* rootNode(Bounds2D* b2d)
     node->right = NULL;
     node->_Bound2D = b2d;
     node->isroot = true;
+    node->isPrimitive = false;
+    return node;
+}
+
+BVHNode* priNode(Bounds2D* b2d)
+{
+    BVHNode* node = new BVHNode();
+    node->left = NULL;
+    node->right = NULL;
+    node->_Bound2D = b2d;
+    node->isroot = false;
+    node->isPrimitive = true;
     return node;
 }
 
@@ -111,15 +124,6 @@ void SAH(BVHNodeArray arr, unsigned int maxRetry, const Bounds2D& ttBound,
     // go through each primitive and calculate the 
     // minimum cost 
     min_x = minCost(getMinCostXAxis(x_arr, ttBound, Tt, Ti ), min_x);
-
-    printf("arr1 size: %d\n", arr.size());
-    for(BVHNode* node : arr)
-    {
-        printf("Value : %d && bounds : %f -- %f -- %f -- %f\n", node->_Bound2D->num, 
-                node->_Bound2D->getpMin().x, node->_Bound2D->getpMin().y,
-                node->_Bound2D->getpMax().x, node->_Bound2D->getpMax().y);
-    }
-    printf("\n\n");
 
     BVHNodeArray y_arr = sortBVHNodeArrY(arr);
     min_y = minCost(getMinCostYAxis(y_arr, ttBound, Tt, Ti ), min_y);
@@ -211,14 +215,14 @@ void SAH(BVHNodeArray arr, unsigned int maxRetry, const Bounds2D& ttBound,
     root->left = initNode(p_bounds.first);
     root->right = initNode(p_bounds.second);
 
-    printf("arr2 size: %d\n", arr.size());
-    for(BVHNode* node : arr)
-    {
-        printf("Value : %d && bounds : %f -- %f -- %f -- %f\n", node->_Bound2D->num, 
-                node->_Bound2D->getpMin().x, node->_Bound2D->getpMin().y,
-                node->_Bound2D->getpMax().x, node->_Bound2D->getpMax().y);
-    }
-    printf("\n\n");
+    // printf("arr2 size: %d\n", arr.size());
+    // for(BVHNode* node : arr)
+    // {
+    //     printf("Value : %d && bounds : %f -- %f -- %f -- %f\n", node->_Bound2D->num, 
+    //             node->_Bound2D->getpMin().x, node->_Bound2D->getpMin().y,
+    //             node->_Bound2D->getpMax().x, node->_Bound2D->getpMax().y);
+    // }
+    // printf("\n\n");
 
     // printf("node : %p\n", root);
     // printf("node->left: %p\n", root->left);

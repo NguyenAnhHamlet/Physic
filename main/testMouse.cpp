@@ -38,7 +38,6 @@ int main(int argc, char* argv[])
     int num = 0;
 
     setup(&root, &render);
-    // root->_Bound2D->num= num;
     
     while( run)
     {
@@ -61,41 +60,18 @@ int main(int argc, char* argv[])
                 COLOR* c = new COLOR();
                 new_shape =  Mouse::createShape(v, c, 5);
                 newNode = new_shape->getBVHNode();
-                // Bounds2D newb = createBound(new_shape);
-                // newNode = initNode(&newb);
-                printf("bounds : %f -- %f \n",newNode->_Bound2D->getCentroid().x, newNode->_Bound2D->getCentroid().y);
-                printf("\n\n");
-                num++;
-                newNode->_Bound2D->num =  num;
-                newNode->isPrimitive = true;
                 addNode(root, newNode, 1, 1);
-                // upgrade_Bound(root);
-                // upgradeBoundAll(root);
-                // printf("HERE 3\n");
-
-                // while(root->left)
-                // {
-                //     printf("Here %p\n", root);
-                //     root = root->left;
-                // }
             }
             
         }
 
-        // for(BVHNode* node : root->arr)
-        // {
-        //     printf("Value2 : %d && bounds : %f -- %f \n", node->_Bound2D->num, 
-        //     node->_Bound2D->getCentroid().x, node->_Bound2D->getCentroid().y);
-        // }
-
-        // printf("\n\n");
-        
+        upgrade_Bound(root);
+        upgradeBoundAll(root);
         render->renderBVH(root);
 
         SDL_RenderPresent(render->getRenderer()); 
         SDL_SetRenderDrawColor(render->getRenderer(), 0, 0, 0, 255);
         SDL_RenderClear(render->getRenderer());
-
         SDL_SetRenderDrawColor(render->getRenderer(), 255, 255, 255, 255);
         SDL_Delay(5);
     }

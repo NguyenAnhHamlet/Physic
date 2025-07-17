@@ -36,7 +36,6 @@ class Bounds2D
     unsigned int numRetry;
     
 public:
-    int num = 0;
     Bounds2D() :    pMin(FLT_MAX, FLT_MAX),
                     pMax(FLT_MIN, FLT_MIN),
                     centroid(0,0),
