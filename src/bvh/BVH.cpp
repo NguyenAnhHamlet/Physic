@@ -9,11 +9,21 @@
 
 BVHNode* initNode(Bounds2D* bound2D)
 {
-    BVHNode* node = new BVHNode;
+    BVHNode* node = new BVHNode();
     node->left = NULL;
     node->right = NULL;
     node->_Bound2D = bound2D;
+    node->isroot = false;
+    return node;
+}
 
+BVHNode* rootNode(Bounds2D* b2d)
+{
+    BVHNode* node = new BVHNode();
+    node->left = NULL;
+    node->right = NULL;
+    node->_Bound2D = b2d;
+    node->isroot = true;
     return node;
 }
 
@@ -50,7 +60,10 @@ BVHNodeArray sortBVHNodeArrY(BVHNodeArray arr)
     return arr;
 }
 
-void SAH(BVHNodeArray& arr, unsigned int maxRetry,const Bounds2D& ttBound,
+// TODO
+// Seperating the function into 2 type: first check and other check
+// to reduce the condition checking in here
+void SAH(BVHNodeArray arr, unsigned int maxRetry, const Bounds2D& ttBound,
         float Tt, float Ti, BVHNode* root, bool hdl_collision)
 {
     if(!root) 
@@ -60,12 +73,33 @@ void SAH(BVHNodeArray& arr, unsigned int maxRetry,const Bounds2D& ttBound,
     if(arr.size() <= 0) 
         return ;
 
+    // assign new bound
+    if(root->isroot)
+    {
+        if(root->_Bound2D) delete root->_Bound2D;
+        root->_Bound2D = new Bounds2D(ttBound);
+    }
+
+    // printf("arr size: %d\n", arr.size());
+    // for(BVHNode* node : arr)
+    // {
+    //     printf("Value : %d && bounds : %f -- %f -- %f -- %f\n", node->_Bound2D->num, 
+    //             node->_Bound2D->getpMin().x, node->_Bound2D->getpMin().y,
+    //             node->_Bound2D->getpMax().x, node->_Bound2D->getpMax().y);
+    // }
+    // printf("\n\n");
+
     // if there is only one element, assign final node
+    // if(arr.size() == 1 && root == arr[0])
+    //     return;
+
     if(arr.size() == 1)
     {
         root->left = arr[0];
         return;
     }
+
+    // if(arr.size() == 2 && root->right == NULL)
 
     cost_infos min_x = {-1 ,{ {0, 0}, FLT_MAX} };
     cost_infos min_y = {-1 ,{ {0, 0}, FLT_MAX} };
@@ -78,12 +112,29 @@ void SAH(BVHNodeArray& arr, unsigned int maxRetry,const Bounds2D& ttBound,
     // minimum cost 
     min_x = minCost(getMinCostXAxis(x_arr, ttBound, Tt, Ti ), min_x);
 
-    // do the same with y axis
+    printf("arr1 size: %d\n", arr.size());
+    for(BVHNode* node : arr)
+    {
+        printf("Value : %d && bounds : %f -- %f -- %f -- %f\n", node->_Bound2D->num, 
+                node->_Bound2D->getpMin().x, node->_Bound2D->getpMin().y,
+                node->_Bound2D->getpMax().x, node->_Bound2D->getpMax().y);
+    }
+    printf("\n\n");
+
     BVHNodeArray y_arr = sortBVHNodeArrY(arr);
     min_y = minCost(getMinCostYAxis(y_arr, ttBound, Tt, Ti ), min_y);
 
     std::pair<Bounds2D*, Bounds2D*> p_bounds;
     unsigned int pos = 0;
+
+    // printf("arr2 size: %d\n", arr.size());
+    // for(BVHNode* node : arr)
+    // {
+    //     printf("Value : %d && bounds : %f -- %f -- %f -- %f\n", node->_Bound2D->num, 
+    //             node->_Bound2D->getpMin().x, node->_Bound2D->getpMin().y,
+    //             node->_Bound2D->getpMax().x, node->_Bound2D->getpMax().y);
+    // }
+    // printf("\n\n");
 
     /**
      *  both have value FLT_MAX then the slit can not be done,
@@ -133,20 +184,44 @@ void SAH(BVHNodeArray& arr, unsigned int maxRetry,const Bounds2D& ttBound,
                              axis::xAxis);
     }
 
-    // have to deallocate the node first if there is one
-    if(root->left)
+    // printf("arr2 size: %d\n", arr.size());
+    // for(BVHNode* node : arr)
+    // {
+    //     printf("Value : %d && bounds : %f -- %f -- %f -- %f\n", node->_Bound2D->num, 
+    //             node->_Bound2D->getpMin().x, node->_Bound2D->getpMin().y,
+    //             node->_Bound2D->getpMax().x, node->_Bound2D->getpMax().y);
+    // }
+    // printf("\n\n");
+
+    // have to deallocate the node first if there is one to prevent memory leak
+    // make sure the node that is about to be delete is not primitive, delete such 
+    // node (which not simply a container of other primitives) would cause issue
+    // coredump  
+    if(root->left && !root->left->isPrimitive)
     {
         delete root->left->_Bound2D;
         delete root->left;
     } 
-    if(root->right) 
+    if(root->right && !root->right->isPrimitive) 
     {
         delete root->right->_Bound2D;
         delete root->right;
     }
-
+    
     root->left = initNode(p_bounds.first);
     root->right = initNode(p_bounds.second);
+
+    printf("arr2 size: %d\n", arr.size());
+    for(BVHNode* node : arr)
+    {
+        printf("Value : %d && bounds : %f -- %f -- %f -- %f\n", node->_Bound2D->num, 
+                node->_Bound2D->getpMin().x, node->_Bound2D->getpMin().y,
+                node->_Bound2D->getpMax().x, node->_Bound2D->getpMax().y);
+    }
+    printf("\n\n");
+
+    // printf("node : %p\n", root);
+    // printf("node->left: %p\n", root->left);
 
     root->left->_Bound2D->setNumPrimitives(pos +1);
     root->right->_Bound2D->setNumPrimitives(arr.size() - 1 - pos);
@@ -272,7 +347,7 @@ cost_infos minCost( cost_infos cost_1,
 
 void upgradeBoundAll(BVHNode* root)
 {
-    if(!root) return;
+    if(!root || !root->_Bound2D) return;
 
     Bounds2D b;
 
@@ -331,6 +406,8 @@ void upgrade_Bound( BVHNode* root)
     for(auto node: root->arr)
     {
         node->_Bound2D->update();
+        // if(node->_Bound2D == NULL)
+            // printf("NULL \n");
     }
 }
 
@@ -343,30 +420,59 @@ BVHNode* rootNode(Bounds2D* tt_b, const BVHNodeArray& arr  )
     return root;
 }
 
-void addNode(BVHNode* root, BVHNodeArray& arr, BVHNode* newNode, float Tt, float Ti)
+void addNode(BVHNode* root, BVHNode* newNode, float Tt, float Ti)
 {
     // adding guard
     if(!root || !newNode) return ;
 
-    // push node into arr
-    arr.push_back(newNode);
+    // push node into root->arr since newNode is inside the bound
+    root->arr.push_back(newNode);
+
+    if(root->isroot && !root->left )
+    {
+        root->left = newNode;
+        root->_Bound2D = getTotalBounds( root->left->_Bound2D, 
+                                         root->left->_Bound2D);
+        return;
+    } 
+    if(root->isroot && !root->right )
+    {
+        root->right = newNode;
+        root->_Bound2D = getTotalBounds( root->right->_Bound2D, 
+                                         root->left->_Bound2D);
+        return;
+    }
 
     if(isInBounds(root->_Bound2D, newNode->_Bound2D))
     {
-        // newNode Bound is within this node, just need to 
+        // newNode's Bound is within this node's bound, just need to 
         // check whether it is within left or right node 
-        if(isInBounds(root->left->_Bound2D, newNode->_Bound2D))
-            addNode(root->left, root->left->arr, newNode, Tt, Ti);
+        // keep going down until the second condition is met
+        printf("This case achieved\n");
+        if(root->left && isInBounds(root->left->_Bound2D, newNode->_Bound2D))
+            addNode(root->left, newNode, Tt, Ti);
+        else if(root->right && isInBounds(root->right->_Bound2D, newNode->_Bound2D))
+            addNode(root->right, newNode, Tt, Ti);
         else 
-            addNode(root->right, root->right->arr, newNode, Tt, Ti);
+            SAH(root->arr, 3, 
+            getTotalBounds( *(root->_Bound2D), 
+                            *(newNode->_Bound2D)),
+            Tt, Ti, root,1);
+
     }
     else
     {
-        // doesnt belong to any bound on both left and right
+        // doesn't belong to any bound on both left and right
         // side, need to perform SAH again to update BVH tree
+        // here the second condition is met after trarvesing
+        // which mean we can add the new node into appropriate
+        // position within the BVH tree
+
+        // printf("HERE");
+        // Bounds2D boundAll = getBoundAll(root->arr);
         SAH(root->arr, 3, 
-            getTotalBounds( *(root->left->_Bound2D), 
-                            *(root->right->_Bound2D)),
+            getTotalBounds( *(root->_Bound2D), 
+                            *(newNode->_Bound2D)),
             Tt, Ti, root,1);
     }
 }

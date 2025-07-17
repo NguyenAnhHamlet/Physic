@@ -43,6 +43,23 @@ Bounds2D getTotalBounds(const Bounds2D& b1, const Bounds2D& b2) {
     return res;
 }
 
+Bounds2D* getTotalBounds(Bounds2D* b1, Bounds2D* b2)
+{
+    if(!b1 && !b2 ) return NULL;
+    if(!b1) return b2;
+    if(!b2) return b1;
+    
+    point2D _pMin(  std::min(b1->getpMin().x, b2->getpMin().x), 
+                    std::min(b1->getpMin().y, b2->getpMin().y));
+
+    point2D _pMax(  std::max(b1->getpMax().x, b2->getpMax().x), 
+                    std::max(b1->getpMax().y, b2->getpMax().y));
+
+    point2D centroid(_pMin.x + _pMax.x /2, _pMin.y + _pMax.y / 2);
+
+    return new Bounds2D(_pMin, _pMax, centroid);
+}
+
 std::pair<Bounds2D*, Bounds2D*> splitAxis(const Bounds2D& b, float xAxis , float yAxis )
 {
     std::pair<Bounds2D*, Bounds2D*> res;
@@ -169,9 +186,9 @@ bool doOverlap(const Bounds2D& b, float val, axis Axis)
 void 
 Bounds2D::update()
 {
+    setCentroid();
     setpMin();
     setpMax();
-    setCentroid();
 }
 
 void
@@ -194,13 +211,14 @@ bool isInBounds(const Bounds2D* b, std::pair<float,float> coor)
 
 bool isInBounds(const Bounds2D* b1, const Bounds2D* b2 )
 {
-    // b1 is within b2
-    if(b1->getpMin().x > b2->getpMin().x && b1->getpMax().y < b2->getpMax().y)   
-        return true;
+    if(!b1 || !b2 ) return false;
 
-    // b2 is within b1
-    if(b2->getpMin().x > b1->getpMin().x && b2->getpMax().y < b1->getpMax().y)   
-        return true;
+    if(b1->getpMin().x > b2->getpMax().x || b1->getpMax().x < b2->getpMin().x)
+        return false;
     
-    return false;
+    if(b1->getpMin().y >  b2->getpMax().y || b1->getpMax().y < b2->getpMin().y)
+        return false;
+
+    return true;
+
 }

@@ -30,11 +30,12 @@ class Bounds2D
     point2D centroid;
     float w;
     float h;
-    SHAPE* shape =NULL;
+    SHAPE* shape = NULL;
     unsigned int numOfPrimitives;
     unsigned int numRetry;
-
+    
 public:
+    int num = 0;
     Bounds2D() :    pMin(FLT_MAX, FLT_MAX),
                     pMax(FLT_MIN, FLT_MIN),
                     centroid(0,0),
@@ -87,7 +88,9 @@ public:
     unsigned int getNumPrimitives() const;
     point2D getpMin() const { return pMin; }
     point2D getpMax() const { return pMax ;}
-    point2D getCentroid() const { return centroid ;}
+    point2D getCentroid() const { //printf("value: %d\n", num); 
+                                  //printf("centroidx: %d\n", centroid.x);
+                                  return centroid ;}
     unsigned int getNumRetry() const {return numRetry ;}
     SHAPE* getShape() const { return shape ;}
     float getW() const {return w ;}
@@ -135,7 +138,6 @@ public:
         else 
         {
             centroid = point2D(shape->getCenter()->x, shape->getCenter()->y );
-
         }
     }
 
@@ -152,6 +154,9 @@ bool doOverlap(const Bounds2D& b, float val, axis Axis);
 
 // return the bound that bounds both of b1, b2
 Bounds2D getTotalBounds(const Bounds2D& b1, const Bounds2D& b2);
+
+// return the total bound of b1, b2
+Bounds2D* getTotalBounds(Bounds2D* b1, Bounds2D* b2);
 
 /**
  *  split the bound with axis

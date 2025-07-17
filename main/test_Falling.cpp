@@ -152,8 +152,6 @@ int main(int argc, char* argv[])
     // draw them onto the screen
     RENDERER* render = RENDERER::getInstance();
     render->setBGColor(new COLOR(0,0,0,255));
-
-
     render_BVH(render, root);
 
     return 0;

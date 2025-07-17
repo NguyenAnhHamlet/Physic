@@ -6,6 +6,8 @@
 #include <math.h>
 #include "bvh/point2D.hpp"
 #include "base/Vector3D.hpp"
+#include "bvh/BVH.hpp"
+#include "bvh/bounds.hpp"
 
 #define _USE_MATH_DEFINES
 
@@ -187,6 +189,25 @@ float RECTANGLE::getR()
     return hypotenuse(getH(), getW());
 }
 
+Bounds2D* 
+RECTANGLE::getBounds2D() 
+{
+    return new Bounds2D(this, getW(), getH()); 
+}
+
+BVHNode* 
+RECTANGLE::getBVHNode() 
+{
+    Bounds2D* bound = getBounds2D();
+    if(!bound)
+    {
+        fprintf(stderr, "failed to create bound\n");
+        return NULL;
+    } 
+
+    return initNode(bound);
+}
+
 /***
  * *****************************************************
  *      CIRCLE
@@ -330,4 +351,22 @@ CIRCLE::support(Vector3D&& direction)
 {
     Vector3D center = *getCenter();
     return (center + direction.normalize() * getR());
+}
+
+Bounds2D* 
+CIRCLE::getBounds2D() 
+{
+    return new Bounds2D(this, getR(), getR()); 
+}
+
+BVHNode* 
+CIRCLE::getBVHNode() 
+{
+    Bounds2D* bound = getBounds2D();
+    if(!bound)
+    {
+        fprintf(stderr, "failed to create bound\n");
+        return NULL;
+    } 
+    return initNode(bound);
 }

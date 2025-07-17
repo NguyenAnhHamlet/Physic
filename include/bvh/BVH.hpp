@@ -24,14 +24,19 @@ class Bounds2D;
 class point2D;
 struct BVHNode;
 
+// In SAH algorithm, we need to keep an array to keep track 
+// of each node (to be more percise each bound) after the  
+// sorting
 typedef std::vector<BVHNode*> BVHNodeArray;
 
 typedef struct BVHNode
 {
     Bounds2D* _Bound2D;
     BVHNode *left, *right;
-    BVHNodeArray arr;
-
+    BVHNodeArray arr;  
+    int num; 
+    bool isroot;   
+    bool isPrimitive;     
 } BVHNode;
 
 typedef std::pair<float, std::pair<std::pair<Bounds2D*, Bounds2D*>, float>> cost_infos;
@@ -39,13 +44,16 @@ typedef std::pair<float, std::pair<std::pair<Bounds2D*, Bounds2D*>, float>> cost
 // create a BVH Node from a bound
 BVHNode* initNode(Bounds2D* bound2D);
 
+// create root node 
+BVHNode* rootNode(Bounds2D* b2d);
+
 BVHNodeArray generateBVHNodeArr(const bounds_vector& b_vec);
 
 BVHNodeArray sortBVHNodeArrX(BVHNodeArray arr);
 
 BVHNodeArray sortBVHNodeArrY(BVHNodeArray arr);
 
-void SAH(BVHNodeArray& arr, unsigned int maxRetry, const Bounds2D& ttBound,
+void SAH(BVHNodeArray arr, unsigned int maxRetry, const Bounds2D& ttBound,
          float Tt, float Ti, BVHNode* root, bool hdl_collision);
 
 cost_infos getCost(const BVHNodeArray& arr, const Bounds2D& ttBound, 
@@ -81,6 +89,7 @@ void upgrade_Bound(BVHNode* root);
 // create a root node
 BVHNode* rootNode(Bounds2D* tt_b, const BVHNodeArray& arr  );
 
-void addNode(BVHNode* root, BVHNodeArray& arr, BVHNode* newNode, float Tt, float Ti);
+// add the new node into BVHtree
+void addNode(BVHNode* root, BVHNode* newNode, float Tt, float Ti);
 
 #endif

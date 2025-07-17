@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
     BVHNode* root = rootNode(&tt_b,arr);
 
     // using SAH algorithm now
-    SAH(arr,3,tt_b,1,1,root);
+    SAH(arr,3,tt_b,1,1,root,1);
 
     // draw them onto the screen
     RENDERER* render = RENDERER::getInstance();

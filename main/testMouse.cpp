@@ -16,17 +16,29 @@
 #include <thread>
 #include "interaction/mouse.hpp"
 
+// setting up BVH tree and various variables
+void setup(BVHNode** root, RENDERER** render)
+{
+    *root = rootNode(NULL);
+    *render = RENDERER::getInstance();
+    (*render)->setBGColor(new COLOR(0,0,0,255));
+    SDL_SetRenderDrawColor((*render)->getRenderer(), 255, 255, 255, 255);
+}
+
 int main(int argc, char* argv[]) 
 {
-    // create a window
-    RENDERER* render = RENDERER::getInstance();
-    render->setBGColor(new COLOR(0,0,0,255));
-    SDL_SetRenderDrawColor(render->getRenderer(), 255, 255, 255, 255);
-
     bool run = true;
     SDL_Event event;
     mouse mousebutt;
+    BVHNode* root = NULL;
     SHAPE* new_shape = NULL;
+    RENDERER* render = NULL;
+    BVHNodeArray nodeArr;
+    BVHNode* newNode = NULL;
+    int num = 0;
+
+    setup(&root, &render);
+    // root->_Bound2D->num= num;
     
     while( run)
     {
@@ -41,16 +53,44 @@ int main(int argc, char* argv[])
             if(Mouse::isMouseClick(event))
                 posMouseClick = Mouse::getPosMouseClick(event, mousebutt);
             
+            // there is left mouse click, create the new shape and BVHNode
+            // add them into the BVH tree
             if(posMouseClick.first && mousebutt == mouse::leftside)
             {
                 Vector3D v(posMouseClick.first, posMouseClick.second, 0);
                 COLOR* c = new COLOR();
                 new_shape =  Mouse::createShape(v, c, 5);
+                newNode = new_shape->getBVHNode();
+                // Bounds2D newb = createBound(new_shape);
+                // newNode = initNode(&newb);
+                printf("bounds : %f -- %f \n",newNode->_Bound2D->getCentroid().x, newNode->_Bound2D->getCentroid().y);
+                printf("\n\n");
+                num++;
+                newNode->_Bound2D->num =  num;
+                newNode->isPrimitive = true;
+                addNode(root, newNode, 1, 1);
+                // upgrade_Bound(root);
+                // upgradeBoundAll(root);
+                // printf("HERE 3\n");
+
+                // while(root->left)
+                // {
+                //     printf("Here %p\n", root);
+                //     root = root->left;
+                // }
             }
             
         }
+
+        // for(BVHNode* node : root->arr)
+        // {
+        //     printf("Value2 : %d && bounds : %f -- %f \n", node->_Bound2D->num, 
+        //     node->_Bound2D->getCentroid().x, node->_Bound2D->getCentroid().y);
+        // }
+
+        // printf("\n\n");
         
-        if(new_shape) new_shape->render(render);
+        render->renderBVH(root);
 
         SDL_RenderPresent(render->getRenderer()); 
         SDL_SetRenderDrawColor(render->getRenderer(), 0, 0, 0, 255);

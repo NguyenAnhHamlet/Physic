@@ -17,6 +17,8 @@ class COLLISION_HDL;
 class shape_holder;
 class Vector3D;
 class point2D;
+class Bounds2D;
+class BVHNode;
 
 constexpr int _DEFAULT = 10;
 
@@ -46,6 +48,9 @@ public:
     virtual Vector3D support(Vector3D& direction) = 0;
     virtual Vector3D support(Vector3D&& direction) = 0;
     virtual float getR() = 0;
+
+    virtual Bounds2D* getBounds2D() = 0;
+    virtual BVHNode* getBVHNode() = 0;
 };
 
 /***
@@ -80,6 +85,9 @@ public :
     virtual Vector3D support(Vector3D&& direction) override ;
 
     float getR() override;
+
+    virtual Bounds2D* getBounds2D() override;
+    virtual BVHNode* getBVHNode() override;
 };
 
 /***
@@ -121,6 +129,9 @@ public:
     float getH();
     float getArea();
     float getR() override;
+
+    virtual Bounds2D* getBounds2D() override;
+    virtual BVHNode* getBVHNode() override;
 };
 
 /***

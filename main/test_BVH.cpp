@@ -59,28 +59,11 @@ void render_BVH(RENDERER* render, BVHNode* root)
 
         if (!root) return;
 
-        // std::queue<BVHNode*> q;
-        // std::set<BVHNode*> vis;
-
-        // q.push(root);
         render->renderBVH(root);
 
         upgrade_Bound(root);
         upgradeBoundAll(root);
         DFS(root,1,1);
-
-        // for(auto s : shape_holder)
-        // {
-        //     s->posUpdate(s->getVelocity(),0.005);
-        //     s->edgeCollide(render);
-        //     s->render(render);
-        // }
-
-
-        // for(auto node : arr) 
-        //     render_Bound(render,node->_Bound2D);
-
-        // render_BVH(render,root);
 
         SDL_RenderPresent(render->getRenderer()); 
         SDL_SetRenderDrawColor(render->getRenderer(), 0, 0, 0, 255);
@@ -88,35 +71,6 @@ void render_BVH(RENDERER* render, BVHNode* root)
 
         SDL_SetRenderDrawColor(render->getRenderer(), 255, 255, 255, 255);
         SDL_Delay(5);
-
-        // while(!q.empty())
-        // {
-
-        //     BVHNode* node = q.front();
-        //     render_Bound(render, node->_Bound2D);
-        //     q.pop();
-
-        //     if (node->left)
-        //     {
-        //         if (vis.find(node->left) == vis.end())
-        //         {
-        //             q.push(node->left);
-        //             vis.insert(node->left);
-        //         }
-        //     }
-
-        //     if (node->right)
-        //     {
-        //         if (vis.find(node->right) == vis.end())
-        //         {
-        //             q.push(node->right);
-        //             vis.insert(node->right);
-        //         }
-        //     }
-
-        //     SDL_RenderPresent(render->getRenderer()); 
-         
-        // }
     }
 }
 
@@ -176,7 +130,7 @@ int main(int argc, char* argv[])
     shape_holder.insert(s6);
     shape_holder.insert(s7);
     shape_holder.insert(s8);
-    shape_holder.insert(s9);
+    // shape_holder.insert(s9);
 
 
     for( auto s : shape_holder)

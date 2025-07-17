@@ -67,11 +67,8 @@ namespace Mouse
 
     bool isMouseClick(SDL_Event& event)
     {
-        std::cout <<"Func isMouseClick run\n" << '\n';
         if(event.type == SDL_MOUSEBUTTONDOWN) 
-        {
-            std::cout << "Mouse clicked\n" << '\n';
-            
+        {   
             return true;
         }
         return false;
