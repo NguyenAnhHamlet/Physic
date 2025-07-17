@@ -406,8 +406,6 @@ void upgrade_Bound( BVHNode* root)
     for(auto node: root->arr)
     {
         node->_Bound2D->update();
-        // if(node->_Bound2D == NULL)
-            // printf("NULL \n");
     }
 }
 
@@ -448,7 +446,7 @@ void addNode(BVHNode* root, BVHNode* newNode, float Tt, float Ti)
         // newNode's Bound is within this node's bound, just need to 
         // check whether it is within left or right node 
         // keep going down until the second condition is met
-        printf("This case achieved\n");
+        // printf("This case achieved\n");
         if(root->left && isInBounds(root->left->_Bound2D, newNode->_Bound2D))
             addNode(root->left, newNode, Tt, Ti);
         else if(root->right && isInBounds(root->right->_Bound2D, newNode->_Bound2D))

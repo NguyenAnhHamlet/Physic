@@ -23,6 +23,7 @@
 class SHAPE;
 class CIRCLE;
 class RECTANGLE;
+
 class Bounds2D
 {
     point2D pMin;
@@ -103,6 +104,8 @@ public:
     void setCentroid(const point2D& c) {centroid = c ;}
     void setNumRetry(unsigned int n) {numRetry = n ;}
     void setShape(SHAPE* s) { shape = s; }
+    void setHeight(const float height) { h = height; }
+    void setWidth(const float width) {w = width; }
 
     // initialize the needed components
     void init();

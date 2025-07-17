@@ -1,9 +1,9 @@
 CC = g++ 
 
-INC_DIRS= ../include 
-TAR_DIRS = ../bin
-SRC_DIRS = ../src
-OBJ_DIRS = ../obj
+INC_DIRS= include 
+TAR_DIRS = bin
+SRC_DIRS = src
+OBJ_DIRS = obj
 TAR_NAME = ${MAKECMDGOALS}
 
 DEP_FLAGS = -MMD -MP
@@ -13,7 +13,7 @@ DEBUG_FLAGS = -g
 CXXFLAGS = $(DEP_FLAGS) $(INC_FLAGS) $(LD_FLAGS) $(DEBUG_FLAGS)
 
 CPP_FILES = $(wildcard $(SRC_DIRS)/**/*.cpp)
-CPP_FILES += ../main/${TAR_NAME}.cpp
+CPP_FILES += main/${TAR_NAME}.cpp
 
 OBJ_FILES += $(OBJ_DIRS)/${TAR_NAME}.o
 OBJ_FILES += $(patsubst $(SRC_DIRS)/base/%.cpp,$(OBJ_DIRS)/%.o,$(wildcard $(SRC_DIRS)/base/*.cpp))
@@ -27,7 +27,7 @@ OBJ_FILES += $(patsubst $(SRC_DIRS)/render/%.cpp,$(OBJ_DIRS)/%.o,$(wildcard $(SR
 
 DEP_FILES = $(patsubst $(OBJ_DIRS)/%.o,$(DEP_DIRS)/%.d,$(OBJ_FILES))
 
-$(OBJ_DIRS)/${TAR_NAME}.o : ../main/${TAR_NAME}.cpp
+$(OBJ_DIRS)/${TAR_NAME}.o : main/${TAR_NAME}.cpp
 	$(CC) -c -o $@ $< $(CXXFLAGS) 
 
 $(OBJ_DIRS)/%.o : $(SRC_DIRS)/**/%.cpp
