@@ -20,6 +20,9 @@ class PARTICLE_DRAG: public PFGEN
 
 public:
     // PARTICLE_DRAG();
+    /**
+     *  TODO: Stop using magic number like this, quite confusing
+     */
     PARTICLE_DRAG(float _dragCoeff =convertCM(70), float _density = convertCM(122.5));
 
     void setDragCoeff(float _dragCoeff);

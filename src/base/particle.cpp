@@ -67,7 +67,7 @@ PARTICLE::addForce(const Vector3D& force)
 {
     forceAccum = forceAccum + force;
 
-    std::cout << "FORCE:" << forceAccum.y << '\n';
+    // std::cout << "FORCE:" << forceAccum.y << '\n';
 }
 
 Vector3D

@@ -133,13 +133,15 @@ RECTANGLE::edgeCollide(RENDERER* render)
 
     if(getPos().x - rect.w /2 <= 0 || getPos().x + rect.w / 2 >= WH.first )
     {
-        pos.x - rect.w /2 <= 0 ? setPos(Vector3D(rect.w /2  ,pos.y, pos.z)) : setPos(Vector3D(WH.first - rect.w /2 , pos.y, pos.z));
+        pos.x - rect.w /2 <= 0 ? setPos(Vector3D(rect.w /2  ,pos.y, pos.z)) : 
+                                 setPos(Vector3D(WH.first - rect.w /2 , pos.y, pos.z));
         setVelocity(Vector3D(getVelocity().x * -1, getVelocity().y, getPos().z));
     }
 
     if(getPos().y - rect.h /2 <= 0 || getPos().y + rect.h / 2 >= WH.second )
     {
-        pos.y - rect.h /2 <= 0 ? setPos(Vector3D(pos.x, rect.h /2, pos.z)) : setPos(Vector3D(pos.x, WH.second - rect.h /2, pos.z));
+        pos.y - rect.h /2 <= 0 ? setPos(Vector3D(pos.x, rect.h /2, pos.z)) : 
+                                 setPos(Vector3D(pos.x, WH.second - rect.h /2, pos.z));
         setVelocity(Vector3D(getVelocity().x , getVelocity().y * -1, getPos().z));
     }
 }
@@ -262,29 +264,37 @@ CIRCLE::render(RENDERER* renderer)
 
     while (offsety >= offsetx) {
 
-        status += SDL_RenderDrawLine(renderer->getRenderer(), x - offsety, y + offsetx,
+        status += SDL_RenderDrawLine(renderer->getRenderer(), 
+                                     x - offsety, y + offsetx,
                                      x + offsety, y + offsetx);
-        status += SDL_RenderDrawLine(renderer->getRenderer(), x - offsetx, y + offsety,
+        status += SDL_RenderDrawLine(renderer->getRenderer(), 
+                                     x - offsetx, y + offsety,
                                      x + offsetx, y + offsety);
-        status += SDL_RenderDrawLine(renderer->getRenderer(), x - offsetx, y - offsety,
+        status += SDL_RenderDrawLine(renderer->getRenderer(), 
+                                     x - offsetx, y - offsety,
                                      x + offsetx, y - offsety);
-        status += SDL_RenderDrawLine(renderer->getRenderer(), x - offsety, y - offsetx,
+        status += SDL_RenderDrawLine(renderer->getRenderer(), 
+                                     x - offsety, y - offsetx,
                                      x + offsety, y - offsetx);
 
-        if (status < 0) {
+        if (status < 0) 
+        {
             status = -1;
             break;
         }
 
-        if (d >= 2*offsetx) {
+        if (d >= 2*offsetx) 
+        {
             d -= 2*offsetx + 1;
             offsetx +=1;
         }
-        else if (d < 2 * (radius - offsety)) {
+        else if (d < 2 * (radius - offsety))
+        {
             d += 2 * offsety - 1;
             offsety -= 1;
         }
-        else {
+        else 
+        {
             d += 2 * (offsety - offsetx - 1);
             offsety -= 1;
             offsetx += 1;
@@ -328,14 +338,20 @@ CIRCLE::edgeCollide(RENDERER* render)
 
     if(pos.x - getR() <= 0 || pos.x + getR() >= WH.first )
     {
-        pos.x - getR() <= 0 ? setPos(Vector3D(getR() , pos.y, pos.z)) : setPos(Vector3D(WH.first - getR(), pos.y, pos.z));
-        setVelocity(Vector3D(getVelocity().x * -1, getVelocity().y, pos.z));
+        pos.x - getR() <= 0 ? setPos(Vector3D(getR() , pos.y, pos.z)) : 
+                              setPos(Vector3D(WH.first - getR(), pos.y, pos.z));
+
+        setVelocity(Vector3D(getVelocity().x * -1, 
+                             getVelocity().y, pos.z));
     }
 
     if(pos.y - getR() <= 0 || pos.y + getR() >= WH.second )
     {
-        pos.y - getR() <= 0 ? setPos(Vector3D(pos.x, getR() , pos.z)) : setPos(Vector3D(pos.x, WH.second - getR(), pos.z));
-        setVelocity(Vector3D(getVelocity().x , getVelocity().y * -1, pos.z));
+        pos.y - getR() <= 0 ? setPos(Vector3D(pos.x, getR(), pos.z)) : 
+                              setPos(Vector3D(pos.x, WH.second - getR(), pos.z));
+        setVelocity(Vector3D(getVelocity().x , 
+                             getVelocity().y * -1, 
+                             pos.z));
     }
 }
 

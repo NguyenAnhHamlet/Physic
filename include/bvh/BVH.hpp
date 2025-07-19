@@ -49,6 +49,8 @@ BVHNode* rootNode(Bounds2D* b2d);
 // create a primitive node
 BVHNode* priNode(Bounds2D* b2d);
 
+bool isPrimitive(BVHNode* node);
+
 BVHNodeArray generateBVHNodeArr(const bounds_vector& b_vec);
 
 BVHNodeArray sortBVHNodeArrX(BVHNodeArray arr);
@@ -93,5 +95,12 @@ BVHNode* rootNode(Bounds2D* tt_b, const BVHNodeArray& arr  );
 
 // add the new node into BVHtree
 void addNode(BVHNode* root, BVHNode* newNode, float Tt, float Ti);
+
+// update pos of particle inside node
+void updatePosNode(BVHNode* root, RENDERER* renderer, const float& duration);
+
+// get shape inside of node 
+// return : shape or NULL
+SHAPE* getShapeFromNode(BVHNode* root);
 
 #endif

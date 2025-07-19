@@ -35,6 +35,9 @@ int main(int argc, char* argv[])
     RENDERER* render = NULL;
     BVHNodeArray nodeArr;
     BVHNode* newNode = NULL;
+    PARTICLE_FORCE_REGISTER regis_force;
+    GFGEN *gfgen = GFGEN::getInstance();
+    int mass = 1000;
     int num = 0;
 
     setup(&root, &render);
@@ -59,14 +62,21 @@ int main(int argc, char* argv[])
                 Vector3D v(posMouseClick.first, posMouseClick.second, 0);
                 COLOR* c = new COLOR();
                 new_shape =  Mouse::createShape(v, c, 5);
+                new_shape->setMass(1000);
                 newNode = new_shape->getBVHNode();
                 addNode(root, newNode, 1, 1);
+                regis_force.add(new_shape, gfgen);
             }
             
         }
 
+        // update pos of each particles
+        regis_force.updateForceAll(0.001);
+        updatePosNode(root, render, 0.001);
+        DFS(root, 1, 1);
         upgrade_Bound(root);
         upgradeBoundAll(root);
+
         render->renderBVH(root);
 
         SDL_RenderPresent(render->getRenderer()); 

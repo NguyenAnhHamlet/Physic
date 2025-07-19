@@ -119,6 +119,9 @@ public:
 
     // render all shape in a BVH tree 
     void renderBVH(BVHNode* root, float duration = 0.005);
+
+    // handle edge collide
+    void renderEdgeCollide(SHAPE* shape);
 };
 
 #endif

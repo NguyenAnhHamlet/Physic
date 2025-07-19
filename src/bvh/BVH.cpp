@@ -478,3 +478,34 @@ void addNode(BVHNode* root, BVHNode* newNode, float Tt, float Ti)
             Tt, Ti, root,1);
     }
 }
+
+void updatePosNode(BVHNode* root, RENDERER* renderer, const float& duration)
+{
+    assert(duration > 0);
+
+    if(!root) return;
+
+    // only update pos if the node is 
+    if(isPrimitive(root))
+    {
+
+        printf("RUNNING");
+        getShapeFromNode(root)->posUpdate(getShapeFromNode(root)->getVelocity(), 
+                                          getShapeFromNode(root)->getAcceleration(),
+                                          duration);
+        getShapeFromNode(root)->edgeCollide(renderer);
+    }
+
+    updatePosNode(root->left, renderer, duration);
+    updatePosNode(root->right, renderer, duration);
+}
+
+SHAPE* getShapeFromNode(BVHNode* root)
+{
+    return root->_Bound2D->getShape();
+}
+
+bool isPrimitive(BVHNode* node)
+{
+    return node->isPrimitive;
+}

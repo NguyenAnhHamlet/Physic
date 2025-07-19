@@ -165,3 +165,9 @@ RENDERER::renderBVH(BVHNode* root, float duration)
     renderBVH(root->left, duration);
     renderBVH(root->right, duration);
 }
+
+void 
+RENDERER::renderEdgeCollide(SHAPE* shape)
+{
+    shape->edgeCollide(this);
+}
