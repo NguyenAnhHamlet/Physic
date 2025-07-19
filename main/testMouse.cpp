@@ -60,8 +60,7 @@ int main(int argc, char* argv[])
             if(posMouseClick.first && mousebutt == mouse::leftside)
             {
                 Vector3D v(posMouseClick.first, posMouseClick.second, 0);
-                COLOR* c = new COLOR();
-                new_shape =  Mouse::createShape(v, c, 5);
+                new_shape =  Mouse::createShape(v, new COLOR(), 5);
                 new_shape->setMass(1000);
                 newNode = new_shape->getBVHNode();
                 addNode(root, newNode, 1, 1);

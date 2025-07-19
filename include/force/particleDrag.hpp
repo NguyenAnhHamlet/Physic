@@ -13,6 +13,8 @@ class PFGEN;
 class Vector3D;
 class SHAPE;
 
+// The dragging force applied on object when its moving
+
 class PARTICLE_DRAG: public PFGEN
 {
     float dragCoeff;

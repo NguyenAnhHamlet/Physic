@@ -188,4 +188,9 @@ namespace Mouse
         else 
             return NULL;
     }
+
+    std::list<PFGEN*> mouseDragging(SHAPE* shape, TIMER* timer)
+    {
+        
+    }
 }

@@ -155,7 +155,7 @@ RENDERER::renderBVH(BVHNode* root, float duration)
     if(!root ) return;
 
     // render shape
-    if(!root->isroot && root->_Bound2D->getShape() )
+    if(isPrimitive(root))
     {
         root->_Bound2D->getShape()->posUpdate(root->_Bound2D->getShape()->getVelocity(), duration);
         root->_Bound2D->getShape()->edgeCollide(this);

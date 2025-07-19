@@ -8,6 +8,7 @@
 #include "bvh/point2D.hpp"
 #include "render/shape.hpp"
 #include <list>
+#include "common/timer.hpp"
 
 typedef enum mouse
 {
@@ -46,6 +47,26 @@ namespace Mouse
     // create a shape on this position of mouse click
     SHAPE* createShape(Vector3D& coor, COLOR* color, 
                        float r =0, float w =0, float h =0); 
+
+    /**
+     *  1. disable currently applying force, calculating/storing new forces during dragging
+     *  2. Calculate these new forces applied upon object during dragging
+     *  3. Apply these force back to object
+     * 
+     *  F = m.a 
+     *  m is available
+     *  a = (v1 - v0)/(t1 - t0)
+     *  (t1 -t0) is available
+     *  v0 = 0 (at the beginning of the dragging)
+     *  v1 = (s1 - s0)/ (t1 - t0)
+     *  (s1 - s0) is available
+     *  Final : F = m.((s1 - s0)/(t1-t0) - v0)/(t1 - t0)
+     *  F is only the average force apply on the object
+     *  when mouse got release but it is good enough 
+     *  for the engine   
+     */
+
+    std::list<PFGEN*> mouseDragging(SHAPE* shape, TIMER* timer);
 }
 
 #endif
